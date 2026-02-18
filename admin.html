@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramadan Master 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #10b981;
+            --accent: #fbbf24;
+            --background: #001f18;
+            --card-bg: #021a14;
+            --text-primary: #f0f9ff;
+            --text-secondary: #a0aec0;
+            --border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        body {
+            font-family: 'Poppins', system-ui, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 768px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            border-bottom: 1px solid var(--border-color);
+            padding: 2rem 1rem;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(16, 185, 129, 0.05), transparent);
+        }
+
+        .header-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .arabic-greeting {
+            font-family: 'Reem Kufi', serif;
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(to right, var(--primary), var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 0.75rem;
+            color: rgba(16, 185, 129, 0.6);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem 0;
+        }
+
+        section {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background: rgba(2, 26, 20, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-date {
+            font-size: 0.75rem;
+            color: rgba(160, 174, 192, 0.6);
+            font-weight: 500;
+        }
+
+        /* Countdown Timer */
+        #countdownContainer {
+            position: relative;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: linear-gradient(to bottom-right, rgba(16, 185, 129, 0.1), var(--background));
+            min-height: 16rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 9999px;
+            margin-bottom: 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .countdown-display {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .countdown-label {
+            font-size: 0.875rem;
+            color: rgba(160, 174, 192, 0.6);
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .countdown-numbers {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .countdown-unit {
+            text-align: center;
+        }
+
+        .countdown-value {
+            font-size: 3.75rem;
+            font-weight: bold;
+            color: var(--primary);
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .countdown-value.accent {
+            color: var(--accent);
+        }
+
+        .countdown-label-small {
+            font-size: 0.75rem;
+            color: rgba(160, 174, 192, 0.5);
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .countdown-separator {
+            font-size: 1.75rem;
+            color: rgba(16, 185, 129, 0.4);
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+        }
+
+        /* Today's Schedule */
+        .schedule-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .schedule-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .schedule-item-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: rgba(160, 174, 192, 0.6);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .schedule-item-time {
+            font-size: 2rem;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        .schedule-item-time.primary {
+            color: var(--primary);
+        }
+
+        .schedule-item-time.accent {
+            color: var(--accent);
+        }
+
+        .schedule-item-myanmar {
+            font-size: 0.75rem;
+            color: rgba(160, 174, 192, 0.4);
+            margin-top: 0.5rem;
+        }
+
+        .schedule-divider {
+            width: 1px;
+            height: 4rem;
+            background: var(--border-color);
+        }
+
+        /* Quick Links */
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+
+        .quick-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: linear-gradient(to bottom-right, rgba(16, 185, 129, 0.05), var(--background));
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .quick-link:hover {
+            border-color: var(--primary);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .quick-link:active {
+            transform: scale(0.95);
+        }
+
+        .quick-link-icon {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .quick-link-label {
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .quick-link-desc {
+            font-size: 0.625rem;
+            color: rgba(160, 174, 192, 0.5);
+            margin-top: 0.25rem;
+            line-height: 1.2;
+        }
+
+        /* Tasbeeh Counter */
+        #tasbeehContainer {
+            position: relative;
+            background: linear-gradient(to bottom-right, rgba(16, 185, 129, 0.05), var(--background));
+            border-radius: 1.5rem;
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .tasbeeh-title {
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+
+        .tasbeeh-counter {
+            font-size: 5rem;
+            font-weight: 300;
+            color: var(--primary);
+            font-family: 'Courier New', monospace;
+            margin-bottom: 2rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .tasbeeh-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .tasbeeh-btn {
+            width: 8rem;
+            height: 8rem;
+            border-radius: 50%;
+            background: linear-gradient(to bottom-right, var(--primary), rgba(16, 185, 129, 0.8));
+            border: 4px solid var(--background);
+            box-shadow: 0 0 40px rgba(16, 185, 129, 0.3);
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--background);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tasbeeh-btn:hover {
+            box-shadow: 0 0 60px rgba(16, 185, 129, 0.4);
+        }
+
+        .tasbeeh-btn:active {
+            transform: scale(0.95);
+        }
+
+        .tasbeeh-reset {
+            font-size: 0.75rem;
+            opacity: 0.5;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            border: none;
+            background: none;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tasbeeh-reset:hover {
+            opacity: 1;
+        }
+
+        /* Shareable Card */
+        #shareCard {
+            position: fixed;
+            top: -2000px;
+            left: 0;
+            width: 400px;
+            height: 600px;
+            background: var(--background);
+            color: var(--text-primary);
+            padding: 2.5rem;
+            text-align: center;
+            border: 8px solid var(--accent);
+            border-radius: 1.5rem;
+            z-index: -1;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .share-card-arabic {
+            font-family: 'Reem Kufi', serif;
+            font-size: 1.75rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .share-card-date {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-primary);
+        }
+
+        .share-card-times {
+            background: rgba(16, 185, 129, 0.1);
+            padding: 1.875rem;
+            border-radius: 1.25rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .share-card-label {
+            color: var(--primary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .share-card-time {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1.25rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .share-card-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 1.25rem 0;
+        }
+
+        .share-card-footer {
+            margin-top: 2.5rem;
+            font-size: 0.75rem;
+            opacity: 0.5;
+        }
+
+        /* Download/Share Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--background);
+        }
+
+        .btn-primary:hover {
+            background: rgba(16, 185, 129, 0.9);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: var(--background);
+        }
+
+        .btn-accent:hover {
+            background: rgba(251, 191, 36, 0.9);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Calendar */
+        .calendar-header {
+            background: rgba(16, 185, 129, 0.1);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 1.5rem 1.5rem 0 0;
+        }
+
+        .calendar-search {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            color: var(--text-primary);
+            font-size: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .calendar-search::placeholder {
+            color: rgba(160, 174, 192, 0.4);
+        }
+
+        .calendar-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+            overflow: hidden;
+        }
+
+        .calendar-table thead {
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--primary);
+            position: sticky;
+            top: 0;
+        }
+
+        .calendar-table th {
+            padding: 0.75rem;
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .calendar-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+        }
+
+        .calendar-table tbody tr:hover {
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .calendar-day {
+            text-align: center;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .calendar-date {
+            color: rgba(160, 174, 192, 0.7);
+        }
+
+        .calendar-sehri {
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            color: var(--text-primary);
+        }
+
+        .calendar-iftar {
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            color: var(--accent);
+        }
+
+        .calendar-time-label {
+            font-size: 0.625rem;
+            opacity: 0.5;
+        }
+
+        .calendar-footer {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.75rem;
+            color: rgba(160, 174, 192, 0.5);
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 0 0 1.5rem 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+            font-size: 0.75rem;
+            color: rgba(160, 174, 192, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .arabic-greeting {
+                font-size: 1.875rem;
+            }
+
+            .countdown-value {
+                font-size: 2.5rem;
+            }
+
+            .schedule-item-time {
+                font-size: 1.5rem;
+            }
+
+            .tasbeeh-counter {
+                font-size: 3rem;
+            }
+
+            .tasbeeh-btn {
+                width: 6rem;
+                height: 6rem;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-icon">
+            <i class="fas fa-moon"></i>
+        </div>
+        <h1 class="arabic-greeting">بسم الله الرحمن الرحيم</h1>
+        <p class="subtitle">Ramadan Kareem 2026</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Countdown Timer -->
+        <section id="countdownContainer"></section>
+
+        <!-- Today's Schedule -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-calendar"></i>
+                    Today's Schedule
+                </div>
+                <div class="card-date" id="todayDateDisplay">-- --</div>
+            </div>
+            <div class="schedule-content">
+                <div class="schedule-item">
+                    <div class="schedule-item-label">
+                        <i class="fas fa-sunrise"></i>
+                        Sehri Ends
+                    </div>
+                    <div class="schedule-item-time primary" id="todaySehriDisplay">--:--</div>
+                    <div class="schedule-item-myanmar">ထမင်းစားပိတ်ချိန်</div>
+                </div>
+                <div class="schedule-divider"></div>
+                <div class="schedule-item">
+                    <div class="schedule-item-label">
+                        <i class="fas fa-sunset"></i>
+                        Iftar Starts
+                    </div>
+                    <div class="schedule-item-time accent" id="todayIftarDisplay">--:--</div>
+                    <div class="schedule-item-myanmar">အိဖ်တာရ်ဖွင့်ချိန်</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Links -->
+        <section class="quick-links">
+            <a href="https://qiblafinder.withgoogle.com/" target="_blank" class="quick-link">
+                <div class="quick-link-icon"><i class="fas fa-compass"></i></div>
+                <div class="quick-link-label">Qibla</div>
+                <div class="quick-link-desc">Find prayer direction</div>
+            </a>
+            <a href="https://www.islamicfinder.org/duas/" target="_blank" class="quick-link">
+                <div class="quick-link-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                <div class="quick-link-label">Duas</div>
+                <div class="quick-link-desc">Islamic prayers</div>
+            </a>
+            <a href="https://www.unicef.org/donate" target="_blank" class="quick-link">
+                <div class="quick-link-icon"><i class="fas fa-heart"></i></div>
+                <div class="quick-link-label">Charity</div>
+                <div class="quick-link-desc">Give Zakat</div>
+            </a>
+        </section>
+
+        
+        <!-- Digital Tasbeeh -->
+        <section id="tasbeehContainer" class="card">
+            <div class="tasbeeh-title">Digital Tasbeeh</div>
+            <div class="tasbeeh-counter" id="tasbeehCounter">0000</div>
+            <div class="tasbeeh-buttons">
+                <button class="tasbeeh-btn" onclick="incrementTasbeeh()">+</button>
+                <button class="tasbeeh-reset" onclick="resetTasbeeh()">
+                    <i class="fas fa-redo"></i>
+                    Reset Count
+                </button>
+            </div>
+        </section>
+
+        <!-- Shareable Card -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-download"></i>
+                    Download Schedule
+                </div>
+            </div>
+            <div id="shareCardPreview" style="background: linear-gradient(to bottom-right, rgba(16, 185, 129, 0.05), var(--background)); border: 1px solid var(--border-color); border-radius: 1rem; padding: 1.5rem; text-align: center; margin-bottom: 1rem;">
+                <div style="font-family: 'Reem Kufi', serif; font-size: 1.5rem; color: var(--accent); margin-bottom: 1rem;">بسم الله الرحمن الرحيم</div>
+                <div style="font-size: 1rem; margin-bottom: 1rem;" id="previewDate">Day 1 - Feb 19, 2026</div>
+                <div style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: 0.75rem; border: 1px solid var(--border-color);">
+                    <div style="color: var(--primary); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.5rem;">Sehri Ends</div>
+                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary); font-family: 'Courier New', monospace; margin-bottom: 1rem;" id="previewSehri">05:14 AM</div>
+                    <div style="height: 1px; background: var(--border-color); margin: 1rem 0;"></div>
+                    <div style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.5rem;">Iftar Starts</div>
+                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent); font-family: 'Courier New', monospace;" id="previewIftar">06:12 PM</div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="downloadCard()">
+                    <i class="fas fa-download"></i>
+                    Download
+                </button>
+                <button class="btn btn-accent" onclick="shareCard()">
+                    <i class="fas fa-share-alt"></i>
+                    Share
+                </button>
+            </div>
+        </section>
+
+        <!-- Prayer Times Calendar -->
+        <section class="card">
+            <div class="calendar-header">
+                <div class="card-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    Ramadan Timetable (Yangon)
+                </div>
+                <input type="text" class="calendar-search" id="calendarSearch" placeholder="Search by day or date...">
+            </div>
+            <div style="overflow-x: auto; max-height: 350px; overflow-y: auto;">
+                <table class="calendar-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">ရက်</th>
+                            <th style="width: 25%;">နေ့စွဲ</th>
+                            <th style="width: 30%;">ထမင်းစားပိတ်</th>
+                            <th style="width: 30%;">အိဖ်တာရ်ဖွင့်</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendarBody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="calendar-footer">
+                Showing <span id="resultCount">30</span> of 30 days
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>May Allah accept from us all. Ramadan Mubarak! 🌙</p>
+        </footer>
+    </main>
+
+    <!-- Hidden Share Card for Download -->
+    <div id="shareCard">
+        <div class="share-card-arabic">بسم الله الرحمن الرحيم</div>
+        <div class="share-card-date" id="cardDate">Feb 19, 2026</div>
+        <div class="share-card-times">
+            <div class="share-card-label">Sehri Ends</div>
+            <div class="share-card-time" id="cardSehri">05:14 AM</div>
+            <div class="share-card-divider"></div>
+            <div class="share-card-label">Iftar Starts</div>
+            <div class="share-card-time" id="cardIftar">06:12 PM</div>
+        </div>
+        <div class="share-card-footer">Created with Ramadan Master 2026</div>
+    </div>
+
+    <script>
+        // ===== RAMADAN DATA =====
+        const RAMADAN_DATA = [
+            { r: 1, date: "Feb 19", s: "05:14", i: "18:12" },
+            { r: 2, date: "Feb 20", s: "05:14", i: "18:12" },
+            { r: 3, date: "Feb 21", s: "05:13", i: "18:12" },
+            { r: 4, date: "Feb 22", s: "05:13", i: "18:13" },
+            { r: 5, date: "Feb 23", s: "05:12", i: "18:13" },
+            { r: 6, date: "Feb 24", s: "05:12", i: "18:13" },
+            { r: 7, date: "Feb 25", s: "05:11", i: "18:14" },
+            { r: 8, date: "Feb 26", s: "05:11", i: "18:14" },
+            { r: 9, date: "Feb 27", s: "05:10", i: "18:14" },
+            { r: 10, date: "Feb 28", s: "05:09", i: "18:14" },
+            { r: 11, date: "Mar 01", s: "05:09", i: "18:15" },
+            { r: 12, date: "Mar 02", s: "05:08", i: "18:15" },
+            { r: 13, date: "Mar 03", s: "05:07", i: "18:16" },
+            { r: 14, date: "Mar 04", s: "05:07", i: "18:16" },
+            { r: 15, date: "Mar 05", s: "05:06", i: "18:16" },
+            { r: 16, date: "Mar 06", s: "05:05", i: "18:16" },
+            { r: 17, date: "Mar 07", s: "05:05", i: "18:17" },
+            { r: 18, date: "Mar 08", s: "05:04", i: "18:17" },
+            { r: 19, date: "Mar 09", s: "05:03", i: "18:17" },
+            { r: 20, date: "Mar 10", s: "05:03", i: "18:17" },
+            { r: 21, date: "Mar 11", s: "05:02", i: "18:17" },
+            { r: 22, date: "Mar 12", s: "05:01", i: "18:18" },
+            { r: 23, date: "Mar 13", s: "05:01", i: "18:18" },
+            { r: 24, date: "Mar 14", s: "05:00", i: "18:18" },
+            { r: 25, date: "Mar 15", s: "04:59", i: "18:18" },
+            { r: 26, date: "Mar 16", s: "04:58", i: "18:18" },
+            { r: 27, date: "Mar 17", s: "04:57", i: "18:19" },
+            { r: 28, date: "Mar 18", s: "04:57", i: "18:19" },
+            { r: 29, date: "Mar 19", s: "04:56", i: "18:19" },
+            { r: 30, date: "Mar 20", s: "04:55", i: "18:19" }
+        ];
+
+        // ===== UTILITY FUNCTIONS =====
+        function convertTo12Hour(time24) {
+            const [hours, minutes] = time24.split(':');
+            let h = parseInt(hours);
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12;
+            h = h ? h : 12;
+            return `${String(h).padStart(2, '0')}:${minutes} ${ampm}`;
+        }
+
+        function getTodayData() {
+            const now = new Date();
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const todayStr = monthNames[now.getMonth()] + " " + String(now.getDate()).padStart(2, '0');
+            
+            let todayData = RAMADAN_DATA.find(d => d.date === todayStr);
+            if (!todayData) {
+                todayData = RAMADAN_DATA[0];
+            }
+            return todayData;
+        }
+
+        // ===== COUNTDOWN TIMER =====
+        function updateCountdown() {
+            const now = new Date();
+            const todayData = getTodayData();
+            
+            const currentYear = 2026;
+            const sTime = new Date(`${todayData.date}, ${currentYear} ${todayData.s}:00`);
+            const iTime = new Date(`${todayData.date}, ${currentYear} ${todayData.i}:00`);
+
+            let targetDate, labelText, statusText, isBeforeSehri = false, isDuringFast = false;
+
+            if (now < sTime) {
+                targetDate = sTime;
+                labelText = "Sehri ပိတ်ရန် ကျန်ချိန်";
+                statusText = "Before Sehri";
+                isBeforeSehri = true;
+            } else if (now >= sTime && now < iTime) {
+                targetDate = iTime;
+                labelText = "Iftar ဖွင့်ရန် ကျန်ချိန်";
+                statusText = "Fasting Time";
+                isDuringFast = true;
+            } else {
+                const currentIndex = RAMADAN_DATA.indexOf(todayData);
+                if (currentIndex < RAMADAN_DATA.length - 1) {
+                    const nextDayData = RAMADAN_DATA[currentIndex + 1];
+                    targetDate = new Date(`${nextDayData.date}, ${currentYear} ${nextDayData.s}:00`);
+                    labelText = "မနက်ဖြန် Sehri ပိတ်ချိန်";
+                    statusText = "After Iftar";
+                } else {
+                    targetDate = now;
+                    labelText = "Ramadan ပြီးဆုံးသည်";
+                    statusText = "Ramadan Ended";
+                }
+            }
+
+            const diff = targetDate.getTime() - now.getTime();
+
+            if (diff > 0) {
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('countdownContainer').innerHTML = `
+                    <div class="status-badge">
+                        <i class="fas fa-clock"></i>
+                        ${statusText}
+                    </div>
+                    <div class="countdown-display">
+                        <div class="countdown-label">${labelText}</div>
+                        <div class="countdown-numbers">
+                            <div class="countdown-unit">
+                                <div class="countdown-value">${String(hours).padStart(2, '0')}</div>
+                                <div class="countdown-label-small">Hours</div>
+                            </div>
+                            <div class="countdown-separator">:</div>
+                            <div class="countdown-unit">
+                                <div class="countdown-value">${String(minutes).padStart(2, '0')}</div>
+                                <div class="countdown-label-small">Minutes</div>
+                            </div>
+                            <div class="countdown-separator">:</div>
+                            <div class="countdown-unit">
+                                <div class="countdown-value accent">${String(seconds).padStart(2, '0')}</div>
+                                <div class="countdown-label-small">Seconds</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+        // Update today's schedule
+            const sehriTime12 = convertTo12Hour(todayData.s);
+            const iftarTime12 = convertTo12Hour(todayData.i);
+            document.getElementById('todayDateDisplay').textContent = `${todayData.date}, 2026`;
+            document.getElementById('todaySehriDisplay').textContent = sehriTime12;
+            document.getElementById('todayIftarDisplay').textContent = iftarTime12;
+
+            // Update preview
+            document.getElementById('previewDate').textContent = `Day ${todayData.r} - ${todayData.date}, 2026`;
+            document.getElementById('previewSehri').textContent = sehriTime12;
+            document.getElementById('previewIftar').textContent = iftarTime12;
+        }
+
+        // ===== TASBEEH COUNTER =====
+        function loadTasbeeh() {
+            const saved = localStorage.getItem('ramadan_tasbeeh_count') || '0';
+            document.getElementById('tasbeehCounter').textContent = String(saved).padStart(4, '0');
+        }
+
+        function incrementTasbeeh() {
+            let count = parseInt(localStorage.getItem('ramadan_tasbeeh_count') || '0');
+            count++;
+            localStorage.setItem('ramadan_tasbeeh_count', count);
+            document.getElementById('tasbeehCounter').textContent = String(count).padStart(4, '0');
+            
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        function resetTasbeeh() {
+            if (confirm('Reset Tasbeeh counter?')) {
+                localStorage.setItem('ramadan_tasbeeh_count', '0');
+                document.getElementById('tasbeehCounter').textContent = '0000';
+            }
+        }
+
+        // ===== CALENDAR =====
+        function renderCalendar(filter = '') {
+            const tbody = document.getElementById('calendarBody');
+            tbody.innerHTML = '';
+
+            let count = 0;
+            RAMADAN_DATA.forEach(day => {
+                const matchesFilter = !filter || 
+                    day.date.toLowerCase().includes(filter.toLowerCase()) ||
+                    day.r.toString().includes(filter);
+
+                if (matchesFilter) {
+                    count++;
+                    const iftarTime12 = convertTo12Hour(day.i);
+                    const row = `
+                        <tr>
+                            <td class="calendar-day">${day.r}</td>
+                            <td class="calendar-date">${day.date}</td>
+                            <td class="calendar-sehri">${day.s} <span class="calendar-time-label">AM</span></td>
+                            <td class="calendar-iftar">${iftarTime12}</td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                }
+            });
+
+            document.getElementById('resultCount').textContent = count;
+        }
+
+        // ===== DOWNLOAD & SHARE =====
+        function downloadCard() {
+            const todayData = getTodayData();
+            const cardElement = document.getElementById('shareCard');
+            
+            // Update card data
+            document.getElementById('cardDate').textContent = `${todayData.date}, 2026`;
+            document.getElementById('cardSehri').textContent = convertTo12Hour(todayData.s);
+            document.getElementById('cardIftar').textContent = convertTo12Hour(todayData.i);
+
+            html2canvas(cardElement, {
+                backgroundColor: '#001f18',
+                scale: 2,
+                useCORS: true
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `ramadan-schedule-day-${todayData.r}-2026.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            }).catch(error => {
+                console.error('Download failed:', error);
+                alert('Failed to download image. Please try again.');
+            });
+        }
+
+        function shareCard() {
+            const todayData = getTodayData();
+            const sehriTime12 = convertTo12Hour(todayData.s);
+            const iftarTime12 = convertTo12Hour(todayData.i);
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Ramadan 2026 Schedule',
+                    text: `Day ${todayData.r}: Sehri ${sehriTime12} | Iftar ${iftarTime12}`,
+                    url: window.location.href
+                }).catch(error => console.error('Share failed:', error));
+            } else {
+                const text = `Ramadan 2026 - Day ${todayData.r}\nSehri: ${sehriTime12}\nIftar: ${iftarTime12}`;
+                navigator.clipboard.writeText(text);
+                alert('Copied to clipboard!');
+            }
+        }
+
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCountdown();
+            loadTasbeeh();
+            renderCalendar();
+
+            // Update countdown every second
+            setInterval(updateCountdown, 1000);
+
+            // Calendar search
+            document.getElementById('calendarSearch').addEventListener('input', function(e) {
+                renderCalendar(e.target.value);
+            });
+        });
+    </script>
+</body>
+</html>
