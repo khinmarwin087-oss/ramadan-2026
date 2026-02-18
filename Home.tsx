@@ -1,50 +1,22 @@
-import { Header } from '@/components/Header';
-import { CountdownTimer } from '@/components/CountdownTimer';
-import { TodaySchedule } from '@/components/TodaySchedule';
-import { TasbeehCounter } from '@/components/TasbeehCounter';
-import { QuickLinks } from '@/components/QuickLinks';
-import { RamadanCalendar } from '@/components/RamadanCalendar';
-import { ShareableCard } from '@/components/ShareableCard';
+import { Header } from './Header';
+import { CountdownTimer } from './CountdownTimer';
+import { TodaySchedule } from './TodaySchedule';
+import { TasbeehCounter } from './TasbeehCounter';
+import { QuickLinks } from './QuickLinks';
+import { RamadanCalendar } from './RamadanCalendar';
+import { ShareableCard } from './ShareableCard';
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Header */}
       <Header />
-
-      {/* Main Content */}
       <main className="max-w-2xl mx-auto px-4 py-8 space-y-6">
-        {/* Countdown Timer */}
-        <section>
-          <CountdownTimer />
-        </section>
-
-        {/* Today's Schedule */}
-        <section>
-          <TodaySchedule />
-        </section>
-
-        {/* Quick Links */}
-        <section>
-          <QuickLinks />
-        </section>
-
-        {/* Digital Tasbeeh */}
-        <section>
-          <TasbeehCounter />
-        </section>
-
-        {/* Shareable Card */}
-        <section>
-          <ShareableCard />
-        </section>
-
-        {/* Ramadan Calendar */}
-        <section>
-          <RamadanCalendar />
-        </section>
-
-        {/* Footer */}
+        <section><CountdownTimer /></section>
+        <section><TodaySchedule /></section>
+        <section><QuickLinks /></section>
+        <section><TasbeehCounter /></section>
+        <section><ShareableCard /></section>
+        <section><RamadanCalendar /></section>
         <footer className="text-center py-8 text-xs text-foreground/40 border-t border-primary/10 mt-12">
           <p>May Allah accept from us all. Ramadan Mubarak! 🌙</p>
         </footer>
