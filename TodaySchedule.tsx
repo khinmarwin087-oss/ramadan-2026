@@ -1,4 +1,4 @@
-import { useCountdown, convertTo12Hour } from '@/hooks/useCountdown';
+import { useCountdown, convertTo12Hour } from './useCountdown';
 import { Calendar, Sunrise, Sunset } from 'lucide-react';
 
 export function TodaySchedule() {
