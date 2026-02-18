@@ -1,4 +1,4 @@
-import { getRamadanData, convertTo12Hour } from '@/hooks/useCountdown';
+import { getRamadanData, convertTo12Hour } from './useCountdown';
 import { Calendar } from 'lucide-react';
 import { useState } from 'react';
 
