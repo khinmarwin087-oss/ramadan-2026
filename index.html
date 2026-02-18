@@ -3,81 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ramadan Kareem 2026</title>
+    <title>Ramadan Kareem 2026 - အချိန်ဇယား</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pyidaungsu&display=swap');
-        body { font-family: 'Pyidaungsu', sans-serif; }
-        .ramadan-gradient { background: linear-gradient(135deg, #064e3b 0%, #065f46 100%); }
+        @import url('https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap');
+        body { font-family: 'Pyidaungsu', sans-serif; background-color: #f0fdf4; }
+        
+        /* Islamic Pattern Background */
+        .islamic-bg {
+            background-color: #064e3b;
+            background-image: url("https://www.transparenttextures.com/patterns/islamic-art.png");
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .calendar-table th { @apply p-2 text-sm font-bold border-b bg-emerald-100 text-emerald-800; }
+        .calendar-table td { @apply p-3 text-sm border-b text-center; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="text-slate-800">
 
-    <div class="ramadan-gradient text-white pt-12 pb-24 px-6 text-center rounded-b-[3rem] shadow-2xl">
-        <i class="fa-solid fa-moon text-5xl mb-4 text-yellow-300"></i>
-        <h1 class="text-3xl font-bold">Ramadan 2026</h1>
-        <p class="opacity-90 mt-2">မြန်မာနိုင်ငံရှိ မူစလင်မ်များအတွက်</p>
+    <div class="islamic-bg text-white pt-12 pb-24 px-6 text-center rounded-b-[3.5rem] shadow-2xl relative">
+        <div class="absolute top-4 right-4 opacity-30 text-4xl leading-none">☪️</div>
+        <h1 class="text-3xl font-bold mb-1">Ramadan 2026</h1>
+        <p class="text-emerald-200 text-sm italic">"အလ္လာဟ်အရှင်မြတ်သည် သင်တို့၏ ဥပုသ်သီလကို လက်ခံတော်မူပါစေ"</p>
+        
+        <div class="mt-6 max-w-xs mx-auto">
+            <select id="citySelect" class="w-full p-3 rounded-2xl bg-white/20 border border-white/30 text-white backdrop-blur-md focus:outline-none focus:bg-emerald-800 transition">
+                <option value="Yangon" class="text-black">Yangon (ရန်ကုန်)</option>
+                <option value="Mandalay" class="text-black">Mandalay (မန္တလေး)</option>
+                <option value="Nay Pyi Taw" class="text-black">Naypyidaw (နေပြည်တော်)</option>
+                <option value="Taunggyi" class="text-black">Taunggyi (တောင်ကြီး)</option>
+                <option value="Mawlamyine" class="text-black">Mawlamyine (မော်လမြိုင်)</option>
+            </select>
+        </div>
     </div>
 
-    <main class="max-w-md mx-auto px-4 -mt-16">
+    <main class="max-w-md mx-auto px-4 -mt-12 space-y-6 pb-20">
         
-        <div class="bg-white rounded-3xl p-6 shadow-xl mb-6 border border-emerald-100 text-center">
-            <h3 class="text-emerald-800 font-bold mb-4 uppercase tracking-wider text-sm">ရမ်ဇန်လရောက်ရန် ကျန်ချိန်</h3>
-            <div id="timer" class="flex justify-around text-emerald-700">
-                <div><span id="days" class="text-3xl font-black block">00</span><span class="text-xs uppercase">Days</span></div>
-                <div><span id="hours" class="text-3xl font-black block">00</span><span class="text-xs uppercase">Hrs</span></div>
-                <div><span id="mins" class="text-3xl font-black block">00</span><span class="text-xs uppercase">Mins</span></div>
-                <div><span id="secs" class="text-3xl font-black block text-orange-500">00</span><span class="text-xs uppercase">Secs</span></div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-3xl p-6 shadow-xl mb-6 border border-emerald-100">
-            <h3 class="text-lg font-bold text-emerald-900 mb-4 flex items-center">
-                <i class="fa-solid fa-clock-rotate-left mr-2"></i> ယနေ့အချိန်ဇယား
-            </h3>
-            <div class="space-y-4">
-                <div class="flex justify-between items-center p-3 bg-emerald-50 rounded-2xl">
-                    <span class="font-medium">Sahur (စီဟရီ ပိတ်ချိန်)</span>
-                    <span class="font-bold text-emerald-700">05:12 AM</span>
+        <div class="glass-card rounded-3xl p-6 shadow-xl border border-emerald-100">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="text-center p-4 bg-emerald-50 rounded-2xl">
+                    <p class="text-xs text-emerald-600 font-bold uppercase mb-1">Sehri ပိတ်ချိန်</p>
+                    <h2 id="fajrTime" class="text-2xl font-black text-emerald-800">--:--</h2>
                 </div>
-                <div class="flex justify-between items-center p-3 bg-orange-50 rounded-2xl border border-orange-100">
-                    <span class="font-medium text-orange-900">Iftar (အိဖ်တာရ် ဖွင့်ချိန်)</span>
-                    <span class="font-bold text-orange-600">06:18 PM</span>
+                <div class="text-center p-4 bg-orange-50 rounded-2xl border border-orange-100">
+                    <p class="text-xs text-orange-600 font-bold uppercase mb-1">Iftar ဖွင့်ချိန်</p>
+                    <h2 id="maghribTime" class="text-2xl font-black text-orange-800">--:--</h2>
                 </div>
             </div>
         </div>
 
-        <div class="bg-emerald-800 text-white rounded-3xl p-6 shadow-xl mb-10">
-            <h3 class="text-yellow-400 font-bold mb-2 italic underline text-center">Daily Dua</h3>
-            <p class="text-center leading-relaxed italic">
-                "အလ္လာဟ်အရှင်မြတ်သည် သည်းခံသူတို့နှင့်အတူ ရှိတော်မူသည်။"
-            </p>
+        <div class="glass-card rounded-3xl shadow-xl border border-emerald-100 overflow-hidden">
+            <div class="bg-emerald-800 p-4 flex justify-between items-center text-white">
+                <h3 class="font-bold"><i class="fa-solid fa-calendar-days mr-2"></i> ၃၀ ရက်စာ ဇယား</h3>
+                <span class="text-xs opacity-70">March 2026</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full calendar-table">
+                    <thead>
+                        <tr>
+                            <th>ရက်</th>
+                            <th>Sehri</th>
+                            <th>Iftar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendarBody">
+                        </tbody>
+                </table>
+            </div>
         </div>
 
     </main>
 
-    <footer class="text-center pb-10 text-slate-400 text-sm">
-        <p>© 2026 Ramadan Kareem Project</p>
-    </footer>
-
     <script>
-        const ramadanDate = new Date("March 1, 2026 00:00:00").getTime(); // ရမ်ဇန်စမည့်နေ့ကို ပြင်နိုင်သည်
+        const citySelect = document.getElementById('citySelect');
 
-        setInterval(function() {
-            const now = new Date().getTime();
-            const distance = ramadanDate - now;
+        async function updateContent(city) {
+            const country = "Myanmar";
+            // Get Today's Data
+            const todayUrl = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=11`;
+            // Get Full Month Data (March 2026)
+            const calendarUrl = `https://api.aladhan.com/v1/calendarByCity/2026/3?city=${city}&country=${country}&method=11`;
 
-            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((distance % (1000 * 60)) / 1000);
+            try {
+                // Update Today's Times
+                const todayRes = await fetch(todayUrl);
+                const todayData = await todayRes.json();
+                document.getElementById('fajrTime').innerText = todayData.data.timings.Fajr;
+                document.getElementById('maghribTime').innerText = todayData.data.timings.Maghrib;
 
-            document.getElementById("days").innerHTML = d;
-            document.getElementById("hours").innerHTML = h;
-            document.getElementById("mins").innerHTML = m;
-            document.getElementById("secs").innerHTML = s;
-        }, 1000);
+                // Update Full Calendar
+                const calRes = await fetch(calendarUrl);
+                const calData = await calRes.json();
+                let tableHtml = '';
+                
+                calData.data.forEach((day, index) => {
+                    tableHtml += `
+                        <tr class="${index % 2 === 0 ? 'bg-white' : 'bg-emerald-50/30'}">
+                            <td class="font-bold text-emerald-700">${index + 1}</td>
+                            <td>${day.timings.Fajr.split(' ')[0]}</td>
+                            <td class="font-semibold text-orange-600">${day.timings.Maghrib.split(' ')[0]}</td>
+                        </tr>
+                    `;
+                });
+                document.getElementById('calendarBody').innerHTML = tableHtml;
+
+            } catch (error) {
+                console.error("Error loading data:", error);
+            }
+        }
+
+        citySelect.addEventListener('change', (e) => updateContent(e.target.value));
+        
+        // Initial Load
+        updateContent('Yangon');
     </script>
 </body>
 </html>
