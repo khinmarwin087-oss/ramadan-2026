@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramadan Kareem 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pyidaungsu&display=swap');
+        body { font-family: 'Pyidaungsu', sans-serif; }
+        .ramadan-gradient { background: linear-gradient(135deg, #064e3b 0%, #065f46 100%); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="ramadan-gradient text-white pt-12 pb-24 px-6 text-center rounded-b-[3rem] shadow-2xl">
+        <i class="fa-solid fa-moon text-5xl mb-4 text-yellow-300"></i>
+        <h1 class="text-3xl font-bold">Ramadan 2026</h1>
+        <p class="opacity-90 mt-2">မြန်မာနိုင်ငံရှိ မူစလင်မ်များအတွက်</p>
+    </div>
+
+    <main class="max-w-md mx-auto px-4 -mt-16">
+        
+        <div class="bg-white rounded-3xl p-6 shadow-xl mb-6 border border-emerald-100 text-center">
+            <h3 class="text-emerald-800 font-bold mb-4 uppercase tracking-wider text-sm">ရမ်ဇန်လရောက်ရန် ကျန်ချိန်</h3>
+            <div id="timer" class="flex justify-around text-emerald-700">
+                <div><span id="days" class="text-3xl font-black block">00</span><span class="text-xs uppercase">Days</span></div>
+                <div><span id="hours" class="text-3xl font-black block">00</span><span class="text-xs uppercase">Hrs</span></div>
+                <div><span id="mins" class="text-3xl font-black block">00</span><span class="text-xs uppercase">Mins</span></div>
+                <div><span id="secs" class="text-3xl font-black block text-orange-500">00</span><span class="text-xs uppercase">Secs</span></div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 shadow-xl mb-6 border border-emerald-100">
+            <h3 class="text-lg font-bold text-emerald-900 mb-4 flex items-center">
+                <i class="fa-solid fa-clock-rotate-left mr-2"></i> ယနေ့အချိန်ဇယား
+            </h3>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center p-3 bg-emerald-50 rounded-2xl">
+                    <span class="font-medium">Sahur (စီဟရီ ပိတ်ချိန်)</span>
+                    <span class="font-bold text-emerald-700">05:12 AM</span>
+                </div>
+                <div class="flex justify-between items-center p-3 bg-orange-50 rounded-2xl border border-orange-100">
+                    <span class="font-medium text-orange-900">Iftar (အိဖ်တာရ် ဖွင့်ချိန်)</span>
+                    <span class="font-bold text-orange-600">06:18 PM</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-emerald-800 text-white rounded-3xl p-6 shadow-xl mb-10">
+            <h3 class="text-yellow-400 font-bold mb-2 italic underline text-center">Daily Dua</h3>
+            <p class="text-center leading-relaxed italic">
+                "အလ္လာဟ်အရှင်မြတ်သည် သည်းခံသူတို့နှင့်အတူ ရှိတော်မူသည်။"
+            </p>
+        </div>
+
+    </main>
+
+    <footer class="text-center pb-10 text-slate-400 text-sm">
+        <p>© 2026 Ramadan Kareem Project</p>
+    </footer>
+
+    <script>
+        const ramadanDate = new Date("March 1, 2026 00:00:00").getTime(); // ရမ်ဇန်စမည့်နေ့ကို ပြင်နိုင်သည်
+
+        setInterval(function() {
+            const now = new Date().getTime();
+            const distance = ramadanDate - now;
+
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerHTML = d;
+            document.getElementById("hours").innerHTML = h;
+            document.getElementById("mins").innerHTML = m;
+            document.getElementById("secs").innerHTML = s;
+        }, 1000);
+    </script>
+</body>
+</html>
