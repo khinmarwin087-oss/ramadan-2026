@@ -93,7 +93,7 @@ export function useCountdown(): CountdownState {
         labelText = "Iftar ဖွင့်ရန် ကျန်ချိန်";
         isDuringFast = true;
       } else {
-        const currentIndex = RAMADAN_DATA.indexOf(todayData);
+        const currentIndex = RAMADAN_DATA.findIndex(d => d.date === todayData?.date);
         if (currentIndex < RAMADAN_DATA.length - 1) {
           const nextDayData = RAMADAN_DATA[currentIndex + 1];
           targetDate = new Date(`${nextDayData.date}, ${currentYear} ${nextDayData.s}:00`);
@@ -125,9 +125,8 @@ export function useCountdown(): CountdownState {
       } else {
         setState(prev => ({
           ...prev,
-          seconds: '00',
-          label: labelText,
           todayData,
+          label: labelText,
           isBeforeSehri,
           isDuringFast,
           isAfterIftar,
