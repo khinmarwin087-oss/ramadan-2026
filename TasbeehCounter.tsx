@@ -1,4 +1,4 @@
-import { useTasbeeh } from '@/hooks/useTasbeeh';
+import { useTasbeeh } from './useTasbeeh';
 import { RotateCcw } from 'lucide-react';
 
 export function TasbeehCounter() {
