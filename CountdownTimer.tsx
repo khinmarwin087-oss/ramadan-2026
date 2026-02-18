@@ -1,4 +1,4 @@
-import { useCountdown } from '@/hooks/useCountdown';
+import { useCountdown } from './useCountdown';
 import { Clock } from 'lucide-react';
 
 export function CountdownTimer() {
