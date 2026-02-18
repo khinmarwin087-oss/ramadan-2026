@@ -3,145 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ramadan Premium 2026</title>
+    <title>Ramadan Kareem 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap');
-        body { font-family: 'Pyidaungsu', sans-serif; background: #022c22; color: #f8fafc; }
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Pyidaungsu:wght@400;700&display=swap');
         
-        .gold-text { color: #fbbf24; }
-        .premium-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(251, 191, 36, 0.2);
-            border-radius: 2rem;
+        body { font-family: 'Pyidaungsu', sans-serif; background: #011a13; color: #e2e8f0; overflow-x: hidden; }
+        .arabic-font { font-family: 'Amiri', serif; }
+        
+        /* Bismillah Animation */
+        .typing-bismillah {
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid #fbbf24;
+            animation: typing 3.5s steps(30, end), blink .75s step-end infinite;
         }
-        .prayer-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 1rem; margin-bottom: 0.75rem; border-radius: 1.2rem;
-            background: rgba(255, 255, 255, 0.03);
-            transition: 0.3s;
-        }
-        .prayer-row:hover { background: rgba(251, 191, 36, 0.1); }
-        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink { from, to { border-color: transparent } 50% { border-color: #fbbf24 } }
+
+        .gold-gradient { background: linear-gradient(135deg, #d4af37 0%, #fcd34d 100%); }
+        .glass-panel { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .compact-card { padding: 1rem; border-radius: 1.5rem; }
     </style>
 </head>
 <body class="pb-10">
 
-    <header class="relative pt-12 pb-20 px-6 text-center overflow-hidden">
-        <div class="absolute inset-0 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/islamic-art.png');"></div>
-        <i class="fa-solid fa-mosque text-5xl gold-text mb-4"></i>
-        <h1 class="text-3xl font-bold tracking-widest uppercase">Ramadan Kareem</h1>
-        <div class="mt-4 inline-flex items-center bg-white/10 px-4 py-2 rounded-full border border-white/20">
-            <i class="fa-solid fa-location-dot mr-2 gold-text"></i>
-            <select id="citySelect" class="bg-transparent border-none text-white focus:outline-none cursor-pointer">
-                <option value="Yangon" class="text-black">Yangon</option>
-                <option value="Mandalay" class="text-black">Mandalay</option>
-                <option value="Nay Pyi Taw" class="text-black">Naypyidaw</option>
-                <option value="Taunggyi" class="text-black">Taunggyi</option>
-            </select>
+    <header class="pt-8 pb-12 px-4 text-center">
+        <div class="mb-4">
+            <h2 class="typing-bismillah arabic-font text-3xl md:text-4xl text-yellow-400">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</h2>
+        </div>
+        <h1 class="text-xl font-bold tracking-[0.2em] uppercase text-white opacity-80">Ramadan 2026</h1>
+        
+        <div class="flex justify-center gap-3 mt-6">
+            <button onclick="window.open('https://qiblafinder.withgoogle.com/')" class="glass-panel p-3 rounded-2xl text-yellow-400 hover:scale-110 transition">
+                <i class="fa-solid fa-compass text-xl"></i>
+                <span class="block text-[10px] mt-1">Qibla</span>
+            </button>
+            <button onclick="showDua()" class="glass-panel p-3 rounded-2xl text-emerald-400 hover:scale-110 transition">
+                <i class="fa-solid fa-hands-praying text-xl"></i>
+                <span class="block text-[10px] mt-1">Daily Dua</span>
+            </button>
+            <button onclick="toggleCalendar()" class="glass-panel p-3 rounded-2xl text-blue-400 hover:scale-110 transition">
+                <i class="fa-solid fa-calendar-alt text-xl"></i>
+                <span class="block text-[10px] mt-1">Times</span>
+            </button>
         </div>
     </header>
 
-    <main class="max-w-md mx-auto px-4 -mt-12 space-y-6">
-
-        <div class="premium-card p-6 shadow-2xl">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="font-bold gold-text uppercase tracking-tighter">နေ့စဉ်အချိန်ဇယား</h3>
-                <input type="date" id="dateInput" class="bg-white/10 text-white rounded-lg p-1 text-xs focus:outline-none border border-white/20">
-            </div>
-            
-            <div class="grid grid-cols-2 gap-4 mb-6">
-                <div class="text-center p-4 rounded-2xl border border-emerald-500/30 bg-emerald-900/40">
-                    <p class="text-[10px] text-emerald-400 font-bold uppercase mb-1">Sehri (စီဟရီ)</p>
-                    <h2 id="sahurTime" class="text-2xl font-black text-white">--:--</h2>
-                </div>
-                <div class="text-center p-4 rounded-2xl border border-orange-500/30 bg-orange-900/40">
-                    <p class="text-[10px] text-orange-400 font-bold uppercase mb-1">Iftar (အိဖ်တာရ်)</p>
-                    <h2 id="iftarTime" class="text-2xl font-black text-white">--:--</h2>
-                </div>
-            </div>
-
-            <div class="space-y-2">
-                <div class="prayer-row"><span><i class="fa-solid fa-sun-haze mr-2 gold-text"></i> ဖဂျရ် (Fajr)</span> <span id="fajr" class="font-bold">--:--</span></div>
-                <div class="prayer-row"><span><i class="fa-solid fa-sun mr-2 gold-text"></i> ဇိုဟိုရ် (Dhuhr)</span> <span id="dhuhr" class="font-bold">--:--</span></div>
-                <div class="prayer-row"><span><i class="fa-solid fa-cloud-sun mr-2 gold-text"></i> အဆွရ် (Asr)</span> <span id="asr" class="font-bold">--:--</span></div>
-                <div class="prayer-row"><span><i class="fa-solid fa-moon mr-2 gold-text"></i> မဂ်ရိဗ် (Maghrib)</span> <span id="maghrib" class="font-bold">--:--</span></div>
-                <div class="prayer-row"><span><i class="fa-solid fa-star-and-crescent mr-2 gold-text"></i> အီရှာ (Isha)</span> <span id="isha" class="font-bold">--:--</span></div>
+    <main class="max-w-md mx-auto px-4 -mt-6 space-y-4">
+        
+        <div class="glass-panel compact-card text-center border-yellow-500/30">
+            <p class="text-[10px] uppercase tracking-widest text-yellow-500 mb-2">ရမ်ဇန်ရောက်ရန် ကျန်ချိန်</p>
+            <div id="countdown" class="flex justify-center gap-4 text-2xl font-black">
+                <div><span id="d">00</span><p class="text-[9px] font-normal opacity-60">Days</p></div>
+                <div class="text-yellow-500">:</div>
+                <div><span id="h">00</span><p class="text-[9px] font-normal opacity-60">Hrs</p></div>
+                <div class="text-yellow-500">:</div>
+                <div><span id="m">00</span><p class="text-[9px] font-normal opacity-60">Mins</p></div>
+                <div class="text-yellow-500">:</div>
+                <div class="text-orange-500"><span id="s">00</span><p class="text-[9px] font-normal opacity-60">Secs</p></div>
             </div>
         </div>
 
-        <div class="premium-card overflow-hidden">
-            <div class="bg-gradient-to-r from-amber-600 to-yellow-500 p-4 font-bold text-black flex justify-between">
-                <span><i class="fa-solid fa-table-list mr-2"></i> ရမ်ဇန် (၃၀) ရက်စာ</span>
-                <span id="currentMonth">March 2026</span>
+        <div class="grid grid-cols-2 gap-3">
+            <div class="glass-panel compact-card border-emerald-500/20 bg-emerald-900/20">
+                <p class="text-[10px] text-emerald-400 font-bold mb-1">SEHRI (စီဟရီ)</p>
+                <h3 id="todaySahur" class="text-xl font-bold">05:14 AM</h3>
             </div>
-            <div class="p-2 overflow-x-auto">
-                <table class="w-full text-[13px]">
-                    <thead>
-                        <tr class="text-gold-text border-b border-white/10">
-                            <th class="p-2">ရက်</th>
+            <div class="glass-panel compact-card border-orange-500/20 bg-orange-900/20">
+                <p class="text-[10px] text-orange-400 font-bold mb-1">IFTAR (အိဖ်တာရ်)</p>
+                <h3 id="todayIftar" class="text-xl font-bold">06:12 PM</h3>
+            </div>
+        </div>
+
+        <div id="calendarSection" class="glass-panel rounded-3xl overflow-hidden hidden">
+            <div class="bg-yellow-500 p-3 text-black font-bold text-sm text-center">RAMADAN TIMETABLE (ရန်ကုန်နှင့် အနီးတဝိုက်)</div>
+            <div class="max-h-64 overflow-y-auto">
+                <table class="w-full text-xs">
+                    <thead class="sticky top-0 bg-slate-800 text-yellow-500">
+                        <tr>
+                            <th class="p-2">ရမ်ဇန်</th>
+                            <th class="p-2">ရက်စွဲ</th>
                             <th class="p-2">Sehri</th>
                             <th class="p-2">Iftar</th>
                         </tr>
                     </thead>
-                    <tbody id="fullMonthBody" class="text-center opacity-80">
+                    <tbody id="timetableBody" class="text-center">
                         </tbody>
                 </table>
             </div>
         </div>
     </main>
 
+    <div id="duaModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center p-6 z-50">
+        <div class="glass-panel p-8 rounded-[2rem] max-w-xs text-center border-yellow-500">
+            <h3 class="gold-text font-bold mb-4">နေ့စဉ် ဒုအာ</h3>
+            <p id="duaContent" class="text-sm leading-relaxed mb-6">"အလ္လာဟ်အရှင်မြတ်သည် ကျွန်ုပ်တို့၏ အိဗါဒသ်များကို လက်ခံတော်မူပါစေ။"</p>
+            <button onclick="showDua()" class="px-6 py-2 gold-gradient text-black font-bold rounded-full text-xs">ပိတ်မည်</button>
+        </div>
+    </div>
+
     <script>
-        // Default Date (March 1, 2026)
-        let selectedDate = "2026-03-01";
-        document.getElementById('dateInput').value = selectedDate;
+        // အချိန်ဇယား ဒေတာများ (ပုံထဲမှအတိုင်း)
+        const ramadanData = [
+            {r: 1, d: "Feb 19", s: "05:14", i: "06:12"},
+            {r: 2, d: "Feb 20", s: "05:14", i: "06:12"},
+            {r: 3, d: "Feb 21", s: "05:13", i: "06:12"},
+            {r: 4, d: "Feb 22", s: "05:13", i: "06:13"},
+            {r: 5, d: "Feb 23", s: "05:12", i: "06:13"},
+            {r: 11, d: "Mar 1", s: "05:09", i: "06:15"},
+            {r: 30, d: "Mar 20", s: "04:55", i: "06:19"}
+        ];
 
-        async function fetchTimings() {
-            const city = document.getElementById('citySelect').value;
-            const dateVal = document.getElementById('dateInput').value;
-            const [year, month, day] = dateVal.split('-');
+        // ဇယားထဲ ဒေတာထည့်ခြင်း
+        const tbody = document.getElementById('timetableBody');
+        ramadanData.forEach(row => {
+            tbody.innerHTML += `
+                <tr class="border-b border-white/5 hover:bg-white/5">
+                    <td class="p-2">${row.r}</td>
+                    <td class="p-2 opacity-70">${row.d}</td>
+                    <td class="p-2 font-bold text-emerald-400">${row.s} AM</td>
+                    <td class="p-2 font-bold text-orange-400">${row.i} PM</td>
+                </tr>`;
+        });
 
-            try {
-                // 1. Fetch Today's Detailed Times
-                const dailyRes = await fetch(`https://api.aladhan.com/v1/timingsByAddress/${day}-${month}-${year}?address=${city},Myanmar&method=11`);
-                const dailyData = await dailyRes.json();
-                const t = dailyData.data.timings;
+        // Countdown Logic
+        const targetDate = new Date("February 19, 2026 05:14:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+            document.getElementById('d').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('h').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('m').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('s').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+        }, 1000);
 
-                // Update UI
-                document.getElementById('sahurTime').innerText = t.Fajr;
-                document.getElementById('iftarTime').innerText = t.Maghrib;
-                document.getElementById('fajr').innerText = t.Fajr;
-                document.getElementById('dhuhr').innerText = t.Dhuhr;
-                document.getElementById('asr').innerText = t.Asr;
-                document.getElementById('maghrib').innerText = t.Maghrib;
-                document.getElementById('isha').innerText = t.Isha;
-
-                // 2. Fetch Full Month for Table
-                const monthRes = await fetch(`https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=${city}&country=Myanmar&method=11`);
-                const monthData = await monthRes.json();
-                
-                let tableRows = '';
-                monthData.data.forEach((d, i) => {
-                    const isToday = (i + 1 == parseInt(day)) ? 'bg-white/10 font-bold gold-text' : '';
-                    tableRows += `<tr class="${isToday} border-b border-white/5">
-                        <td class="p-3">${i + 1}</td>
-                        <td class="p-3">${d.timings.Fajr.split(' ')[0]}</td>
-                        <td class="p-3">${d.timings.Maghrib.split(' ')[0]}</td>
-                    </tr>`;
-                });
-                document.getElementById('fullMonthBody').innerHTML = tableRows;
-
-            } catch (err) { console.error("Data Fetch Error:", err); }
-        }
-
-        // Events
-        document.getElementById('citySelect').addEventListener('change', fetchTimings);
-        document.getElementById('dateInput').addEventListener('change', fetchTimings);
-
-        // Initial Load
-        fetchTimings();
+        function toggleCalendar() { document.getElementById('calendarSection').classList.toggle('hidden'); }
+        function showDua() { document.getElementById('duaModal').classList.toggle('flex'); document.getElementById('duaModal').classList.toggle('hidden'); }
     </script>
 </body>
 </html>
