@@ -1,4 +1,4 @@
-import { useCountdown, convertTo12Hour } from '@/hooks/useCountdown';
+import { useCountdown, convertTo12Hour } from './useCountdown';
 import { Download, Share2 } from 'lucide-react';
 import { useRef } from 'react';
 
