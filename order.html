@@ -21,6 +21,11 @@
         #calendarDrawer.open { transform: translateY(0); }
         #posterCanvas { position: fixed; left: -9999px; width: 1080px; height: 1920px; background: #000; }
         input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.3); }
+        .today-highlight { 
+    background: rgba(212, 175, 55, 0.15); 
+    border-left: 4px solid #D4AF37; 
+        }
+        
     </style>
 </head>
 <body class="pb-24">
@@ -357,12 +362,29 @@
         function closePicker() { document.getElementById('imagePicker').classList.add('hidden'); }
         function toggleCalendar() { document.getElementById('calendarDrawer').classList.toggle('open'); }
 
-        const calBody = document.getElementById('calBody');
-        ramadanData.forEach(d => {
-            let tr = document.createElement('tr');
-            tr.innerHTML = `<td class="py-5 opacity-40 font-bold">${d.r}</td><td class="py-5 font-medium">${d.date}</td><td class="py-5">${d.s} AM</td><td class="py-5 gold-text font-bold">${to12(d.i)}</td>`;
-            calBody.appendChild(tr);
-        });
+        // ပြက္ခဒိန် ဒေတာ ထည့်ခြင်း (ဒီနေ့ရက်ကို Highlight ပြပေးမည့်စနစ်)
+const calBody = document.getElementById('calBody');
+const todayDate = new Date();
+const monNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const todayStr = monNames[todayDate.getMonth()] + " " + String(todayDate.getDate()).padStart(2, '0');
+
+ramadanData.forEach(d => {
+    let tr = document.createElement('tr');
+    
+    // ဒီနေ့ရက်စွဲ ဟုတ်မဟုတ် စစ်ဆေးခြင်း
+    if (d.date === todayStr) {
+        tr.className = "today-highlight transition-all duration-500";
+    }
+
+    tr.innerHTML = `
+        <td class="py-5 px-4 opacity-40 font-bold">${d.r}</td>
+        <td class="py-5 px-4 font-medium ${d.date === todayStr ? 'gold-text font-bold' : ''}">${d.date}</td>
+        <td class="py-5 px-4">${d.s} AM</td>
+        <td class="py-5 px-4 gold-text font-bold">${to12(d.i)}</td>
+    `;
+    calBody.appendChild(tr);
+});
+        
 
         setInterval(update, 1000); update();
     </script>
