@@ -39,6 +39,8 @@
             <p class="premium-font text-[11px] tracking-[0.5em] text-yellow-500/80 uppercase font-bold">Yangon, Myanmar • 2026</p>
         </header>
 
+        
+
         <div class="glass rounded-[50px] px-4 py-10 text-center mb-8 relative overflow-hidden">
     <div id="statusLabel" class="text-[10px] font-bold text-yellow-500/60 mb-8 tracking-[0.3em] uppercase">Checking Time...</div>
     
@@ -62,17 +64,16 @@
     <div class="w-24 h-[1px] bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent mx-auto mb-6"></div>
 
     <div class="px-2">
-        <p class="text-[9px] text-yellow-500/50 mb-4 tracking-[0.2em] uppercase font-bold">ဝါပိတ်ရန် နီယသ်ပြုခြင်း</p>
-        <p class="arabic text-2xl text-white/95 leading-relaxed mb-3">
+        <p id="duaLabel" class="text-[9px] text-yellow-500/50 mb-4 tracking-[0.2em] uppercase font-bold">ဝါပိတ်ရန် နီယသ်ပြုခြင်း</p>
+        <p id="duaArabic" class="arabic text-2xl text-white/95 leading-relaxed mb-3">
             نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ رَمَضَانَ
         </p>
-        <p class="text-[11px] text-white/60 font-light italic leading-relaxed">
-            "ကျွန်ုပ်သည် ယခု ကျရောက်သော ရမ္မဿွာန်လ၏ <br>ဥပုသ်သီလကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"
+        <p id="duaMyanmar" class="text-[11px] text-white/60 font-light italic leading-relaxed">
+            "ကျွန်ုပ်သည်  ရမ္မဿွာန်လ၏ ဥပုသ်သီလကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"
         </p>
     </div>
         </div>
-
-
+        
         
 
         <div class="glass rounded-[50px] p-8 mb-8">
@@ -283,26 +284,61 @@
         }
 
         function update() {
-            const now = new Date();
-            const mon = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][now.getMonth()];
-            const dayStr = mon + " " + String(now.getDate()).padStart(2, '0');
-            let today = ramadanData.find(d => d.date === dayStr) || ramadanData[0];
+    const now = new Date();
+    const mon = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][now.getMonth()];
+    const dayStr = mon + " " + String(now.getDate()).padStart(2, '0');
+    let today = ramadanData.find(d => d.date === dayStr) || ramadanData[0];
 
-            document.getElementById('displayDate').innerText = today.date.toUpperCase() + ", 2026";
-            document.getElementById('dayCount').innerText = "DAY " + String(today.r).padStart(2, '0');
-            document.getElementById('sehriTime').innerText = today.s + " AM";
-            document.getElementById('iftarTime').innerText = to12(today.i);
+    document.getElementById('displayDate').innerText = today.date.toUpperCase() + ", 2026";
+    document.getElementById('dayCount').innerText = "DAY " + String(today.r).padStart(2, '0');
+    document.getElementById('sehriTime').innerText = today.s + " AM";
+    document.getElementById('iftarTime').innerText = to12(today.i);
 
-            let sTime = new Date(`${today.date}, 2026 ${today.s}:00`);
-            let iTime = new Date(`${today.date}, 2026 ${today.i}:00`);
-            let target = now < sTime ? sTime : (now < iTime ? iTime : new Date(sTime.getTime() + 86400000));
-            
-            let diff = target - now;
-            document.getElementById('h').innerText = String(Math.floor(diff/3600000)).padStart(2,'0');
-            document.getElementById('m').innerText = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
-            document.getElementById('s').innerText = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
-            document.getElementById('statusLabel').innerText = now < sTime ? "ဝါပိတ်ချိန် ရောက်ရှိရန်" : "ဝါဖြေချိန် ရောက်ရှိရန်";
+    let sTime = new Date(`${today.date}, 2026 ${today.s}:00`);
+    let iTime = new Date(`${today.date}, 2026 ${today.i}:00`);
+    
+    // Target Time (Countdown သွားမယ့်အချိန်) တွက်ချက်ခြင်း
+    let target;
+    if (now < sTime) {
+        target = sTime;
+    } else if (now < iTime) {
+        target = iTime;
+    } else {
+        target = new Date(sTime.getTime() + 86400000); // နက်ဖြန်မနက် Sahur
+    }
+    
+    let diff = target - now;
+    document.getElementById('h').innerText = String(Math.floor(diff/3600000)).padStart(2,'0');
+    document.getElementById('m').innerText = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    document.getElementById('s').innerText = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+
+    // ဒုအာ နှင့် Status Label ကို အလိုအလျောက် ပြောင်းလဲခြင်း
+    const duaLabel = document.getElementById('duaLabel');
+    const duaArabic = document.getElementById('duaArabic');
+    const duaMyanmar = document.getElementById('duaMyanmar');
+    const statusLabel = document.getElementById('statusLabel');
+
+    if (now < sTime) {
+        // မနက်စောစော - ဝါပိတ်ချိန်မတိုင်ခင်
+        statusLabel.innerText = "ဝါပိတ်ချိန် ရောက်ရှိရန်";
+        duaLabel.innerText = "ဝါပိတ်ရန် နီယသ်ပြုခြင်း";
+        duaArabic.innerText = "نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ رَمَضَانَ";
+        duaMyanmar.innerText = '"ကျွန်ုပ်သည်  ရမ္မဿွာန်လ၏ ရိုဇာဥပုသ်ကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"';
+    } else if (now < iTime) {
+        // နေ့ခင်းပိုင်း - ဝါဖြေချိန်မတိုင်ခင်
+        statusLabel.innerText = "ဝါဖြေချိန် ရောက်ရှိရန်";
+        duaLabel.innerText = "ဝါဖြေချိန် ဒုအာ";
+        duaArabic.innerText = "اللَّهُمَّ لَكَ صُمْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ";
+        duaMyanmar.innerText = '"အို-အလ္လာဟ်အရှင်မြတ်၊ ကျွန်ုပ်သည် အရှင့်အတွက် ဥပုသ်ဆောက်တည်ခဲ့ပြီး အရှင်ပေးသနားသော ရိက္ခာတော်ဖြင့် ဝါဖြေပါ၏"';
+    } else {
+        // ညပိုင်း - ဝါဖြေပြီးသွားချိန် (နက်ဖြန်အတွက် ပြန်ပြင်)
+        statusLabel.innerText = "ဝါပိတ်ချိန် ရောက်ရှိရန်";
+        duaLabel.innerText = " ဝါပိတ်ဒုအာ";
+        duaArabic.innerText = "نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ رَمَضَانَ";
+        duaMyanmar.innerText = '"ကျွန်ုပ်သည်  ရမ္မဿွာန်လ၏ ရိုဇာဥပုသ်ကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"';
+    }
         }
+        
 
         function showImagePicker() {
             const grid = document.getElementById('pickerGrid');
