@@ -3,145 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ramadan & Eid Elite 2026</title>
+    <title>Ramadan Elite 2026 - Ultra Details</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;700&family=Pyidaungsu:wght@400;700&display=swap');
-        body { font-family: 'Pyidaungsu', sans-serif; background: #000; color: #fff; overflow: hidden; height: 100vh; }
-        .arabic-font { font-family: 'Reem Kufi', sans-serif; }
+        
+        body { font-family: 'Pyidaungsu', sans-serif; background: #000; color: #fff; min-height: 100vh; overflow-x: hidden; }
+        .arabic { font-family: 'Reem Kufi', sans-serif; }
 
+        /* Background Slider with 10 Mosque Images */
         #bgSlider {
             position: fixed; inset: 0; z-index: -2;
             background-size: cover; background-position: center;
             transition: background-image 2s ease-in-out;
-            animation: kenburns 20s infinite alternate;
+            animation: kenburns 30s infinite alternate;
         }
-        @keyframes kenburns { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
-        .overlay { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at center, transparent, rgba(0,0,0,0.85)); }
+        @keyframes kenburns { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
         
-        .ultra-glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(25px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .overlay { position: fixed; inset: 0; z-index: -1; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.9)); }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        .gold-shine {
-            background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 50%, #b38728 100%);
+        .gold-text {
+            background: linear-gradient(135deg, #f6e27a 0%, #cb9b51 45%, #f6e27a 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-weight: bold;
         }
 
-        /* Eid Special Theme */
-        .eid-theme { background: linear-gradient(135deg, #2d0b5a 0%, #000 100%) !important; }
-        .eid-gold { color: #fcd34d !important; text-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
-
-        #calendarDrawer { transform: translateY(100%); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-        #calendarDrawer.open { transform: translateY(0); }
-        #posterCanvas { position: fixed; left: -5000px; width: 1080px; height: 1600px; }
+        #posterCanvas { position: fixed; left: -9999px; width: 1080px; height: 1920px; }
     </style>
 </head>
-<body>
+<body class="pb-10">
 
     <div id="bgSlider"></div>
-    <div class="overlay" id="mainOverlay"></div>
+    <div class="overlay"></div>
 
-    <div class="h-screen flex flex-col max-w-md mx-auto relative px-6">
-        <header class="pt-14 pb-4 text-center">
-            <h1 id="topTitle" class="arabic-font text-5xl gold-shine font-bold">بسم الله الرحمن الرحيم</h1>
-            <p id="topSub" class="text-[9px] text-emerald-400 tracking-[0.6em] font-bold mt-4 uppercase opacity-70">Ramadan Master 2026</p>
-        </header>
-
-        <main class="flex-grow flex flex-col justify-around py-6">
-            <div id="countdownArea" class="text-center">
-                <div id="statusBadge" class="inline-block px-4 py-1.5 rounded-full text-[10px] text-yellow-300 font-bold tracking-widest uppercase mb-6 ultra-glass">Syncing...</div>
-                <div class="flex justify-center items-center gap-4">
-                    <div class="flex flex-col"><span id="h" class="text-6xl font-light tabular-nums">00</span><span class="text-[8px] text-emerald-400 font-bold uppercase mt-1">Hours</span></div>
-                    <span class="text-4xl text-white/20 mb-6 font-thin">:</span>
-                    <div class="flex flex-col"><span id="m" class="text-6xl font-light tabular-nums">00</span><span class="text-[8px] text-emerald-400 font-bold uppercase mt-1">Mins</span></div>
-                    <span class="text-4xl text-white/20 mb-6 font-thin">:</span>
-                    <div class="flex flex-col"><span id="s" class="text-6xl font-medium text-emerald-400 tabular-nums" style="text-shadow: 0 0 20px rgba(16,185,129,0.5)">00</span><span class="text-[8px] text-emerald-400 font-bold uppercase mt-1">Secs</span></div>
-                </div>
-            </div>
-
-            <div id="mainCard" class="ultra-glass p-8 rounded-[45px] relative overflow-hidden">
-                <div class="flex justify-between items-center mb-10 border-b border-white/5 pb-5">
-                    <span id="todayDate" class="text-[11px] font-bold tracking-widest opacity-80 uppercase">--- --, 2026</span>
-                    <div id="eidIcon" class="hidden"><i class="fa-solid fa-star-and-crescent text-yellow-400 animate-spin-slow"></i></div>
-                </div>
-                
-                <div id="ramadanInfo" class="grid grid-cols-2 gap-8 items-center">
-                    <div class="text-left">
-                        <p class="text-[9px] text-white/40 uppercase mb-2">Sehri End</p>
-                        <h2 id="todaySehri" class="text-3xl font-light">--:--</h2>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-[9px] text-yellow-500/50 uppercase mb-2">Iftar Start</p>
-                        <h2 id="todayIftar" class="text-3xl font-bold text-yellow-400">--:--</h2>
-                    </div>
-                </div>
-
-                <div id="eidInfo" class="hidden text-center py-4">
-                    <h2 class="text-4xl font-bold gold-shine mb-2">EID MUBARAK!</h2>
-                    <p class="text-xs opacity-70">ပျော်ရွှင်ဖွယ် အိဒ်နေ့လေး ဖြစ်ပါစေ</p>
-                </div>
-
-                <button onclick="downloadPoster()" class="w-full mt-10 py-4.5 bg-gradient-to-r from-emerald-600 to-emerald-800 rounded-2xl text-[11px] font-bold flex items-center justify-center gap-3 active:scale-95 transition-all">
-                    <i class="fa-solid fa-camera-retro"></i> SAVE PREMIUM POSTER
-                </button>
-            </div>
-
-            <div class="grid grid-cols-3 gap-4">
-                <a href="https://qiblafinder.withgoogle.com/" target="_blank" class="ultra-glass py-5 rounded-[28px] flex flex-col items-center gap-2"><i class="fa-solid fa-location-arrow text-emerald-400"></i><span class="text-[8px] font-bold tracking-[0.2em]">QIBLA</span></a>
-                <button onclick="toggleDrawer()" class="ultra-glass py-5 rounded-[28px] flex flex-col items-center gap-2"><i class="fa-solid fa-calendar text-yellow-400"></i><span class="text-[8px] font-bold tracking-[0.2em]">LIST</span></button>
-                <a href="https://www.islamicfinder.org/duas/" target="_blank" class="ultra-glass py-5 rounded-[28px] flex flex-col items-center gap-2"><i class="fa-solid fa-moon text-emerald-400"></i><span class="text-[8px] font-bold tracking-[0.2em]">DUAS</span></a>
-            </div>
-        </main>
-    </div>
-
-    <div id="calendarDrawer" class="fixed inset-x-0 bottom-0 z-50 ultra-glass rounded-t-[50px] h-[85vh] flex flex-col">
-        <div class="w-10 h-1 bg-white/10 rounded-full mx-auto my-5"></div>
-        <div class="px-8 pb-6 shrink-0 flex justify-between items-center">
-            <h2 class="text-2xl font-bold gold-shine">Timetable 2026</h2>
-            <button onclick="toggleDrawer()" class="text-white/30 text-2xl">&times;</button>
+    <div class="max-w-md mx-auto px-6 pt-10">
+        <div class="text-center mb-10">
+            <h1 class="arabic text-5xl gold-text mb-2">بسم الله الرحمن الرحيم</h1>
+            <p class="text-[10px] tracking-[0.5em] text-emerald-400 font-bold uppercase">Ramadan Master 2026</p>
         </div>
-        <div class="px-8 pb-4 shrink-0">
-            <input type="text" id="calSearch" onkeyup="searchTable()" placeholder="ရက်စွဲဖြင့် ရှာရန်..." class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-xs focus:outline-none focus:border-emerald-500">
+
+        <div class="glass-card rounded-[40px] p-8 text-center mb-6">
+            <div id="statusLabel" class="text-xs font-bold text-yellow-500 mb-6 tracking-widest uppercase">Checking...</div>
+            <div class="flex justify-center items-center gap-4 mb-4">
+                <div><span id="h" class="text-5xl font-light">00</span><p class="text-[9px] opacity-50 mt-1">HOURS</p></div>
+                <span class="text-3xl opacity-20">:</span>
+                <div><span id="m" class="text-5xl font-light">00</span><p class="text-[9px] opacity-50 mt-1">MINS</p></div>
+                <span class="text-3xl opacity-20">:</span>
+                <div><span id="s" class="text-5xl font-bold text-emerald-400">00</span><p class="text-[9px] opacity-50 mt-1">SECS</p></div>
+            </div>
         </div>
-        <div class="flex-grow overflow-y-auto px-8 pb-10">
-            <table class="w-full text-xs">
-                <thead class="sticky top-0 bg-black/80 backdrop-blur-xl">
-                    <tr class="text-emerald-500/60 uppercase text-[9px]"><th class="p-4 text-left">Day</th><th class="p-4 text-left">Date</th><th class="p-4 text-center">Sehri</th><th class="p-4 text-right">Iftar</th></tr>
-                </thead>
-                <tbody id="calBody" class="divide-y divide-white/5"></tbody>
-            </table>
+
+        <div class="glass-card rounded-[40px] p-8 relative overflow-hidden mb-6">
+            <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
+                <span id="displayDate" class="text-xs font-bold tracking-tighter uppercase opacity-80">--- --, 2026</span>
+                <span id="dayCount" class="text-xs font-bold gold-text uppercase">Day --</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-10">
+                <div class="border-l-2 border-emerald-500 pl-4">
+                    <p class="text-[10px] opacity-50 mb-1 uppercase">Sehri End</p>
+                    <h2 id="sehriTime" class="text-3xl font-light">--:--</h2>
+                </div>
+                <div class="border-r-2 border-yellow-500 pr-4 text-right">
+                    <p class="text-[10px] opacity-50 mb-1 uppercase">Iftar Start</p>
+                    <h2 id="iftarTime" class="text-3xl font-bold gold-text">--:--</h2>
+                </div>
+            </div>
+
+            <button onclick="saveDetailedPoster()" class="w-full mt-10 py-5 bg-gradient-to-r from-emerald-600 to-emerald-800 rounded-2xl text-[11px] font-bold tracking-[0.2em] flex items-center justify-center gap-3 active:scale-95 transition-all">
+                <i class="fa-solid fa-camera"></i> SAVE ULTRA POSTER
+            </button>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4">
+            <button onclick="openTable()" class="glass-card py-5 rounded-3xl flex flex-col items-center gap-2">
+                <i class="fa-solid fa-calendar-days text-emerald-400"></i>
+                <span class="text-[8px] font-bold tracking-widest uppercase">Table</span>
+            </button>
+            <a href="https://qiblafinder.withgoogle.com" class="glass-card py-5 rounded-3xl flex flex-col items-center gap-2 text-center">
+                <i class="fa-solid fa-location-crosshairs text-yellow-500"></i>
+                <span class="text-[8px] font-bold tracking-widest uppercase">Qibla</span>
+            </a>
+            <a href="https://www.islamicfinder.org/duas" class="glass-card py-5 rounded-3xl flex flex-col items-center gap-2 text-center">
+                <i class="fa-solid fa-book-open text-emerald-400"></i>
+                <span class="text-[8px] font-bold tracking-widest uppercase">Duas</span>
+            </a>
         </div>
     </div>
 
     <div id="posterCanvas">
         <div id="p-bg" style="position: absolute; inset: 0; background-size: cover; background-position: center;"></div>
-        <div id="p-overlay" style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.9));"></div>
-        <div style="position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 120px 80px; text-align: center;">
-            <h1 class="arabic-font" id="p-top-title" style="font-size: 110px; color: #fbbf24;">بسم الله الرحمن الرحيم</h1>
+        <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.9) 100%);"></div>
+        <div style="position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 150px 80px; color: white; text-align: center;">
+            <div class="arabic" style="font-size: 130px; color: #f6e27a; margin-top: 50px;">رمضان كريم</div>
+            
             <div style="width: 100%;">
-                <div id="p-day-text" style="font-size: 45px; color: #fbbf24; font-weight: bold; margin-bottom: 20px;"></div>
-                <div id="p-date-text" style="font-size: 30px; opacity: 0.7; margin-bottom: 80px;"></div>
-                <div id="p-box" style="background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); padding: 100px 40px; border-radius: 80px; backdrop-filter: blur(40px);">
-                    <div id="p-info-area">
-                        <p style="font-size: 24px; color: #fbbf24; letter-spacing: 8px; margin-bottom: 25px;">IFTAR START</p>
-                        <h2 id="p-iftar" style="font-size: 140px; font-weight: bold; color: #fbbf24;"></h2>
-                        <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 60px 100px;"></div>
-                        <p style="font-size: 24px; opacity: 0.5; letter-spacing: 8px; margin-bottom: 25px;">SEHRI END</p>
-                        <h2 id="p-sehri" style="font-size: 70px; font-weight: bold; color: #fff;"></h2>
-                    </div>
+                <h2 id="p-day" style="font-size: 60px; font-weight: bold; letter-spacing: 15px; margin-bottom: 20px;">DAY 01</h2>
+                <p id="p-date" style="font-size: 35px; opacity: 0.8; margin-bottom: 100px;">February 20, 2026</p>
+                
+                <div style="background: rgba(255,255,255,0.05); backdrop-filter: blur(50px); border: 2px solid rgba(255,255,255,0.1); border-radius: 100px; padding: 120px 40px; width: 100%;">
+                    <p style="font-size: 30px; color: #f6e27a; letter-spacing: 10px; margin-bottom: 40px;">IFTAR TIME</p>
+                    <h1 id="p-iftar" style="font-size: 200px; font-weight: 800; line-height: 1; color: #f6e27a;">06:12 PM</h1>
+                    <div style="height: 2px; background: linear-gradient(90deg, transparent, #cb9b51, transparent); margin: 80px 100px;"></div>
+                    <p style="font-size: 30px; opacity: 0.6; letter-spacing: 10px; margin-bottom: 40px;">SEHRI ENDS</p>
+                    <h1 id="p-sehri" style="font-size: 100px; font-weight: 400;">05:14 AM</h1>
                 </div>
             </div>
-            <p id="p-footer" style="font-size: 20px; opacity: 0.4; letter-spacing: 4px;">RAMADAN 2026 • MASTER EDITION</p>
+
+            <div style="margin-bottom: 50px;">
+                <p style="font-size: 25px; opacity: 0.4; letter-spacing: 15px; text-transform: uppercase;">Ramadan Edition • 2026</p>
+            </div>
         </div>
     </div>
 
     <script>
-        // ရက် ၃၀ စာ (Feb 20 to Mar 21)
+        // 10 Mosque Backgrounds
+        const mosques = [
+            "https://images.unsplash.com/photo-1542610101-3e3e06f85311?q=80&w=1200",
+            "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1200",
+            "https://images.unsplash.com/photo-1564121211835-e88c852648ab?q=80&w=1200",
+            "https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=1200",
+            "https://images.unsplash.com/photo-1584551520120-199462683b7e?q=80&w=1200",
+            "https://images.unsplash.com/photo-1617506038768-202741975a61?q=80&w=1200",
+            "https://images.unsplash.com/photo-1551047653-466f282467d5?q=80&w=1200",
+            "https://images.unsplash.com/photo-1580982327559-c1202864eb05?q=80&w=1200",
+            "https://images.unsplash.com/photo-1566069174414-fba63d100d11?q=80&w=1200",
+            "https://images.unsplash.com/photo-1596515863346-646739660237?q=80&w=1200"
+        ];
+
         const ramadanData = [
             { r: 1, date: "Feb 20", s: "05:14", i: "18:12" }, { r: 2, date: "Feb 21", s: "05:13", i: "18:12" },
             { r: 3, date: "Feb 22", s: "05:13", i: "18:13" }, { r: 4, date: "Feb 23", s: "05:12", i: "18:13" },
@@ -160,102 +158,61 @@
             { r: 29, date: "Mar 20", s: "04:55", i: "18:19" }, { r: 30, date: "Mar 21", s: "04:54", i: "18:19" }
         ];
 
-        const mosqueImgs = ["https://images.unsplash.com/photo-1542610101-3e3e06f85311?q=80&w=1200", "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1200", "https://images.unsplash.com/photo-1564121211835-e88c852648ab?q=80&w=1200"];
-        const eidImg = "https://images.unsplash.com/photo-1551047653-466f282467d5?q=80&w=1200";
-
-        let imgIdx = 0;
-        function slideBg() {
-            const isEid = checkEid();
-            document.getElementById('bgSlider').style.backgroundImage = `url('${isEid ? eidImg : mosqueImgs[imgIdx]}')`;
-            if(!isEid) imgIdx = (imgIdx + 1) % mosqueImgs.length;
+        let currentImg = 0;
+        function changeBg() {
+            document.getElementById('bgSlider').style.backgroundImage = `url('${mosques[currentImg]}')`;
+            currentImg = (currentImg + 1) % mosques.length;
         }
-        setInterval(slideBg, 8000); slideBg();
-
-        function checkEid() {
-            const now = new Date();
-            const eidStart = new Date("March 21, 2026 18:30:00"); // Mar 21 ညနေ လထွက်ချိန်
-            return now >= eidStart;
-        }
+        setInterval(changeBg, 10000); changeBg();
 
         function to12(t) {
             let [h, m] = t.split(':'); h = parseInt(h);
-            return `${h % 12 || 12}:${m} ${h >= 12 ? 'PM' : 'AM'}`;
+            return `${String(h % 12 || 12).padStart(2, '0')}:${m} ${h >= 12 ? 'PM' : 'AM'}`;
         }
 
         function update() {
             const now = new Date();
-            const isEid = checkEid();
             const mon = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][now.getMonth()];
             const dayStr = mon + " " + String(now.getDate()).padStart(2, '0');
-            let today = ramadanData.find(d => d.date === dayStr);
-
-            if (isEid) {
-                document.body.classList.add('eid-theme');
-                document.getElementById('topTitle').innerText = "Eid Mubarak";
-                document.getElementById('topSub').innerText = "Shawwal 1, 1447 AH";
-                document.getElementById('topSub').classList.add('eid-gold');
-                document.getElementById('ramadanInfo').classList.add('hidden');
-                document.getElementById('eidInfo').classList.remove('hidden');
-                document.getElementById('countdownArea').classList.add('hidden');
-                document.getElementById('eidIcon').classList.remove('hidden');
-                document.getElementById('todayDate').innerText = "March 22, 2026 - EID DAY";
-                return;
-            }
-
-            if (!today) today = ramadanData[0];
-            document.getElementById('todayDate').innerText = today.date + ", 2026 (Day " + today.r + ")";
-            document.getElementById('todaySehri').innerText = today.s;
-            document.getElementById('todayIftar').innerText = to12(today.i);
+            
+            let today = ramadanData.find(d => d.date === dayStr) || ramadanData[0];
+            
+            document.getElementById('displayDate').innerText = `${today.date}, 2026`;
+            document.getElementById('dayCount').innerText = `Day ${today.r}`;
+            document.getElementById('sehriTime').innerText = today.s + " AM";
+            document.getElementById('iftarTime').innerText = to12(today.i);
 
             const sTime = new Date(`${today.date}, 2026 ${today.s}:00`);
             const iTime = new Date(`${today.date}, 2026 ${today.i}:00`);
+            
             let target, label;
-            if (now < sTime) { target = sTime; label = "Sehri ပိတ်ရန်"; }
-            else if (now < iTime) { target = iTime; label = "Iftar ဖွင့်ရန်"; }
-            else { label = "မနက်ဖြန် Sehri အတွက်"; target = new Date(sTime.getTime() + 86400000); }
+            if (now < sTime) { target = sTime; label = "SEHRI ပိတ်ရန် ကျန်ချိန်"; }
+            else if (now < iTime) { target = iTime; label = "IFTAR ဖွင့်ရန် ကျန်ချိန်"; }
+            else { label = "မနက်ဖြန် SEHRI အတွက်"; target = new Date(sTime.getTime() + 86400000); }
 
-            document.getElementById('statusBadge').innerText = label;
+            document.getElementById('statusLabel').innerText = label;
             const diff = target - now;
-            if (diff > 0) {
-                document.getElementById('h').innerText = String(Math.floor(diff/3600000)).padStart(2,'0');
-                document.getElementById('m').innerText = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
-                document.getElementById('s').innerText = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
-            }
+            document.getElementById('h').innerText = String(Math.floor(diff/3600000)).padStart(2,'0');
+            document.getElementById('m').innerText = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+            document.getElementById('s').innerText = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
         }
 
-        function toggleDrawer() { document.getElementById('calendarDrawer').classList.toggle('open'); }
-
-        const table = document.getElementById('calBody');
-        ramadanData.forEach(d => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td class="p-4 font-bold text-emerald-400">${d.r}</td><td class="p-4 opacity-80">${d.date}</td><td class="p-4 text-center font-bold">${d.s}</td><td class="p-4 text-right font-bold text-yellow-400">${to12(d.i)}</td>`;
-            table.appendChild(tr);
-        });
-
-        async function downloadPoster() {
-            const isEid = checkEid();
+        async function saveDetailedPoster() {
             const now = new Date();
             const mon = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][now.getMonth()];
             const dayStr = mon + " " + String(now.getDate()).padStart(2, '0');
             let today = ramadanData.find(d => d.date === dayStr) || ramadanData[0];
 
-            if (isEid) {
-                document.getElementById('p-top-title').innerText = "Eid Mubarak";
-                document.getElementById('p-day-text').innerText = "EID AL-FITR";
-                document.getElementById('p-date-text').innerText = "March 22, 2026";
-                document.getElementById('p-info-area').innerHTML = `<h2 style="font-size: 80px; color: #fbbf24; font-weight: bold; margin-bottom: 20px;">Taqabbalallahu Minna Wa Minkum</h2><p style="font-size: 24px; opacity: 0.7;">အလ္လာဟ်အရှင်မြတ်သည် ကျွန်ုပ်တို့နှင့် သင်တို့၏ ကောင်းမှုကုသိုလ်များကို လက်ခံတော်မူပါစေ။</p>`;
-                document.getElementById('p-bg').style.backgroundImage = `url('${eidImg}')`;
-            } else {
-                document.getElementById('p-day-text').innerText = "RAMADAN DAY " + today.r;
-                document.getElementById('p-date-text').innerText = today.date + ", 2026";
-                document.getElementById('p-sehri').innerText = today.s + " AM";
-                document.getElementById('p-iftar').innerText = to12(today.i);
-                document.getElementById('p-bg').style.backgroundImage = `url('${mosqueImgs[imgIdx]}')`;
-            }
+            // Set poster data
+            document.getElementById('p-day').innerText = "DAY " + String(today.r).padStart(2, '0');
+            document.getElementById('p-date').innerText = today.date + ", 2026";
+            document.getElementById('p-iftar').innerText = to12(today.i);
+            document.getElementById('p-sehri').innerText = today.s + " AM";
+            document.getElementById('p-bg').style.backgroundImage = document.getElementById('bgSlider').style.backgroundImage;
 
             const canvas = await html2canvas(document.getElementById('posterCanvas'), { useCORS: true, scale: 2 });
             const link = document.createElement('a');
-            link.download = isEid ? "Eid_Mubarak_2026.png" : `Ramadan_Day${today.r}.png`;
+            link.download = `Ramadan_2026_Day${today.r}.png`;
             link.href = canvas.toDataURL("image/png");
             link.click();
         }
@@ -263,5 +220,4 @@
         setInterval(update, 1000); update();
     </script>
 </body>
-    </html>
-    
+</html>
