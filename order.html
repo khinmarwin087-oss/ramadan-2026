@@ -74,6 +74,32 @@
     </div>
         </div>
         
+        <div class="glass rounded-[40px] p-6 mb-8 mx-2">
+    <h3 class="text-[10px] font-bold text-yellow-500/60 mb-6 tracking-[0.3em] uppercase text-center">Daily Prayer Times</h3>
+    
+    <div class="grid grid-cols-2 gap-4">
+        <div class="bg-white/5 rounded-3xl p-4 flex justify-between items-center border border-white/5">
+            <span class="text-[11px] opacity-60 uppercase tracking-widest">Fajar</span>
+            <span id="fajarTimeDisplay" class="gold-text font-medium text-sm">05:11 AM</span>
+        </div>
+        <div class="bg-white/5 rounded-3xl p-4 flex justify-between items-center border border-white/5">
+            <span class="text-[11px] opacity-60 uppercase tracking-widest">Zohar</span>
+            <span id="zoharTimeDisplay" class="text-white/90 font-medium text-sm">12:30 PM</span>
+        </div>
+        <div class="bg-white/5 rounded-3xl p-4 flex justify-between items-center border border-white/5">
+            <span class="text-[11px] opacity-60 uppercase tracking-widest">Aser</span>
+            <span id="aserTimeDisplay" class="text-white/90 font-medium text-sm">04:45 PM</span>
+        </div>
+        <div class="bg-white/5 rounded-3xl p-4 flex justify-between items-center border border-white/5">
+            <span class="text-[11px] opacity-60 uppercase tracking-widest">Magrib</span>
+            <span id="magribTimeDisplay" class="gold-text font-medium text-sm">06:11 PM</span>
+        </div>
+        <div class="bg-white/10 rounded-3xl p-4 flex justify-between items-center border border-white/10 col-span-2">
+            <span class="text-[11px] opacity-60 uppercase tracking-widest font-bold">Esha</span>
+            <span id="eshaTimeDisplay" class="text-white/95 font-bold text-sm">07:25 PM</span>
+        </div>
+    </div>
+        </div>
         
 
         <div class="glass rounded-[50px] p-8 mb-8">
@@ -207,37 +233,38 @@
     <script>
         
           const ramadanData = [
-    { r: 1, date: "Feb 20", s: "05:11", i: "06:11" },
-    { r: 2, date: "Feb 21", s: "05:11", i: "06:11" },
-    { r: 3, date: "Feb 22", s: "05:10", i: "06:12" },
-    { r: 4, date: "Feb 23", s: "05:10", i: "06:12" },
-    { r: 5, date: "Feb 24", s: "05:09", i: "06:13" },
-    { r: 6, date: "Feb 25", s: "05:09", i: "06:13" },
-    { r: 7, date: "Feb 26", s: "05:08", i: "06:13" },
-    { r: 8, date: "Feb 27", s: "05:08", i: "06:13" },
-    { r: 9, date: "Feb 28", s: "05:07", i: "06:14" },
-    { r: 10, date: "Mar 01", s: "05:07", i: "06:14" },
-    { r: 11, date: "Mar 02", s: "05:06", i: "06:14" },
-    { r: 12, date: "Mar 03", s: "05:05", i: "06:15" },
-    { r: 13, date: "Mar 04", s: "05:05", i: "06:15" },
-    { r: 14, date: "Mar 05", s: "05:04", i: "06:15" },
-    { r: 15, date: "Mar 06", s: "05:03", i: "06:16" },
-    { r: 16, date: "Mar 07", s: "05:03", i: "06:16" },
-    { r: 17, date: "Mar 08", s: "05:02", i: "06:16" },
-    { r: 18, date: "Mar 09", s: "05:01", i: "06:16" },
-    { r: 19, date: "Mar 10", s: "05:01", i: "06:16" },
-    { r: 20, date: "Mar 11", s: "05:00", i: "06:17" },
-    { r: 21, date: "Mar 12", s: "04:59", i: "06:17" },
-    { r: 22, date: "Mar 13", s: "04:58", i: "06:17" },
-    { r: 23, date: "Mar 14", s: "04:58", i: "06:17" },
-    { r: 24, date: "Mar 15", s: "04:57", i: "06:17" },
-    { r: 25, date: "Mar 16", s: "04:56", i: "06:17" },
-    { r: 26, date: "Mar 17", s: "04:56", i: "06:18" },
-    { r: 27, date: "Mar 18", s: "04:55", i: "06:18" },
-    { r: 28, date: "Mar 19", s: "04:54", i: "06:18" },
-    { r: 29, date: "Mar 20", s: "04:53", i: "06:18" },
-    { r: 30, date: "Mar 21", s: "04:52", i: "06:18" }
+    { r: 1, date: "Feb 20", s: "05:11", i: "06:11", z: "12:30", a: "04:45", e: "07:25", fj: "05:16" },
+    { r: 2, date: "Feb 21", s: "05:11", i: "06:11", z: "12:30", a: "04:45", e: "07:25", fj: "05:16" },
+    { r: 3, date: "Feb 22", s: "05:10", i: "06:12", z: "12:30", a: "04:45", e: "07:25", fj: "05:15" },
+    { r: 4, date: "Feb 23", s: "05:10", i: "06:12", z: "12:30", a: "04:45", e: "07:25", fj: "05:15" },
+    { r: 5, date: "Feb 24", s: "05:09", i: "06:13", z: "12:30", a: "04:45", e: "07:25", fj: "05:14" },
+    { r: 6, date: "Feb 25", s: "05:09", i: "06:13", z: "12:30", a: "04:45", e: "07:25", fj: "05:14" },
+    { r: 7, date: "Feb 26", s: "05:08", i: "06:13", z: "12:30", a: "04:45", e: "07:25", fj: "05:13" },
+    { r: 8, date: "Feb 27", s: "05:08", i: "06:13", z: "12:30", a: "04:45", e: "07:25", fj: "05:13" },
+    { r: 9, date: "Feb 28", s: "05:07", i: "06:14", z: "12:30", a: "04:45", e: "07:25", fj: "05:12" },
+    { r: 10, date: "Mar 01", s: "05:07", i: "06:14", z: "12:30", a: "04:45", e: "07:25", fj: "05:12" },
+    { r: 11, date: "Mar 02", s: "05:06", i: "06:14", z: "12:30", a: "04:45", e: "07:25", fj: "05:11" },
+    { r: 12, date: "Mar 03", s: "05:05", i: "06:15", z: "12:30", a: "04:45", e: "07:25", fj: "05:10" },
+    { r: 13, date: "Mar 04", s: "05:05", i: "06:15", z: "12:30", a: "04:45", e: "07:25", fj: "05:10" },
+    { r: 14, date: "Mar 05", s: "05:04", i: "06:15", z: "12:30", a: "04:45", e: "07:25", fj: "05:09" },
+    { r: 15, date: "Mar 06", s: "05:03", i: "06:16", z: "12:30", a: "04:45", e: "07:25", fj: "05:08" },
+    { r: 16, date: "Mar 07", s: "05:03", i: "06:16", z: "12:30", a: "04:45", e: "07:25", fj: "05:08" },
+    { r: 17, date: "Mar 08", s: "05:02", i: "06:16", z: "12:30", a: "04:45", e: "07:25", fj: "05:07" },
+    { r: 18, date: "Mar 09", s: "05:01", i: "06:16", z: "12:30", a: "04:45", e: "07:25", fj: "05:06" },
+    { r: 19, date: "Mar 10", s: "05:01", i: "06:16", z: "12:30", a: "04:45", e: "07:25", fj: "05:06" },
+    { r: 20, date: "Mar 11", s: "05:00", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:05" },
+    { r: 21, date: "Mar 12", s: "04:59", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:04" },
+    { r: 22, date: "Mar 13", s: "04:58", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:03" },
+    { r: 23, date: "Mar 14", s: "04:58", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:03" },
+    { r: 24, date: "Mar 15", s: "04:57", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:02" },
+    { r: 25, date: "Mar 16", s: "04:56", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:01" },
+    { r: 26, date: "Mar 17", s: "04:56", i: "06:18", z: "12:30", a: "04:45", e: "07:25", fj: "05:01" },
+    { r: 27, date: "Mar 18", s: "04:55", i: "06:18", z: "12:30", a: "04:45", e: "07:25", fj: "05:00" },
+    { r: 28, date: "Mar 19", s: "04:54", i: "06:18", z: "12:30", a: "04:45", e: "07:25", fj: "04:59" },
+    { r: 29, date: "Mar 20", s: "04:53", i: "06:18", z: "12:30", a: "04:45", e: "07:25", fj: "04:58" },
+    { r: 30, date: "Mar 21", s: "04:52", i: "06:18", z: "12:30", a: "04:45", e: "07:25", fj: "04:57" }
 ];
+        
 
         
         
@@ -298,7 +325,13 @@
     document.getElementById('dayCount').innerText = "DAY " + String(today.r).padStart(2, '0');
     document.getElementById('sehriTime').innerText = today.s + " AM";
     document.getElementById('iftarTime').innerText = today.i + " PM";
-
+    // update() function ထဲမှာ ထည့်ပါ
+document.getElementById('fajarTimeDisplay').innerText = today.fj + " AM";
+document.getElementById('zoharTimeDisplay').innerText = today.z + " PM";
+document.getElementById('aserTimeDisplay').innerText = today.a + " PM";
+document.getElementById('magribTimeDisplay').innerText = today.i + " PM"; // Magrib သည် Iftar အချိန်ဖြစ်သည်
+document.getElementById('eshaTimeDisplay').innerText = today.e + " PM";
+            
     // အချိန်တွက်ချက်ခြင်း (AM/PM တိကျစွာထည့်ထားသည်)
     let sTime = new Date(`${today.date}, 2026 ${today.s}:00 AM`);
     let iTime = new Date(`${today.date}, 2026 ${today.i}:00 PM`);
