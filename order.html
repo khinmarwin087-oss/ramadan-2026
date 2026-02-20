@@ -38,6 +38,8 @@
         .custom-scrollbar::-webkit-scrollbar { width: 3px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
 .custom-scrollbar::-webkit-scrollbar-thumb { background: #BF953F; border-radius: 10px; }
+#posterCanvas { font-variant-ligatures: none !important; }
+#posterCanvas * { font-family: sans-serif !important; } 
         
     </style>
 </head>
@@ -615,11 +617,12 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
                 document.getElementById('p-default-footer').style.display = "block";
             }
 
-            const canvas = await html2canvas(document.getElementById('posterCanvas'), { useCORS: true, scale: 2 });
+            const canvas = await html2canvas(document.getElementById('posterCanvas'), { useCORS: true, scale: 3, logging: false, letterRendering: false, allowTaint: true, backgroundColor: null });
             const link = document.createElement('a');
             link.download = `Ramadan_Poster_Day${today.r}.png`;
-            link.href = canvas.toDataURL("image/png");
+            link.href = canvas.toDataURL("image/png", 1.0);
             link.click();
+            
             
             document.getElementById('askModal').classList.add('hidden');
             document.getElementById('detailForm').classList.add('hidden');
