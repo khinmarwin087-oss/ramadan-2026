@@ -424,30 +424,29 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
 } // ဒါက update function ရဲ့ အပိတ် bracket ပါ
         
         
-        
         function updateNextPrayer(now, today) {
-    // ၁။ သောကြာနေ့ ဟုတ်မဟုတ် စစ်ဆေးခြင်း
     const isJumma = now.getDay() === 5; 
     const zoharTime = isJumma ? "12:45 PM" : "12:30 PM";
     const zoharName = isJumma ? "ဂျုမ္အဟ် (Jumma)" : "ဇုဟ်ရ် (Zohar)";
 
-    // ၂။ UI မှာ စာသားနဲ့ အချိန်ကို အရင်ပြောင်းမယ်
-    const zLabel = document.getElementById('zoharJummaLabel');
-    const zTime = document.getElementById('zoharJummaTime');
-    if(zLabel) zLabel.innerText = zoharName;
-    if(zTime) zTime.innerText = zoharTime;
+    // UI display update
+    document.getElementById('zoharJummaLabel').innerText = zoharName;
+    document.getElementById('zoharJummaTime').innerText = zoharTime;
+    document.getElementById('fajarTimeDisplay').innerText = today.fj + " AM";
+    document.getElementById('aserTimeDisplay').innerText = today.a + " PM";
+    document.getElementById('magribTimeDisplay').innerText = today.i + " PM";
+    document.getElementById('eshaTimeDisplay').innerText = today.e + " PM";
 
-    // ၃။ အချိန်ကို မိနစ်ပြောင်းတဲ့ logic
     const timeToMin = (t) => {
-        let [h, m] = t.split(':').map(Number);
-        if (t.includes('PM') && h !== 12) h += 12;
-        if (t.includes('AM') && h === 12) h = 0;
-        return h * 60 + m;
+        let [time, modifier] = t.split(' ');
+        let [hours, minutes] = time.split(':').map(Number);
+        if (modifier === 'PM' && hours !== 12) hours += 12;
+        if (modifier === 'AM' && hours === 12) hours = 0;
+        return hours * 60 + minutes;
     };
 
     const currentMin = now.getHours() * 60 + now.getMinutes();
     
-    // ၄။ ဝတ်ပြုချိန် စာရင်း (Next Prayer တွက်ရန်)
     const prayers = [
         { id: "fajar", name: "Fajar", time: today.fj + " AM" },
         { id: "zohar", name: isJumma ? "Jumma" : "Zohar", time: zoharTime },
@@ -456,8 +455,10 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
         { id: "esha", name: "Esha", time: "07:25 PM" }
     ];
 
-    // ၅။ နောက်ထပ်လာမည့် အချိန်ကို ရှာဖွေခြင်း
-    let next = prayers[0]; 
+    // Next Prayer ရှာတဲ့ Logic ကို ပိုသေချာအောင်ပြင်ဆင်ခြင်း
+    let next = null;
+
+    // လက်ရှိအချိန်ထက် ကြီးတဲ့ ပထမဆုံးအချိန်ကို ရှာမယ်
     for (let p of prayers) {
         if (currentMin < timeToMin(p.time)) {
             next = p;
@@ -465,20 +466,21 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
         }
     }
 
-    // ၆။ Next Prayer Card မှာ အချက်အလက် ထည့်ခြင်း
-    const nextNameEl = document.getElementById('nextPrayerName');
-    const nextTimeEl = document.getElementById('nextPrayerTime');
-    if(nextNameEl) nextNameEl.innerText = next.name;
-    if(nextTimeEl) nextTimeEl.innerText = next.time;
+    // အကယ်၍ Esha ပြီးသွားရင် (ညဘက်ရောက်သွားရင်) နောက်နေ့ Fajar ကိုပြမယ်
+    if (!next) {
+        next = prayers[0];
+    }
 
-    // ၇။ List ထဲမှာ Highlight ပြခြင်း (အရောင်ပြောင်းခြင်း)
-    // အရင်ရှိနေတဲ့ highlight တွေကို ဖြုတ်မယ်
-    document.querySelectorAll('.flex.justify-between').forEach(el => {
+    // UI Update
+    document.getElementById('nextPrayerName').innerText = next.name;
+    document.getElementById('nextPrayerTime').innerText = next.time;
+
+    // Highlight Card
+    document.querySelectorAll('[id^="card-"]').forEach(el => {
         el.style.borderColor = 'rgba(255,255,255,0.05)';
         el.style.backgroundColor = 'rgba(255,255,255,0.05)';
     });
     
-    // လက်ရှိ 'next' prayer ရဲ့ card ကို highlight ပြမယ်
     const activeId = `card-${next.id}`;
     const activeEl = document.getElementById(activeId);
     if(activeEl) {
@@ -487,9 +489,8 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
     }
         }
         
-
-
-
+        
+        
         function showImagePicker() {
             const grid = document.getElementById('pickerGrid');
             grid.innerHTML = "";
