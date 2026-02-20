@@ -248,6 +248,11 @@
     </div>
 
     <script>
+        let warningPlayed = false;
+let azanPlayed = false;
+const warningSound = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3'); // နမူနာအသံ
+const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); // နမူနာအသံ
+        
         
           const ramadanData = [
     { r: 1, date: "Feb 20", s: "05:11", i: "06:11", z: "12:30", a: "04:45", e: "07:25", fj: "05:16" },
@@ -342,12 +347,7 @@
     document.getElementById('dayCount').innerText = "DAY " + String(today.r).padStart(2, '0');
     document.getElementById('sehriTime').innerText = today.s + " AM";
     document.getElementById('iftarTime').innerText = today.i + " PM";
-    // update() function ထဲမှာ ထည့်ပါ
-document.getElementById('fajarTimeDisplay').innerText = today.fj + " AM";
-document.getElementById('zoharTimeDisplay').innerText = today.z + " PM";
-document.getElementById('aserTimeDisplay').innerText = today.a + " PM";
-document.getElementById('magribTimeDisplay').innerText = today.i + " PM"; // Magrib သည် Iftar အချိန်ဖြစ်သည်
-document.getElementById('eshaTimeDisplay').innerText = today.e + " PM";
+
             
     // အချိန်တွက်ချက်ခြင်း (AM/PM တိကျစွာထည့်ထားသည်)
     let sTime = new Date(`${today.date}, 2026 ${today.s}:00 AM`);
@@ -419,7 +419,10 @@ document.getElementById('eshaTimeDisplay').innerText = today.e + " PM";
         duaArabic.innerText = "نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ رَمَضَانَ ";
         duaMyanmar.innerText = '"ကျွန်ုပ်သည် ရမ္မဿွာန်လ၏ ရိုဇာဥပုသ်ကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"';
     }
-        }
+            // update() function ရဲ့ အောက်ဆုံးနားမှာ ဒါကို ထည့်ပါ
+    updateNextPrayer(now, today);
+} // ဒါက update function ရဲ့ အပိတ် bracket ပါ
+        
         
         
         function updateNextPrayer(now, today) {
