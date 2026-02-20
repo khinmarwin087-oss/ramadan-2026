@@ -8,27 +8,28 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&family=Cinzel:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap');
-        body { font-family: 'Pyidaungsu', sans-serif; background: #050505; color: #fff; min-height: 100vh; overflow-x: hidden; }
-        .arabic { font-family: 'Reem Kufi', sans-serif; }
-        .premium-font { font-family: 'Cinzel', serif; }
-        #bgSlider { position: fixed; inset: 0; z-index: -2; background-size: cover; background-position: center; transition: background-image 2s; }
-        .overlay { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 100%); }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px); border: 1px solid rgba(212, 175, 55, 0.2); }
-        .gold-text { background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        #calendarDrawer { transform: translateY(100%); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-        #calendarDrawer.open { transform: translateY(0); }
-        #posterCanvas { position: fixed; left: -9999px; background: #000; line-height: 1.6; }
-        input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.3); }
-        .today-highlight { background: rgba(212, 175, 55, 0.15); border-left: 4px solid #D4AF37; }
-        .prayer-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.3s ease; }
-        .prayer-card.active { background: rgba(212, 175, 55, 0.1); border-color: rgba(212, 175, 55, 0.5); box-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
-        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #BF953F; border-radius: 10px; }
-        .arabic-text { font-family: 'Traditional Arabic', 'Amiri', serif !important; font-variant-ligatures: common-ligatures !important; -webkit-font-feature-settings: "liga" 1; font-feature-settings: "liga" 1; direction: rtl; }
-        .mm-text { font-family: 'Pyidaungsu', sans-serif; font-feature-settings: "kern" 1, "liga" 1; }
+    @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Pyidaungsu:wght@400;700&family=Cinzel:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap');
+    body { font-family: 'Pyidaungsu', sans-serif; background: #050505; color: #fff; min-height: 100vh; overflow-x: hidden; }
+    .arabic { font-family: 'Reem Kufi', sans-serif; }
+    .premium-font { font-family: 'Cinzel', serif; }
+    #bgSlider { position: fixed; inset: 0; z-index: -2; background-size: cover; background-position: center; transition: background-image 2s; }
+    .overlay { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 100%); }
+    .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px); border: 1px solid rgba(212, 175, 55, 0.2); }
+    .gold-text { background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    #calendarDrawer { transform: translateY(100%); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+    #calendarDrawer.open { transform: translateY(0); }
+    #posterCanvas { position: fixed; left: -9999px; background: #000; line-height: 1.6; }
+    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.3); }
+    .today-highlight { background: rgba(212, 175, 55, 0.15); border-left: 4px solid #D4AF37; }
+    .prayer-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.3s ease; }
+    .prayer-card.active { background: rgba(212, 175, 55, 0.1); border-color: rgba(212, 175, 55, 0.5); box-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
+    .custom-scrollbar::-webkit-scrollbar { width: 3px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #BF953F; border-radius: 10px; }
+    .arabic-text { font-family: 'Amiri', serif !important; font-variant-ligatures: common-ligatures !important; -webkit-font-feature-settings: "liga" 1, "kern" 1 !important; font-feature-settings: "liga" 1, "kern" 1 !important; direction: rtl; text-transform: none !important; white-space: nowrap; }
+    .mm-text { font-family: 'Pyidaungsu', sans-serif; font-feature-settings: "kern" 1, "liga" 1; }
     </style>
+    
 </head>
     
 <body class="pb-24">
@@ -289,6 +290,26 @@
         </div>
     </div>
     </div>
+
+    <div id="askModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6">
+    <div class="glass p-8 rounded-[40px] w-full max-w-sm text-center border-white/20">
+        <h3 class="premium-font text-xl gold-text mb-6">ပုံစံရွေးချယ်ပါ</h3>
+        <div class="space-y-4">
+            <button onclick="generateFinalPoster('poster')" class="w-full py-4 rounded-2xl bg-white/10 border border-white/20 hover:bg-yellow-500/20 transition-all font-bold">
+                <i class="fa-solid fa-image mr-2"></i> Poster (ဒေါင်လိုက်)
+            </button>
+            
+            <button onclick="document.getElementById('detailForm').classList.remove('hidden'); document.getElementById('askModal').classList.add('hidden');" class="w-full py-4 rounded-2xl bg-yellow-600/20 border border-yellow-500/30 hover:bg-yellow-500/40 transition-all font-bold">
+                <i class="fa-solid fa-address-card mr-2"></i> Business Card (အလျားလိုက်)
+            </button>
+        </div>
+        <button onclick="document.getElementById('askModal').classList.add('hidden')" class="mt-6 text-white/50 text-sm italic">မလုပ်တော့ပါ</button>
+    </div>
+    </div>
+    
+    <button onclick="generateFinalPoster('card')" class="w-full py-4 rounded-2xl bg-yellow-600 text-white font-bold">
+    Card အဖြစ် သိမ်းဆည်းမည်
+    </button>
     
     <script>
         let warningPlayed = false;
@@ -577,7 +598,7 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
             document.getElementById('detailForm').classList.remove('hidden');
         }
 
-      async function generateFinalPoster(withDetails) {
+      async function generateFinalPoster(designType) {
     const canvasArea = document.getElementById('posterCanvas');
     document.getElementById('p-bg').style.backgroundImage = `url('${selectedImg}')`;
     
@@ -590,46 +611,44 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
     document.getElementById('p-iftar').innerText = today.i + " PM";
     document.getElementById('p-duration').innerText = "တနေ့တာ ဥပုသ်စောင့်ချိန်: " + getDuration(today.s + " AM", today.i + " PM");
 
-    // ဒီဇိုင်းရွေးချယ်မှုအပိုင်း (withDetails က true ဆိုရင် Business Card၊ false ဆိုရင် Poster)
-    if(withDetails) {
-        // --- Business Card Design (အလျားလိုက်) ---
+    // ဒီဇိုင်းရွေးချယ်မှု (card = Business Card, poster = Original Poster)
+    if(designType === 'card') {
         canvasArea.style.width = "600px";
         canvasArea.style.height = "350px";
         document.getElementById('p-footer').style.display = "block";
         document.getElementById('p-default-footer').style.display = "none";
-        document.getElementById('out-name').innerText = document.getElementById('bName').value;
-        document.getElementById('out-desc').innerText = document.getElementById('bDesc').value;
-        document.getElementById('out-phone').innerText = document.getElementById('bPhone').value;
+        // Business Card အတွက် Input တွေကနေ Data ယူမယ်
+        document.getElementById('out-name').innerText = document.getElementById('bName').value || "Your Name";
+        document.getElementById('out-desc').innerText = document.getElementById('bDesc').value || "Description";
+        document.getElementById('out-phone').innerText = document.getElementById('bPhone').value || "";
     } else {
-        // --- Original Poster Design (ဒေါင်လိုက်) ---
         canvasArea.style.width = "1080px";
         canvasArea.style.height = "1920px";
         document.getElementById('p-footer').style.display = "none";
         document.getElementById('p-default-footer').style.display = "block";
         
-        // Yangon, Myanmar နဲ့ Arabic Name ပြန်ထည့်ခြင်း
+        // Poster အတွက် Yangon စာသားနဲ့ အစ်ကို့နာမည် Arabic Font အစစ် (Amiri)
         document.getElementById('p-default-footer').innerHTML = `
             <div style="text-align: center; margin-top: 40px;">
                 <p style="font-size: 28px; margin-bottom: 10px; color: #fff;">Yangon, Myanmar</p>
-                <p class="arabic-text" style="font-size: 45px; color: #BF953F; font-weight: bold;">محمد هارون رشيد</p>
+                <p class="arabic-text" style="font-size: 55px; color: #BF953F; font-weight: bold; font-family: 'Amiri', serif !important;">محمد هارون رشيد</p>
             </div>
         `;
     }
 
-    const canvas = await html2canvas(canvasArea, { useCORS: true, scale: 2, logging: false, allowTaint: true, backgroundColor: null });
+    // ပုံထုတ်ခြင်း (Scale 2 သုံးထားပါတယ်)
+    const canvas = await html2canvas(canvasArea, { useCORS: true, scale: 2, logging: false, allowTaint: true });
     const link = document.createElement('a');
-    link.download = withDetails ? `Business_Card_Day${today.r}.png` : `Ramadan_Poster_Day${today.r}.png`;
+    link.download = `Ramadan_${designType}_Day${today.r}.png`;
     link.href = canvas.toDataURL("image/png", 1.0);
     link.click();
     
+    // ပိတ်စရာရှိတာတွေ ပြန်ပိတ်မယ်
     document.getElementById('askModal').classList.add('hidden');
     document.getElementById('detailForm').classList.add('hidden');
       }
         
-            
-            
-            
-            
+             
         function closePicker() { document.getElementById('imagePicker').classList.add('hidden'); }
         function toggleCalendar() { document.getElementById('calendarDrawer').classList.toggle('open'); }
 
