@@ -546,7 +546,7 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
             
             document.getElementById('p-day-text').innerText = `DAY ${String(today.r).padStart(2, '0')} - ${today.date.toUpperCase()}, 2026`;
             document.getElementById('p-sehri').innerText = today.s + " AM";
-            document.getElementById('p-iftar').innerText = to12(today.i);
+            document.getElementById('p-iftar').innerText = today.i + " PM";
             document.getElementById('p-duration').innerText = "တနေ့တာ ဥပုသ်စောင့်ချိန်: " + getDuration(today.s, today.i);
 
             if(withDetails) {
