@@ -84,40 +84,39 @@
     </div>
         </div>
         
-        <div class="glass rounded-[40px] p-6 mb-8 mx-2">
-    <div class="flex justify-between items-center mb-6">
-        <h3 class="text-[10px] font-bold text-yellow-500/60 tracking-[0.3em] uppercase">Prayer Times</h3>
-        <span class="text-[9px] bg-yellow-500/20 text-yellow-500 px-3 py-1 rounded-full uppercase tracking-tighter">South Okkalapa</span>
-    </div>
-    
-    <div class="grid grid-cols-3 gap-3">
-        <div id="card-fajar" class="prayer-card rounded-[24px] p-3 text-center">
-            <div class="text-[9px] opacity-40 uppercase mb-1 tracking-tighter">Fajar</div>
-            <div id="fajarTimeDisplay" class="text-[13px] font-semibold text-white/90">05:16 AM</div>
-        </div>
-        <div id="card-zohar" class="prayer-card rounded-[24px] p-3 text-center">
-            <div class="text-[9px] opacity-40 uppercase mb-1 tracking-tighter">Zohar</div>
-            <div id="zoharTimeDisplay" class="text-[13px] font-semibold text-white/90">12:30 PM</div>
-        </div>
-        <div id="card-aser" class="prayer-card rounded-[24px] p-3 text-center">
-            <div class="text-[9px] opacity-40 uppercase mb-1 tracking-tighter">Aser</div>
-            <div id="aserTimeDisplay" class="text-[13px] font-semibold text-white/90">04:45 PM</div>
-        </div>
-        <div id="card-magrib" class="prayer-card rounded-[24px] p-3 text-center">
-            <div class="text-[9px] opacity-40 uppercase mb-1 tracking-tighter">Magrib</div>
-            <div id="magribTimeDisplay" class="text-[13px] font-semibold gold-text">06:11 PM</div>
-        </div>
-        <div id="card-esha" class="prayer-card rounded-[24px] p-3 text-center">
-            <div class="text-[9px] opacity-40 uppercase mb-1 tracking-tighter">Esha</div>
-            <div id="eshaTimeDisplay" class="text-[13px] font-semibold text-white/90">07:25 PM</div>
-        </div>
-        <div id="card-jumma" class="prayer-card rounded-[24px] p-3 text-center border-dashed border-yellow-500/30">
-            <div class="text-[9px] text-yellow-500/60 uppercase mb-1 tracking-tighter">Jumma</div>
-            <div class="text-[13px] font-semibold text-yellow-500/90">12:45 PM</div>
-        </div>
-    </div>
-        </div>
         
+        <div class="glass rounded-[40px] p-6 mb-8 mx-2 border border-white/10">
+    <div class="bg-yellow-500/10 rounded-3xl p-5 mb-6 border border-yellow-500/30 text-center">
+        <span class="text-[10px] text-yellow-500/80 uppercase tracking-[0.2em]">Next Prayer</span>
+        <div id="nextPrayerName" class="text-2xl font-bold text-white mt-1">---</div>
+        <div id="nextPrayerTime" class="text-sm text-yellow-500 font-medium">--:-- --</div>
+    </div>
+
+    <div class="space-y-3">
+        <div id="card-fajar" class="flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/5">
+            <span class="text-xs font-semibold opacity-70">ဖဂျရ် (Fajar)</span>
+            <span id="fajarTimeDisplay" class="text-sm font-bold">05:16 AM</span>
+        </div>
+        <div id="card-zohar" class="flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/5">
+            <span id="zoharJummaLabel" class="text-xs font-semibold opacity-70">ဇုဟ်ရ် (Zohar)</span>
+            <span id="zoharJummaTime" class="text-sm font-bold">12:30 PM</span>
+        </div>
+        <div id="card-aser" class="flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/5">
+            <span class="text-xs font-semibold opacity-70">အဆွရ် (Aser)</span>
+            <span id="aserTimeDisplay" class="text-sm font-bold">04:45 PM</span>
+        </div>
+        <div id="card-magrib" class="flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/5">
+            <span class="text-xs font-semibold gold-text">မဂ်ရိဗ် (Magrib)</span>
+            <span id="magribTimeDisplay" class="text-sm font-bold gold-text">06:11 PM</span>
+        </div>
+        <div id="card-esha" class="flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/5">
+            <span class="text-xs font-semibold opacity-70">အီရှာ (Esha)</span>
+            <span id="eshaTimeDisplay" class="text-sm font-bold">07:25 PM</span>
+        </div>
+    </div>
+        </div>
+
+
         
 
         <div class="glass rounded-[50px] p-8 mb-8">
@@ -423,6 +422,70 @@ document.getElementById('eshaTimeDisplay').innerText = today.e + " PM";
         }
         
         
+        function updateNextPrayer(now, today) {
+    // ၁။ သောကြာနေ့ ဟုတ်မဟုတ် စစ်ဆေးခြင်း
+    const isJumma = now.getDay() === 5; 
+    const zoharTime = isJumma ? "12:45 PM" : "12:30 PM";
+    const zoharName = isJumma ? "ဂျုမ္အဟ် (Jumma)" : "ဇုဟ်ရ် (Zohar)";
+
+    // ၂။ UI မှာ စာသားနဲ့ အချိန်ကို အရင်ပြောင်းမယ်
+    const zLabel = document.getElementById('zoharJummaLabel');
+    const zTime = document.getElementById('zoharJummaTime');
+    if(zLabel) zLabel.innerText = zoharName;
+    if(zTime) zTime.innerText = zoharTime;
+
+    // ၃။ အချိန်ကို မိနစ်ပြောင်းတဲ့ logic
+    const timeToMin = (t) => {
+        let [h, m] = t.split(':').map(Number);
+        if (t.includes('PM') && h !== 12) h += 12;
+        if (t.includes('AM') && h === 12) h = 0;
+        return h * 60 + m;
+    };
+
+    const currentMin = now.getHours() * 60 + now.getMinutes();
+    
+    // ၄။ ဝတ်ပြုချိန် စာရင်း (Next Prayer တွက်ရန်)
+    const prayers = [
+        { id: "fajar", name: "Fajar", time: today.fj + " AM" },
+        { id: "zohar", name: isJumma ? "Jumma" : "Zohar", time: zoharTime },
+        { id: "aser", name: "Aser", time: "04:45 PM" },
+        { id: "magrib", name: "Magrib", time: today.i + " PM" },
+        { id: "esha", name: "Esha", time: "07:25 PM" }
+    ];
+
+    // ၅။ နောက်ထပ်လာမည့် အချိန်ကို ရှာဖွေခြင်း
+    let next = prayers[0]; 
+    for (let p of prayers) {
+        if (currentMin < timeToMin(p.time)) {
+            next = p;
+            break;
+        }
+    }
+
+    // ၆။ Next Prayer Card မှာ အချက်အလက် ထည့်ခြင်း
+    const nextNameEl = document.getElementById('nextPrayerName');
+    const nextTimeEl = document.getElementById('nextPrayerTime');
+    if(nextNameEl) nextNameEl.innerText = next.name;
+    if(nextTimeEl) nextTimeEl.innerText = next.time;
+
+    // ၇။ List ထဲမှာ Highlight ပြခြင်း (အရောင်ပြောင်းခြင်း)
+    // အရင်ရှိနေတဲ့ highlight တွေကို ဖြုတ်မယ်
+    document.querySelectorAll('.flex.justify-between').forEach(el => {
+        el.style.borderColor = 'rgba(255,255,255,0.05)';
+        el.style.backgroundColor = 'rgba(255,255,255,0.05)';
+    });
+    
+    // လက်ရှိ 'next' prayer ရဲ့ card ကို highlight ပြမယ်
+    const activeId = `card-${next.id}`;
+    const activeEl = document.getElementById(activeId);
+    if(activeEl) {
+        activeEl.style.borderColor = '#d4af37';
+        activeEl.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
+    }
+        }
+        
+
+
 
         function showImagePicker() {
             const grid = document.getElementById('pickerGrid');
