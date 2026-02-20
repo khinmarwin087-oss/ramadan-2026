@@ -8,8 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&family=Cinzel:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap');
         body { font-family: 'Pyidaungsu', sans-serif; background: #050505; color: #fff; min-height: 100vh; overflow-x: hidden; }
         .arabic { font-family: 'Reem Kufi', sans-serif; }
         .premium-font { font-family: 'Cinzel', serif; }
@@ -19,48 +18,19 @@
         .gold-text { background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         #calendarDrawer { transform: translateY(100%); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
         #calendarDrawer.open { transform: translateY(0); }
-        #posterCanvas { position: fixed; left: -9999px; width: 1080px; height: 1920px; background: #000; }
+        #posterCanvas { position: fixed; left: -9999px; background: #000; line-height: 1.6; }
         input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.3); }
-        .today-highlight { 
-    background: rgba(212, 175, 55, 0.15); 
-    border-left: 4px solid #D4AF37; 
-        }
-        .prayer-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: all 0.3s ease;
-}
-.prayer-card.active {
-    background: rgba(212, 175, 55, 0.1);
-    border-color: rgba(212, 175, 55, 0.5);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
-}
+        .today-highlight { background: rgba(212, 175, 55, 0.15); border-left: 4px solid #D4AF37; }
+        .prayer-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.3s ease; }
+        .prayer-card.active { background: rgba(212, 175, 55, 0.1); border-color: rgba(212, 175, 55, 0.5); box-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
         .custom-scrollbar::-webkit-scrollbar { width: 3px; }
-.custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
-.custom-scrollbar::-webkit-scrollbar-thumb { background: #BF953F; border-radius: 10px; }
-/* Poster Area တစ်ခုလုံးအတွက် */
-#posterCanvas {
-    font-family: 'Inter', sans-serif;
-    line-height: 1.6;
-}
-
-/* အာရဗီစာသားအတွက် သီးသန့် (Font အလှမပျက်စေရန်) */
-.arabic-text {
-    font-family: 'Traditional Arabic', 'Amiri', serif;
-    font-variant-ligatures: common-ligatures !important;
-    direction: rtl;
-    font-size: 22px;
-}
-
-/* မြန်မာစာအတွက် (ပုံထုတ်ရင် မကွဲစေရန်) */
-.mm-text {
-    font-family: 'Pyidaungsu', sans-serif;
-    font-feature-settings: "kern" 1, "liga" 1; /* မြန်မာစာအတွက် liga ကို ပြန်ဖွင့်ထားပါ */
-}
-        
-        
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #BF953F; border-radius: 10px; }
+        .arabic-text { font-family: 'Traditional Arabic', 'Amiri', serif !important; font-variant-ligatures: common-ligatures !important; -webkit-font-feature-settings: "liga" 1; font-feature-settings: "liga" 1; direction: rtl; }
+        .mm-text { font-family: 'Pyidaungsu', sans-serif; font-feature-settings: "kern" 1, "liga" 1; }
     </style>
 </head>
+    
 <body class="pb-24">
 
     <div id="bgSlider"></div>
@@ -607,8 +577,7 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
             document.getElementById('detailForm').classList.remove('hidden');
         }
 
-
-            async function generateFinalPoster(withDetails) {
+      async function generateFinalPoster(withDetails) {
     const canvasArea = document.getElementById('posterCanvas');
     document.getElementById('p-bg').style.backgroundImage = `url('${selectedImg}')`;
     
@@ -616,51 +585,48 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
     const dayNum = parseInt(currentDayText.replace("DAY ", ""));
     let today = ramadanData.find(d => d.r === dayNum) || ramadanData[0];
     
-    // စာသားများ ထည့်သွင်းခြင်း
     document.getElementById('p-day-text').innerText = `DAY ${String(today.r).padStart(2, '0')} - ${today.date.toUpperCase()}, 2026`;
     document.getElementById('p-sehri').innerText = today.s + " AM";
     document.getElementById('p-iftar').innerText = today.i + " PM";
     document.getElementById('p-duration').innerText = "တနေ့တာ ဥပုသ်စောင့်ချိန်: " + getDuration(today.s + " AM", today.i + " PM");
 
-    // ပျောက်သွားတဲ့ Yangon, Myanmar နဲ့ နာမည်ကို Footer ထဲ ပြန်ထည့်ပေးခြင်း
+    // ဒီဇိုင်းရွေးချယ်မှုအပိုင်း (withDetails က true ဆိုရင် Business Card၊ false ဆိုရင် Poster)
     if(withDetails) {
+        // --- Business Card Design (အလျားလိုက်) ---
+        canvasArea.style.width = "600px";
+        canvasArea.style.height = "350px";
         document.getElementById('p-footer').style.display = "block";
         document.getElementById('p-default-footer').style.display = "none";
         document.getElementById('out-name').innerText = document.getElementById('bName').value;
         document.getElementById('out-desc').innerText = document.getElementById('bDesc').value;
         document.getElementById('out-phone').innerText = document.getElementById('bPhone').value;
-        document.getElementById('p-dua-box').style.display = document.getElementById('includeDua').checked ? "block" : "none";
     } else {
+        // --- Original Poster Design (ဒေါင်လိုက်) ---
+        canvasArea.style.width = "1080px";
+        canvasArea.style.height = "1920px";
         document.getElementById('p-footer').style.display = "none";
         document.getElementById('p-default-footer').style.display = "block";
         
-        // Default Footer မှာ အစ်ကို့နာမည် Arabic font နဲ့ Yangon စာသား ပြန်ပြရန်
+        // Yangon, Myanmar နဲ့ Arabic Name ပြန်ထည့်ခြင်း
         document.getElementById('p-default-footer').innerHTML = `
-            <div style="text-align: center;">
-                <p style="font-size: 14px; margin-bottom: 2px;">Yangon, Myanmar</p>
-                <p class="arabic-text" style="font-size: 18px; color: #BF953F; font-weight: bold;">محمد هارون رشيد</p>
+            <div style="text-align: center; margin-top: 40px;">
+                <p style="font-size: 28px; margin-bottom: 10px; color: #fff;">Yangon, Myanmar</p>
+                <p class="arabic-text" style="font-size: 45px; color: #BF953F; font-weight: bold;">محمد هارون رشيد</p>
             </div>
         `;
     }
 
-    // ပုံထုတ်ခြင်း (Arabic Font အလှမပျက်စေရန် letterRendering ကို မသုံးပါ)
-    const canvas = await html2canvas(canvasArea, {
-        useCORS: true,
-        scale: 3, 
-        logging: false,
-        allowTaint: true,
-        backgroundColor: null
-    });
-
+    const canvas = await html2canvas(canvasArea, { useCORS: true, scale: 2, logging: false, allowTaint: true, backgroundColor: null });
     const link = document.createElement('a');
-    link.download = `Ramadan_Card_Day${today.r}.png`;
+    link.download = withDetails ? `Business_Card_Day${today.r}.png` : `Ramadan_Poster_Day${today.r}.png`;
     link.href = canvas.toDataURL("image/png", 1.0);
     link.click();
     
     document.getElementById('askModal').classList.add('hidden');
     document.getElementById('detailForm').classList.add('hidden');
-            }
+      }
         
+            
             
             
             
