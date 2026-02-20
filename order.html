@@ -340,14 +340,11 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
     const dayStr = mon + " " + String(now.getDate()).padStart(2, '0');
     
     // ဗလီအချိန်ဇယား data ထဲက ရှာမယ်
-    let today = ramadanData.find(d => d.date === dayStr) || ramadanData[0];
-
-    // UI ပေါ်မှာ ပြသခြင်း
-    document.getElementById('displayDate').innerText = today.date.toUpperCase() + ", 2026";
-    document.getElementById('dayCount').innerText = "DAY " + String(today.r).padStart(2, '0');
-    document.getElementById('sehriTime').innerText = today.s + " AM";
-    document.getElementById('iftarTime').innerText = today.i + " PM";
-
+        let todayIdx = ramadanData.findIndex(d => d.date === dayStr);
+    if (todayIdx === -1) todayIdx = 0;
+    let today = ramadanData[todayIdx];
+    let displayData = today; // UI အတွက် သီးသန့်သုံးရန်
+            
             
     // အချိန်တွက်ချက်ခြင်း (AM/PM တိကျစွာထည့်ထားသည်)
     let sTime = new Date(`${today.date}, 2026 ${today.s}:00 AM`);
@@ -362,11 +359,21 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
     } else if (now < iTime) {
         target = iTime;
         statusText = "ဝါဖြေချိန် ရောက်ရှိရန်";
-    } else {
-        // ဝါဖြေပြီးချိန်ဆိုလျှင် နောက်နေ့ စဲဟ်ရီကို ချိန်မယ်
+        } else {
         target = new Date(sTime.getTime() + 86400000); 
         statusText = "ဝါပိတ်ချိန် ရောက်ရှိရန်";
+        // ဝါဖြေပြီးတာနဲ့ Card မှာ နောက်နေ့ data ပြောင်းမယ်
+        if (ramadanData[todayIdx + 1]) {
+            displayData = ramadanData[todayIdx + 1];
+        }
     }
+
+    // UI ပေါ်မှာ ပြသခြင်း (displayData ကို သုံးလိုက်တာပါ)
+    document.getElementById('displayDate').innerText = displayData.date.toUpperCase() + ", 2026";
+    document.getElementById('dayCount').innerText = "DAY " + String(displayData.r).padStart(2, '0');
+    document.getElementById('sehriTime').innerText = displayData.s + " AM";
+    document.getElementById('iftarTime').innerText = displayData.i + " PM";
+            
     
     let diff = target - now;
 
@@ -533,8 +540,10 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
             const now = new Date();
             const mon = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][now.getMonth()];
             const dayStr = mon + " " + String(now.getDate()).padStart(2, '0');
-            let today = ramadanData.find(d => d.date === dayStr) || ramadanData[0];
-
+            const currentDayText = document.getElementById('dayCount').innerText;
+            const dayNum = parseInt(currentDayText.replace("DAY ", ""));
+            let today = ramadanData.find(d => d.r === dayNum) || ramadanData[0];
+            
             document.getElementById('p-day-text').innerText = `DAY ${String(today.r).padStart(2, '0')} - ${today.date.toUpperCase()}, 2026`;
             document.getElementById('p-sehri').innerText = today.s + " AM";
             document.getElementById('p-iftar').innerText = to12(today.i);
