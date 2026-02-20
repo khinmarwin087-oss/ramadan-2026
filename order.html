@@ -38,8 +38,26 @@
         .custom-scrollbar::-webkit-scrollbar { width: 3px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
 .custom-scrollbar::-webkit-scrollbar-thumb { background: #BF953F; border-radius: 10px; }
-#posterCanvas { font-variant-ligatures: none !important; }
-#posterCanvas * { font-family: sans-serif !important; } 
+/* Poster Area တစ်ခုလုံးအတွက် */
+#posterCanvas {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+}
+
+/* အာရဗီစာသားအတွက် သီးသန့် (Font အလှမပျက်စေရန်) */
+.arabic-text {
+    font-family: 'Traditional Arabic', 'Amiri', serif;
+    font-variant-ligatures: common-ligatures !important;
+    direction: rtl;
+    font-size: 22px;
+}
+
+/* မြန်မာစာအတွက် (ပုံထုတ်ရင် မကွဲစေရန်) */
+.mm-text {
+    font-family: 'Pyidaungsu', sans-serif;
+    font-feature-settings: "kern" 1, "liga" 1; /* မြန်မာစာအတွက် liga ကို ပြန်ဖွင့်ထားပါ */
+}
+        
         
     </style>
 </head>
@@ -617,11 +635,20 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
                 document.getElementById('p-default-footer').style.display = "block";
             }
 
-            const canvas = await html2canvas(document.getElementById('posterCanvas'), { useCORS: true, scale: 3, logging: false, letterRendering: false, allowTaint: true, backgroundColor: null });
-            const link = document.createElement('a');
-            link.download = `Ramadan_Poster_Day${today.r}.png`;
-            link.href = canvas.toDataURL("image/png", 1.0);
-            link.click();
+            const canvas = await html2canvas(document.getElementById('posterCanvas'), {
+    useCORS: true,
+    scale: 3, 
+    logging: false,
+    allowTaint: true,
+    backgroundColor: null,
+    // letterRendering ကို ဖြုတ်လိုက်ပါ (ဒါမှ Arabic ချိတ်ဆက်မှု မပျက်မှာပါ)
+});
+
+const link = document.createElement('a');
+link.download = `Ramadan_Card_Day${today.r}.png`;
+link.href = canvas.toDataURL("image/png", 1.0);
+link.click();
+            
             
             
             document.getElementById('askModal').classList.add('hidden');
