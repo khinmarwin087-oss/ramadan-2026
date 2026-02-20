@@ -25,6 +25,16 @@
     background: rgba(212, 175, 55, 0.15); 
     border-left: 4px solid #D4AF37; 
         }
+        .prayer-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+}
+.prayer-card.active {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+}
         
     </style>
 </head>
@@ -75,31 +85,39 @@
         </div>
         
         <div class="glass rounded-[40px] p-6 mb-8 mx-2">
-    <h3 class="text-[10px] font-bold text-yellow-500/60 mb-6 tracking-[0.3em] uppercase text-center">Daily Prayer Times</h3>
+    <div class="flex justify-between items-center mb-6">
+        <h3 class="text-[10px] font-bold text-yellow-500/60 tracking-[0.3em] uppercase">Prayer Times</h3>
+        <span class="text-[9px] bg-yellow-500/20 text-yellow-500 px-3 py-1 rounded-full uppercase tracking-tighter">South Okkalapa</span>
+    </div>
     
-    <div class="grid grid-cols-2 gap-4">
-        <div class="bg-white/5 rounded-3xl p-4 flex justify-between items-center border border-white/5">
-            <span class="text-[11px] opacity-60 uppercase tracking-widest">Fajar</span>
-            <span id="fajarTimeDisplay" class="gold-text font-medium text-sm">05:11 AM</span>
+    <div class="grid grid-cols-3 gap-3">
+        <div id="card-fajar" class="prayer-card rounded-[24px] p-3 text-center">
+            <div class="text-[9px] opacity-40 uppercase mb-1 tracking-tighter">Fajar</div>
+            <div id="fajarTimeDisplay" class="text-[13px] font-semibold text-white/90">05:16 AM</div>
         </div>
-        <div class="bg-white/5 rounded-3xl p-4 flex justify-between items-center border border-white/5">
-            <span class="text-[11px] opacity-60 uppercase tracking-widest">Zohar</span>
-            <span id="zoharTimeDisplay" class="text-white/90 font-medium text-sm">12:30 PM</span>
+        <div id="card-zohar" class="prayer-card rounded-[24px] p-3 text-center">
+            <div class="text-[9px] opacity-40 uppercase mb-1 tracking-tighter">Zohar</div>
+            <div id="zoharTimeDisplay" class="text-[13px] font-semibold text-white/90">12:30 PM</div>
         </div>
-        <div class="bg-white/5 rounded-3xl p-4 flex justify-between items-center border border-white/5">
-            <span class="text-[11px] opacity-60 uppercase tracking-widest">Aser</span>
-            <span id="aserTimeDisplay" class="text-white/90 font-medium text-sm">04:45 PM</span>
+        <div id="card-aser" class="prayer-card rounded-[24px] p-3 text-center">
+            <div class="text-[9px] opacity-40 uppercase mb-1 tracking-tighter">Aser</div>
+            <div id="aserTimeDisplay" class="text-[13px] font-semibold text-white/90">04:45 PM</div>
         </div>
-        <div class="bg-white/5 rounded-3xl p-4 flex justify-between items-center border border-white/5">
-            <span class="text-[11px] opacity-60 uppercase tracking-widest">Magrib</span>
-            <span id="magribTimeDisplay" class="gold-text font-medium text-sm">06:11 PM</span>
+        <div id="card-magrib" class="prayer-card rounded-[24px] p-3 text-center">
+            <div class="text-[9px] opacity-40 uppercase mb-1 tracking-tighter">Magrib</div>
+            <div id="magribTimeDisplay" class="text-[13px] font-semibold gold-text">06:11 PM</div>
         </div>
-        <div class="bg-white/10 rounded-3xl p-4 flex justify-between items-center border border-white/10 col-span-2">
-            <span class="text-[11px] opacity-60 uppercase tracking-widest font-bold">Esha</span>
-            <span id="eshaTimeDisplay" class="text-white/95 font-bold text-sm">07:25 PM</span>
+        <div id="card-esha" class="prayer-card rounded-[24px] p-3 text-center">
+            <div class="text-[9px] opacity-40 uppercase mb-1 tracking-tighter">Esha</div>
+            <div id="eshaTimeDisplay" class="text-[13px] font-semibold text-white/90">07:25 PM</div>
+        </div>
+        <div id="card-jumma" class="prayer-card rounded-[24px] p-3 text-center border-dashed border-yellow-500/30">
+            <div class="text-[9px] text-yellow-500/60 uppercase mb-1 tracking-tighter">Jumma</div>
+            <div class="text-[13px] font-semibold text-yellow-500/90">12:45 PM</div>
         </div>
     </div>
         </div>
+        
         
 
         <div class="glass rounded-[50px] p-8 mb-8">
