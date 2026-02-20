@@ -286,59 +286,91 @@
 
         function update() {
     const now = new Date();
-    const mon = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][now.getMonth()];
+    const monNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const mon = monNames[now.getMonth()];
     const dayStr = mon + " " + String(now.getDate()).padStart(2, '0');
+    
+    // ဗလီအချိန်ဇယား data ထဲက ရှာမယ်
     let today = ramadanData.find(d => d.date === dayStr) || ramadanData[0];
 
+    // UI ပေါ်မှာ ပြသခြင်း
     document.getElementById('displayDate').innerText = today.date.toUpperCase() + ", 2026";
     document.getElementById('dayCount').innerText = "DAY " + String(today.r).padStart(2, '0');
     document.getElementById('sehriTime').innerText = today.s + " AM";
-    document.getElementById('iftarTime').innerText = to12(today.i);
+    document.getElementById('iftarTime').innerText = today.i + " PM";
 
-    let sTime = new Date(`${today.date}, 2026 ${today.s}:00`);
-    let iTime = new Date(`${today.date}, 2026 ${today.i}:00`);
+    // အချိန်တွက်ချက်ခြင်း (AM/PM တိကျစွာထည့်ထားသည်)
+    let sTime = new Date(`${today.date}, 2026 ${today.s}:00 AM`);
+    let iTime = new Date(`${today.date}, 2026 ${today.i}:00 PM`);
     
-    // Target Time (Countdown သွားမယ့်အချိန်) တွက်ချက်ခြင်း
     let target;
+    let statusText = "";
+
     if (now < sTime) {
         target = sTime;
+        statusText = "ဝါပိတ်ချိန် ရောက်ရှိရန်";
     } else if (now < iTime) {
         target = iTime;
+        statusText = "ဝါဖြေချိန် ရောက်ရှိရန်";
     } else {
-        target = new Date(sTime.getTime() + 86400000); // နက်ဖြန်မနက် Sahur
+        // ဝါဖြေပြီးချိန်ဆိုလျှင် နောက်နေ့ စဲဟ်ရီကို ချိန်မယ်
+        target = new Date(sTime.getTime() + 86400000); 
+        statusText = "ဝါပိတ်ချိန် ရောက်ရှိရန်";
     }
     
     let diff = target - now;
-    document.getElementById('h').innerText = String(Math.floor(diff/3600000)).padStart(2,'0');
-    document.getElementById('m').innerText = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
-    document.getElementById('s').innerText = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
 
-    // ဒုအာ နှင့် Status Label ကို အလိုအလျောက် ပြောင်းလဲခြင်း
+    // Countdown နံပါတ်များ ထည့်ခြင်း
+    const hEl = document.getElementById('h');
+    const mEl = document.getElementById('m');
+    const sEl = document.getElementById('s');
+    
+    hEl.innerText = String(Math.floor(diff/3600000)).padStart(2,'0');
+    mEl.innerText = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    sEl.innerText = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+
+    // --- ၁၀ စကန့်အလို Blinking ---
+    if (diff <= 10000 && diff > 0) {
+        [hEl, mEl, sEl].forEach(el => el.parentElement.classList.add('blink-active'));
+    } else {
+        [hEl, mEl, sEl].forEach(el => el.parentElement.classList.remove('blink-active'));
+    }
+
+    // --- အသံ Logic ---
+    if (diff <= 300000 && diff > 299000 && !warningPlayed) {
+        warningSound.play().catch(e => console.log("Need Click"));
+        warningPlayed = true;
+    }
+    if (diff <= 1000 && diff > -1000 && !azanPlayed) {
+        azanSound.play().catch(e => console.log("Need Click"));
+        azanPlayed = true;
+    }
+    if (diff > 301000 || diff < -5000) {
+        warningPlayed = false;
+        azanPlayed = false;
+    }
+
+    // စာသားနှင့် ဒုအာများကို ပြောင်းလဲခြင်း
+    document.getElementById('statusLabel').innerText = statusText;
     const duaLabel = document.getElementById('duaLabel');
     const duaArabic = document.getElementById('duaArabic');
     const duaMyanmar = document.getElementById('duaMyanmar');
-    const statusLabel = document.getElementById('statusLabel');
 
     if (now < sTime) {
-        // မနက်စောစော - ဝါပိတ်ချိန်မတိုင်ခင်
-        statusLabel.innerText = "ဝါပိတ်ချိန် ရောက်ရှိရန်";
         duaLabel.innerText = "ဝါပိတ်ရန် နီယသ်ပြုခြင်း";
         duaArabic.innerText = "نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ رَمَضَانَ";
-        duaMyanmar.innerText = '"ကျွန်ုပ်သည်  ရမ္မဿွာန်လ၏ ရိုဇာဥပုသ်ကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"';
+        duaMyanmar.innerText = '"ကျွန်ုပ်သည် ရမ္မဿွာန်လ၏ ရိုဇာဥပုသ်ကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"';
     } else if (now < iTime) {
-        // နေ့ခင်းပိုင်း - ဝါဖြေချိန်မတိုင်ခင်
-        statusLabel.innerText = "ဝါဖြေချိန် ရောက်ရှိရန်";
         duaLabel.innerText = "ဝါဖြေချိန် ဒုအာ";
         duaArabic.innerText = "اللَّهُمَّ لَكَ صُمْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ";
         duaMyanmar.innerText = '"အို-အလ္လာဟ်အရှင်မြတ်၊ ကျွန်ုပ်သည် အရှင့်အတွက် ဥပုသ်ဆောက်တည်ခဲ့ပြီး အရှင်ပေးသနားသော ရိက္ခာတော်ဖြင့် ဝါဖြေပါ၏"';
     } else {
-        // ညပိုင်း - ဝါဖြေပြီးသွားချိန် (နက်ဖြန်အတွက် ပြန်ပြင်)
-        statusLabel.innerText = "ဝါပိတ်ချိန် ရောက်ရှိရန်";
-        duaLabel.innerText = " ဝါပိတ်ဒုအာ";
-        duaArabic.innerText = "نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ رَمَضَانَ";
-        duaMyanmar.innerText = '"ကျွန်ုပ်သည်  ရမ္မဿွာန်လ၏ ရိုဇာဥပုသ်ကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"';
+        duaLabel.innerText = "ဝါပိတ်ရန် နီယသ်ပြုခြင်း";
+        duaArabic.innerText = "نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ رَمَضَانَ ";
+        duaMyanmar.innerText = '"ကျွန်ုပ်သည် ရမ္မဿွာန်လ၏ ရိုဇာဥပုသ်ကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"';
     }
         }
+        
         
 
         function showImagePicker() {
