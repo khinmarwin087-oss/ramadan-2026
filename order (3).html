@@ -28,6 +28,11 @@
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #BF953F; border-radius: 10px; }
     .arabic-text { font-family: 'Amiri', serif !important; font-variant-ligatures: common-ligatures !important; -webkit-font-feature-settings: "liga" 1, "kern" 1 !important; font-feature-settings: "liga" 1, "kern" 1 !important; direction: rtl; text-transform: none !important; white-space: nowrap; }
     .mm-text { font-family: 'Pyidaungsu', sans-serif; font-feature-settings: "kern" 1, "liga" 1; }
+    .zakat-box { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 25px; padding: 20px; margin: 15px; }
+.zakat-input { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 12px; border-radius: 12px; width: 100%; margin-top: 5px; outline: none; }
+.zakat-input:focus { border-color: #D4AF37; }
+.nisab-info { font-size: 11px; color: #BF953F; margin-bottom: 15px; border-left: 2px solid #BF953F; padding-left: 10px; }
+        
     </style>
     
 </head>
@@ -291,7 +296,37 @@
     </div>
     </div>
 
+ <div class="zakat-box glass">
+    <h3 class="premium-font text-center gold-text text-xl mb-4">Zakat Calculator</h3>
+    
+    <div class="nisab-info">
+        ဇကားသ်ပေးဆောင်ရန် မိမိပိုင်ဆိုင်မှုသည် ငွေ (Silver) ၅၂.၅ ကျပ်သား (သို့မဟုတ်) ရွှေ ၇.၅ ကျပ်သား တန်ဖိုးထက် ကျော်လွန်ရပါမည်။ တစ်နှစ်ပြည့်ပြီးသော ပိုင်ဆိုင်မှုများမှ ၂.၅% ကို ပေးဆောင်ရပါမည်။
+    </div>
 
+    <div class="space-y-4">
+        <div>
+            <label class="text-xs text-white/70">စုစုပေါင်း ပိုင်ဆိုင်မှု (ရွှေ၊ ငွေ၊ လက်ကျန်ငွေ၊ အိမ်ခြံမြေ)</label>
+            <input type="number" id="totalWealth" oninput="calculateZakat()" class="zakat-input" placeholder="စုစုပေါင်း တန်ဖိုး ထည့်ပါ">
+        </div>
+
+        <div>
+            <label class="text-xs text-white/70">နုတ်ပယ်ရမည့် အကြွေး/ကုန်ကျစရိတ်များ</label>
+            <input type="number" id="totalDebt" oninput="calculateZakat()" class="zakat-input" placeholder="အကြွေးရှိပါက ထည့်ပါ">
+        </div>
+
+        <div class="pt-4 border-t border-white/10">
+            <div class="flex justify-between mb-2">
+                <span class="text-xs text-white/50">အသားတင် ပိုင်ဆိုင်မှု:</span>
+                <span id="netWealth" class="text-xs">0 MMK</span>
+            </div>
+            <div class="flex justify-between items-center bg-yellow-500/10 p-4 rounded-2xl border border-yellow-500/30">
+                <span class="gold-text font-bold text-sm">ဇကားသ်ပေးရန် ပမာဏ:</span>
+                <span id="zakatResult" class="text-lg font-bold text-white">0 MMK</span>
+            </div>
+        </div>
+    </div>
+ </div>
+    
     
     <script>
         let warningPlayed = false;
@@ -656,6 +691,22 @@ ramadanData.forEach(d => {
     `;
     calBody.appendChild(tr);
 });
+        function calculateZakat() {
+    const wealth = parseFloat(document.getElementById('totalWealth').value) || 0;
+    const debt = parseFloat(document.getElementById('totalDebt').value) || 0;
+    
+    // အသားတင် ပိုင်ဆိုင်မှု (Net Asset = Wealth - Debt)
+    const netAsset = wealth - debt;
+    document.getElementById('netWealth').innerText = netAsset > 0 ? netAsset.toLocaleString() + " MMK" : "0 MMK";
+
+    // ဇကားသ် တွက်ချက်ခြင်း (၂.၅%)
+    if (netAsset > 0) {
+        const zakat = netAsset * 0.025;
+        document.getElementById('zakatResult').innerText = zakat.toLocaleString() + " MMK";
+    } else {
+        document.getElementById('zakatResult').innerText = "0 MMK";
+    }
+        }
         
 
         setInterval(update, 1000); update();
