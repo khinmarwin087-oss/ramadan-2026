@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramadan Premium 2026 - Ultimate Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Pyidaungsu:wght@400;700&family=Cinzel:wght@400;700&family=Reem+Kufi:wght@400;700&family=Outfit:wght@200;400;600&display=swap');
+        
+        :root {
+            --gold-primary: #d4af37;
+            --gold-secondary: #fcf6ba;
+            --gold-dark: #b38728;
+            --gold-grad: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 45%, var(--gold-dark) 100%);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --premium-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        body {
+            font-family: 'Outfit', 'Pyidaungsu', sans-serif;
+            color: #fff;
+            background-color: #050505;
+            margin: 0;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .arabic { font-family: 'Reem Kufi', sans-serif; }
+        .premium-font { font-family: 'Cinzel', serif; }
+        
+        /* Background Slider & Overlay */
+        #bgSlider {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 2s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: brightness(0.4) scale(1.1);
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 100%);
+        }
+
+        /* Premium Glassmorphism */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--premium-shadow);
+        }
+
+        .gold-text {
+            background: var(--gold-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        /* Hero Card */
+        .hero-card {
+            border-radius: 50px;
+            padding: 40px 25px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            animation: rotate 10s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Prayer Cards */
+        .prayer-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 24px;
+            padding: 20px 28px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .prayer-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+            border-color: rgba(212, 175, 55, 0.2);
+        }
+
+        .prayer-card.active {
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
+        }
+
+        /* Celestial Motion */
+        .celestial-container {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 120px;
+            pointer-events: none;
+        }
+
+        .arc-path {
+            width: 100%;
+            height: 200%;
+            border-radius: 50%;
+            border-top: 1px dashed rgba(212, 175, 55, 0.2);
+        }
+
+        .celestial {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            filter: drop-shadow(0 0 15px currentColor);
+            z-index: 5;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--gold-primary); border-radius: 10px; }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            height: 75px;
+            border-radius: 40px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+            padding: 0 15px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            color: var(--gold-primary);
+            transform: translateY(-5px);
+        }
+
+        .nav-item i { font-size: 20px; }
+        .nav-item span { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Animations */
+        .fade-in { opacity: 0; transform: translateY(20px); }
+        
+        /* Zakat Box */
+        .zakat-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 18px;
+            padding: 15px 20px;
+            color: #fff;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .zakat-input:focus { border-color: var(--gold-primary); }
+
+        /* Poster Canvas (Hidden) */
+        #posterCanvas {
+            position: absolute;
+            left: -9999px;
+            width: 1080px;
+            height: 1920px;
+            background: #000;
+        }
+    </style>
+</head>
+<body class="pb-32">
+
+    <div id="bgSlider"></div>
+    <div class="overlay"></div>
+
+    <div class="max-w-md mx-auto px-6 pt-16">
+        <!-- Header -->
+        <header class="text-center mb-12 fade-in">
+            <h1 class="arabic text-6xl gold-text mb-4">رمضان كريم</h1>
+            <div class="flex items-center justify-center gap-3">
+                <span class="h-[1px] w-8 bg-gold-grad"></span>
+                <p class="premium-font text-[11px] tracking-[0.4em] text-yellow-500/80 uppercase font-bold">Yangon • 2026</p>
+                <span class="h-[1px] w-8 bg-gold-grad"></span>
+            </div>
+        </header>
+
+        <!-- Hero Countdown Card -->
+        <div class="hero-card glass fade-in">
+            <div class="celestial-container">
+                <div class="arc-path"></div>
+                <div id="sun" class="celestial" style="background: radial-gradient(circle, #fff, #ffcc00); color: #ffaa00;"></div>
+                <div id="moon" class="celestial" style="background: radial-gradient(circle, #fff, #ddd); color: #fff; opacity: 0;"></div>
+            </div>
+
+            <div class="relative z-10 pt-10">
+                <div class="mb-8">
+                    <span class="inline-block px-4 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-[9px] uppercase tracking-[0.2em] text-yellow-500 font-bold mb-3">Next Prayer</span>
+                    <div class="flex items-center justify-center gap-4">
+                        <h2 id="nextName" class="text-3xl font-bold tracking-tight">---</h2>
+                        <span id="nextTime" class="gold-text text-xl">--:-- --</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-center items-end gap-3 mb-6">
+                    <div class="text-center">
+                        <span id="h" class="text-6xl font-extralight tracking-tighter">00</span>
+                        <p class="text-[8px] uppercase opacity-30 mt-1">Hours</p>
+                    </div>
+                    <span class="text-4xl font-thin opacity-20 mb-6">:</span>
+                    <div class="text-center">
+                        <span id="m" class="text-6xl font-extralight tracking-tighter">00</span>
+                        <p class="text-[8px] uppercase opacity-30 mt-1">Mins</p>
+                    </div>
+                    <span class="text-4xl font-thin gold-text mb-6">:</span>
+                    <div class="text-center">
+                        <span id="s" class="text-6xl font-bold tracking-tighter gold-text">00</span>
+                        <p class="text-[8px] uppercase opacity-30 mt-1">Secs</p>
+                    </div>
+                </div>
+                
+                <p id="statusLabel" class="text-[10px] uppercase tracking-[0.5em] text-white/40 mb-8">Checking Time...</p>
+                
+                <div class="pt-8 border-t border-white/5">
+                    <p id="duaLabel" class="text-[10px] text-yellow-500/60 mb-4 tracking-[0.2em] uppercase font-bold">ဝါပိတ်ရန် နီယသ်ပြုခြင်း</p>
+                    <p id="duaArabic" class="arabic text-2xl text-white/90 leading-relaxed mb-3">نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ رَمَضَانَ</p>
+                    <p id="duaMyanmar" class="text-[11px] text-white/40 font-light italic leading-relaxed px-4">"ကျွန်ုပ်သည် ရမ္မဿွာန်လ၏ ဥပုသ်သီလကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prayer Times List -->
+        <div id="prayer-list" class="space-y-3 mb-12 fade-in">
+            <div id="row-fajar" class="prayer-card">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/30"><i class="fa-solid fa-cloud-sun"></i></div>
+                    <span class="text-sm font-medium text-white/60">ဖဂျရ် (Fajar)</span>
+                </div>
+                <span id="fajarTimeDisplay" class="text-base tracking-widest font-light">05:16 AM</span>
+            </div>
+            <div id="row-zohar" class="prayer-card">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/30"><i class="fa-solid fa-sun"></i></div>
+                    <span id="zoharJummaLabel" class="text-sm font-medium text-white/60">ဇုဟ်ရ် (Zohar)</span>
+                </div>
+                <span id="zoharJummaTime" class="text-base tracking-widest font-light">12:30 PM</span>
+            </div>
+            <div id="row-aser" class="prayer-card">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/30"><i class="fa-solid fa-sun-plant-wilt"></i></div>
+                    <span class="text-sm font-medium text-white/60">အဆွရ် (Aser)</span>
+                </div>
+                <span id="aserTimeDisplay" class="text-base tracking-widest font-light">04:45 PM</span>
+            </div>
+            <div id="row-magrib" class="prayer-card">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-yellow-500/10 flex items-center justify-center text-yellow-500"><i class="fa-solid fa-moon"></i></div>
+                    <div>
+                        <span class="text-sm font-bold gold-text">မဂ်ရိဗ် (Magrib)</span>
+                        <p class="text-[8px] opacity-40 uppercase tracking-widest">Iftar Time</p>
+                    </div>
+                </div>
+                <span id="magribTimeDisplay" class="text-base tracking-widest font-bold gold-text">06:11 PM</span>
+            </div>
+            <div id="row-esha" class="prayer-card">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/30"><i class="fa-solid fa-stars"></i></div>
+                    <span class="text-sm font-medium text-white/60">အီရှာ (Esha)</span>
+                </div>
+                <span id="eshaTimeDisplay" class="text-base tracking-widest font-light">07:25 PM</span>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="glass rounded-[40px] p-8 mb-12 fade-in">
+            <div class="flex justify-between items-center mb-10">
+                <div class="text-left">
+                    <p id="displayDate" class="premium-font text-[10px] tracking-widest opacity-50 mb-1">FEB 19, 2026</p>
+                    <h3 id="dayCount" class="premium-font text-xl gold-text font-bold">DAY 01</h3>
+                </div>
+                <button onclick="showImagePicker()" class="p-4 rounded-2xl bg-gold-grad text-black shadow-lg shadow-yellow-500/20 active:scale-90 transition-transform">
+                    <i class="fa-solid fa-camera-retro text-xl"></i>
+                </button>
+            </div>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="text-center">
+                    <p class="text-[9px] opacity-40 mb-3 uppercase tracking-[0.2em]">Sehri Ends</p>
+                    <h2 id="sehriTime" class="text-2xl font-light">05:14 AM</h2>
+                </div>
+                <div class="text-center border-l border-white/5">
+                    <p class="text-[9px] text-yellow-500/80 mb-3 uppercase tracking-[0.2em] font-bold">Iftar Starts</p>
+                    <h2 id="iftarTime" class="text-2xl gold-text font-bold">06:12 PM</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mosque Info -->
+        <div class="text-center mb-8 fade-in">
+            <h2 class="premium-font text-lg gold-text font-bold mb-2">တောင်ဥက္ကလာပမြို့နယ်လုံးဆိုင်ရာ စွန္နီဂျာမေဗလီကြီး</h2>
+            <div class="h-[1px] w-24 bg-gold-grad mx-auto"></div>
+        </div>
+
+        <!-- Hafiz List -->
+        <div class="glass rounded-[35px] p-8 mb-8 fade-in">
+            <h3 class="premium-font text-xs gold-text mb-6 text-center tracking-[0.3em] uppercase font-bold">သရာဝီဟ် နမာဇ် ဦးဆောင်မည့် ဟာဖီဇ်များ</h3>
+            <div class="grid grid-cols-1 gap-3">
+                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-2xl border border-white/5">
+                    <span class="w-6 h-6 rounded-full bg-yellow-500/10 text-yellow-500 text-[10px] flex items-center justify-center font-bold">01</span>
+                    <p class="text-[11px] text-white/80">မော်လာဝီ ဟာဖီဇ် မုဟမ္မဒ် ယာစီးန်</p>
+                </div>
+                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-2xl border border-white/5">
+                    <span class="w-6 h-6 rounded-full bg-yellow-500/10 text-yellow-500 text-[10px] flex items-center justify-center font-bold">02</span>
+                    <p class="text-[11px] text-white/80">ဟာဖီဇ် မုဟမ္မဒ် ကေရီယာ</p>
+                </div>
+                <!-- ... more can be added dynamically or kept static ... -->
+                <button class="text-[10px] text-yellow-500/60 uppercase tracking-widest mt-2 font-bold">View All 10 Hafiz</button>
+            </div>
+        </div>
+
+        <!-- Zakat Calculator -->
+        <div id="zakat-section" class="glass rounded-[40px] p-8 mb-20 fade-in">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-2xl bg-gold-grad flex items-center justify-center text-black"><i class="fa-solid fa-calculator text-xl"></i></div>
+                <h3 class="premium-font text-xl gold-text">Zakat Calculator</h3>
+            </div>
+            <p class="text-[11px] text-white/50 leading-relaxed mb-8">မိမိပိုင်ဆိုင်မှုသည် ငွေ ၅၂.၅ ကျပ်သား (သို့) ရွှေ ၇.၅ ကျပ်သား တန်ဖိုးထက် ကျော်လွန်ပါက ၂.၅% ဇကားသ် ပေးဆောင်ရပါမည်။</p>
+            
+            <div class="space-y-5">
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 ml-2 mb-2 block">Total Assets (MMK)</label>
+                    <input type="number" id="totalWealth" oninput="calculateZakat()" class="zakat-input" placeholder="0.00">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 ml-2 mb-2 block">Total Debts (MMK)</label>
+                    <input type="number" id="totalDebt" oninput="calculateZakat()" class="zakat-input" placeholder="0.00">
+                </div>
+                <div class="pt-6 border-t border-white/5">
+                    <div class="flex justify-between items-center p-5 rounded-[25px] bg-yellow-500/5 border border-yellow-500/20">
+                        <div>
+                            <p class="text-[9px] uppercase tracking-widest text-yellow-500/60 mb-1">Zakat Payable</p>
+                            <h4 id="zakatResult" class="text-2xl font-bold text-white">0 MMK</h4>
+                        </div>
+                        <i class="fa-solid fa-coins text-3xl text-yellow-500/20"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav glass">
+        <div class="nav-item active" onclick="scrollToTop()">
+            <i class="fa-solid fa-house-chimney"></i>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" onclick="toggleCalendar()">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>Calendar</span>
+        </div>
+        <div class="nav-item" onclick="window.open('https://qiblafinder.withgoogle.com', '_blank')">
+            <i class="fa-solid fa-kaaba"></i>
+            <span>Qibla</span>
+        </div>
+        <div class="nav-item" onclick="document.getElementById('zakat-section').scrollIntoView({behavior:'smooth'})">
+            <i class="fa-solid fa-hand-holding-heart"></i>
+            <span>Zakat</span>
+        </div>
+    </nav>
+
+    <!-- Modals & Overlays (Calendar, Image Picker, etc.) -->
+    <div id="calendarDrawer" class="fixed inset-0 z-[150] bg-black/95 backdrop-blur-3xl translate-y-full transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] flex flex-col">
+        <div class="p-8 flex justify-between items-center border-b border-white/5">
+            <h2 class="premium-font text-2xl gold-text">Ramadan Timetable</h2>
+            <button onclick="toggleCalendar()" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-2xl">&times;</button>
+        </div>
+        <div class="flex-grow overflow-y-auto p-6">
+            <table class="w-full text-left border-separate border-spacing-y-3">
+                <thead>
+                    <tr class="text-[10px] uppercase tracking-widest text-white/30">
+                        <th class="px-4 pb-4">Day</th>
+                        <th class="px-4 pb-4">Date</th>
+                        <th class="px-4 pb-4">Sehri</th>
+                        <th class="px-4 pb-4">Iftar</th>
+                    </tr>
+                </thead>
+                <tbody id="calBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Poster Generation Canvas (Hidden) -->
+    <div id="posterCanvas" class="premium-font">
+        <div id="p-bg" style="position: absolute; inset: 0; background-size: cover; background-position: center;"></div>
+        <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.95));"></div>
+        <div style="position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; align-items: center; padding: 150px 80px; text-align: center;">
+            <div class="arabic" style="font-size: 140px; color: #FCF6BA; margin-bottom: 60px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));">رمضان كريم</div>
+            <div style="width: 100%; background: rgba(255,255,255,0.03); backdrop-filter: blur(30px); border: 1px solid rgba(212,175,55,0.3); border-radius: 80px; padding: 100px 50px; box-shadow: 0 30px 60px rgba(0,0,0,0.5);">
+                <div id="p-day-text" style="font-size: 45px; font-weight: bold; color: #FCF6BA; margin-bottom: 80px; letter-spacing: 5px;">DAY 01 - FEB 20, 2026</div>
+                <div style="display: flex; flex-direction: column; gap: 60px;">
+                    <div>
+                        <p style="font-size: 28px; opacity: 0.6; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 3px;">Sehri Ends</p>
+                        <h1 id="p-sehri" style="font-size: 110px; color: #fff; font-weight: 200;">05:14 AM</h1>
+                    </div>
+                    <div style="height: 1px; width: 100px; background: rgba(212,175,55,0.3); margin: 0 auto;"></div>
+                    <div>
+                        <p style="font-size: 28px; color: #D4AF37; margin-bottom: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 3px;">Iftar Starts</p>
+                        <h1 id="p-iftar" style="font-size: 130px; font-weight: 800; color: #FCF6BA;">06:12 PM</h1>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: auto; text-align: center;">
+                <p style="font-size: 30px; color: #fff; opacity: 0.4; letter-spacing: 15px; text-transform: uppercase;">Premium Edition</p>
+                <p class="arabic-text" style="font-size: 60px; color: #BF953F; margin-top: 20px; font-family: 'Amiri', serif !important;">محمد هارون رشيد</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data & Configuration
+        const ramadanData = [
+            { r: 1, date: "Feb 20", s: "05:11", i: "06:11", z: "12:30", a: "04:45", e: "07:25", fj: "05:16" },
+            { r: 2, date: "Feb 21", s: "05:11", i: "06:11", z: "12:30", a: "04:45", e: "07:25", fj: "05:16" },
+            { r: 3, date: "Feb 22", s: "05:10", i: "06:12", z: "12:30", a: "04:45", e: "07:25", fj: "05:15" },
+            { r: 4, date: "Feb 23", s: "05:10", i: "06:12", z: "12:30", a: "04:45", e: "07:25", fj: "05:15" },
+            { r: 5, date: "Feb 24", s: "05:09", i: "06:13", z: "12:30", a: "04:45", e: "07:25", fj: "05:14" },
+            { r: 6, date: "Feb 25", s: "05:09", i: "06:13", z: "12:30", a: "04:45", e: "07:25", fj: "05:14" },
+            { r: 7, date: "Feb 26", s: "05:08", i: "06:13", z: "12:30", a: "04:45", e: "07:25", fj: "05:13" },
+            { r: 8, date: "Feb 27", s: "05:08", i: "06:13", z: "12:30", a: "04:45", e: "07:25", fj: "05:13" },
+            { r: 9, date: "Feb 28", s: "05:07", i: "06:14", z: "12:30", a: "04:45", e: "07:25", fj: "05:12" },
+            { r: 10, date: "Mar 01", s: "05:07", i: "06:14", z: "12:30", a: "04:45", e: "07:25", fj: "05:12" },
+            { r: 11, date: "Mar 02", s: "05:06", i: "06:14", z: "12:30", a: "04:45", e: "07:25", fj: "05:11" },
+            { r: 12, date: "Mar 03", s: "05:05", i: "06:15", z: "12:30", a: "04:45", e: "07:25", fj: "05:10" },
+            { r: 13, date: "Mar 04", s: "05:05", i: "06:15", z: "12:30", a: "04:45", e: "07:25", fj: "05:10" },
+            { r: 14, date: "Mar 05", s: "05:04", i: "06:15", z: "12:30", a: "04:45", e: "07:25", fj: "05:09" },
+            { r: 15, date: "Mar 06", s: "05:03", i: "06:16", z: "12:30", a: "04:45", e: "07:25", fj: "05:08" },
+            { r: 16, date: "Mar 07", s: "05:03", i: "06:16", z: "12:30", a: "04:45", e: "07:25", fj: "05:08" },
+            { r: 17, date: "Mar 08", s: "05:02", i: "06:16", z: "12:30", a: "04:45", e: "07:25", fj: "05:07" },
+            { r: 18, date: "Mar 09", s: "05:01", i: "06:16", z: "12:30", a: "04:45", e: "07:25", fj: "05:06" },
+            { r: 19, date: "Mar 10", s: "05:01", i: "06:16", z: "12:30", a: "04:45", e: "07:25", fj: "05:06" },
+            { r: 20, date: "Mar 11", s: "05:00", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:05" },
+            { r: 21, date: "Mar 12", s: "04:59", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:04" },
+            { r: 22, date: "Mar 13", s: "04:58", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:03" },
+            { r: 23, date: "Mar 14", s: "04:58", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:03" },
+            { r: 24, date: "Mar 15", s: "04:57", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:02" },
+            { r: 25, date: "Mar 16", s: "04:56", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:01" },
+            { r: 26, date: "Mar 17", s: "04:56", i: "06:18", z: "12:30", a: "04:45", e: "07:25", fj: "05:01" },
+            { r: 27, date: "Mar 18", s: "04:55", i: "06:18", z: "12:30", a: "04:45", e: "07:25", fj: "05:00" },
+            { r: 28, date: "Mar 19", s: "04:54", i: "06:18", z: "12:30", a: "04:45", e: "07:25", fj: "04:59" },
+            { r: 29, date: "Mar 20", s: "04:53", i: "06:18", z: "12:30", a: "04:45", e: "07:25", fj: "04:58" },
+            { r: 30, date: "Mar 21", s: "04:52", i: "06:18", z: "12:30", a: "04:45", e: "07:25", fj: "04:57" }
+        ];
+
+        const mosques = [
+            "https://i.ibb.co/JWv1wyPw/unnamed-1.webp",
+            "https://i.ibb.co/TDBf0xtp/unnamed.webp",
+            "https://i.ibb.co/zTG8qt78/Shah-Jahan-Mosque-TQ0159-214.jpg",
+            "https://i.ibb.co/DD5Y2brw/images-1-1771489265632.jpg",
+            "https://i.ibb.co/Q3MG31x7/images-1-1771489259152.jpg"
+        ];
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            initAnimations();
+            initCalendar();
+            startClock();
+            updateBackground();
+            setInterval(updateBackground, 10000);
+        });
+
+        function initAnimations() {
+            gsap.to(".fade-in", {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power4.out"
+            });
+        }
+
+        function updateBackground() {
+            const slider = document.getElementById('bgSlider');
+            const randomImg = mosques[Math.floor(Math.random() * mosques.length)];
+            slider.style.backgroundImage = `url('${randomImg}')`;
+        }
+
+        function startClock() {
+            setInterval(updateUI, 1000);
+            updateUI();
+        }
+
+        function updateUI() {
+            const now = new Date();
+            const monNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const todayStr = monNames[now.getMonth()] + " " + String(now.getDate()).padStart(2, '0');
+            
+            let todayIdx = ramadanData.findIndex(d => d.date === todayStr);
+            if (todayIdx === -1) todayIdx = 0;
+            let today = ramadanData[todayIdx];
+            
+            let sTime = new Date(`${today.date}, 2026 ${today.s}:00 AM`);
+            let iTime = new Date(`${today.date}, 2026 ${today.i}:00 PM`);
+            
+            let target, statusText;
+            if (now < sTime) {
+                target = sTime;
+                statusText = "Time until Sehri Ends";
+            } else if (now < iTime) {
+                target = iTime;
+                statusText = "Time until Iftar Starts";
+            } else {
+                target = new Date(sTime.getTime() + 86400000);
+                statusText = "Time until next Sehri";
+                if (ramadanData[todayIdx + 1]) today = ramadanData[todayIdx + 1];
+            }
+
+            // Update Stats
+            document.getElementById('displayDate').innerText = today.date.toUpperCase() + ", 2026";
+            document.getElementById('dayCount').innerText = "DAY " + String(today.r).padStart(2, '0');
+            document.getElementById('sehriTime').innerText = today.s + " AM";
+            document.getElementById('iftarTime').innerText = today.i + " PM";
+            document.getElementById('statusLabel').innerText = statusText;
+
+            // Countdown
+            let diff = target - now;
+            document.getElementById('h').innerText = String(Math.floor(diff/3600000)).padStart(2,'0');
+            document.getElementById('m').innerText = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+            document.getElementById('s').innerText = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+
+            updateCelestial(now);
+            updateNextPrayer(now, today);
+            updateDua(now, sTime, iTime);
+        }
+
+        function updateCelestial(now) {
+            const h = now.getHours() + now.getMinutes()/60;
+            const sun = document.getElementById('sun');
+            const moon = document.getElementById('moon');
+            const rx = 45, ry = 100;
+
+            if (h >= 6 && h < 18) {
+                let p = (h - 6) / 12;
+                let angle = Math.PI - (p * Math.PI);
+                sun.style.left = (50 + Math.cos(angle) * rx) + "%";
+                sun.style.top = (100 - Math.sin(angle) * ry) + "px";
+                sun.style.opacity = 1; moon.style.opacity = 0;
+            } else {
+                let mt = (h >= 18) ? (h - 18) : (h + 6);
+                let p = mt / 12;
+                let angle = p * Math.PI;
+                moon.style.left = (50 + Math.cos(angle) * rx) + "%";
+                moon.style.top = (100 - Math.sin(angle) * ry) + "px";
+                moon.style.opacity = 1; sun.style.opacity = 0;
+            }
+        }
+
+        function updateNextPrayer(now, today) {
+            const currentMin = now.getHours() * 60 + now.getMinutes();
+            const isJumma = now.getDay() === 5;
+            const zoharTime = isJumma ? "12:45 PM" : "12:30 PM";
+            
+            const prayers = [
+                { id: "row-fajar", name: "Fajar", time: today.fj + " AM" },
+                { id: "row-zohar", name: isJumma ? "Jumma" : "Zohar", time: zoharTime },
+                { id: "row-aser", name: "Aser", time: today.a + " PM" },
+                { id: "row-magrib", name: "Magrib", time: today.i + " PM" },
+                { id: "row-esha", name: "Esha", time: today.e + " PM" }
+            ];
+
+            let next = prayers[0];
+            let activeIdx = -1;
+
+            for (let i = 0; i < prayers.length; i++) {
+                let [t, m] = prayers[i].time.split(' ');
+                let [ph, pm] = t.split(':').map(Number);
+                if (m === 'PM' && ph !== 12) ph += 12;
+                if (m === 'AM' && ph === 12) ph = 0;
+                let pMin = ph * 60 + pm;
+
+                if (currentMin < pMin) {
+                    next = prayers[i];
+                    activeIdx = i - 1;
+                    break;
+                }
+            }
+            if (activeIdx === -1 && currentMin >= 0) activeIdx = prayers.length - 1;
+
+            document.getElementById('nextName').innerText = next.name;
+            document.getElementById('nextTime').innerText = next.time;
+
+            prayers.forEach((p, idx) => {
+                const el = document.getElementById(p.id);
+                if (idx === activeIdx) el.classList.add('active');
+                else el.classList.remove('active');
+            });
+        }
+
+        function updateDua(now, sTime, iTime) {
+            const label = document.getElementById('duaLabel');
+            const arabic = document.getElementById('duaArabic');
+            const myanmar = document.getElementById('duaMyanmar');
+
+            if (now < sTime || now > iTime) {
+                label.innerText = "ဝါပိတ်ရန် နီယသ်ပြုခြင်း";
+                arabic.innerText = "نَوَيْتُ أَنْ أَصုومَ غَدًا مِنْ شَهْرِ رَمَضَانَ";
+                myanmar.innerText = '"ကျွန်ုပ်သည် ရမ္မဿွာန်လ၏ ရိုဇာဥပုသ်ကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"';
+            } else {
+                label.innerText = "ဝါဖြေချိန် ဒုအာ";
+                arabic.innerText = "اللَّهُمَّ لَكَ صُمْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ";
+                myanmar.innerText = '"အို-အလ္လာဟ်အရှင်မြတ်၊ ကျွန်ုပ်သည် အရှင့်အတွက် ဥပုသ်ဆောက်တည်ခဲ့ပြီး အရှင်ပေးသနားသော ရိက္ခာတော်ဖြင့် ဝါဖြေပါ၏"';
+            }
+        }
+
+        function initCalendar() {
+            const body = document.getElementById('calBody');
+            ramadanData.forEach(d => {
+                const tr = document.createElement('tr');
+                tr.className = "glass rounded-2xl overflow-hidden";
+                tr.innerHTML = `
+                    <td class="px-4 py-4 text-[10px] font-bold opacity-30">${String(d.r).padStart(2,'0')}</td>
+                    <td class="px-4 py-4 text-xs font-medium">${d.date}</td>
+                    <td class="px-4 py-4 text-xs">${d.s} AM</td>
+                    <td class="px-4 py-4 text-xs gold-text font-bold">${d.i} PM</td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function calculateZakat() {
+            const w = parseFloat(document.getElementById('totalWealth').value) || 0;
+            const d = parseFloat(document.getElementById('totalDebt').value) || 0;
+            const net = Math.max(0, w - d);
+            document.getElementById('zakatResult').innerText = (net * 0.025).toLocaleString() + " MMK";
+        }
+
+        function toggleCalendar() {
+            const drawer = document.getElementById('calendarDrawer');
+            drawer.style.transform = drawer.style.transform === 'translateY(0%)' ? 'translateY(100%)' : 'translateY(0%)';
+        }
+
+        function scrollToTop() { window.scrollTo({top: 0, behavior: 'smooth'}); }
+
+        async function showImagePicker() {
+            // Simplified for this version: directly generate with a random mosque background
+            const canvasArea = document.getElementById('posterCanvas');
+            const randomBg = mosques[Math.floor(Math.random() * mosques.length)];
+            document.getElementById('p-bg').style.backgroundImage = `url('${randomBg}')`;
+            
+            // Update Poster Data
+            const dayNum = parseInt(document.getElementById('dayCount').innerText.replace("DAY ", ""));
+            const today = ramadanData.find(d => d.r === dayNum);
+            document.getElementById('p-day-text').innerText = `DAY ${String(today.r).padStart(2, '0')} - ${today.date.toUpperCase()}, 2026`;
+            document.getElementById('p-sehri').innerText = today.s + " AM";
+            document.getElementById('p-iftar').innerText = today.i + " PM";
+
+            const canvas = await html2canvas(canvasArea, { useCORS: true, scale: 1.5 });
+            const link = document.createElement('a');
+            link.download = `Ramadan_Premium_Day${today.r}.png`;
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        }
+    </script>
+</body>
+</html>
