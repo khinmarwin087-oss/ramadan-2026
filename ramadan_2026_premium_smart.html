@@ -132,14 +132,17 @@
         }
 
         /* Realistic Moon */
-        #moon {
-            width: 50px;
-            height: 50px;
-            background: radial-gradient(circle at 30% 30%, #ffffff, #f0f0f0, #d0d0d0);
-            border-radius: 50%;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.6), inset -2px -2px 5px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
+        /* Realistic Crescent (လခြမ်းကွေးကွေးလေး) */
+.moon-crescent-only {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: transparent;
+    /* အဝိုင်းကြီးကို ပျောက်ထားပြီး box-shadow နဲ့ လခြမ်းကို ဖော်တာပါ */
+    box-shadow: 15px 10px 0 0 #fdfdfd; 
+    transform: rotate(-20deg); /* လခြမ်းကို စောင်းချင်ရင် သုံးပါ */
+}
+        
 
         /* Moon craters effect */
         #moon::before {
