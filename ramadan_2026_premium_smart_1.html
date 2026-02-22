@@ -135,35 +135,37 @@
         #moon {
     width: 50px;
     height: 50px;
-    background: #fdfdfd; /* လရဲ့ အလင်းရောင် */
+    background: radial-gradient(circle at 30% 30%, #ffffff, #e0e0e0);
     border-radius: 50%;
     position: relative;
-    overflow: hidden; /* အရေးကြီးတယ် - အမှောင်ရိပ်ကို ဘောင်ခတ်ထားဖို့ */
+    overflow: hidden; /* အရေးကြီးဆုံး- အရိပ်ကို ဘောင်ခတ်ထားဖို့ */
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    border: 0.5px solid rgba(255,255,255,0.2);
 }
 
 #moon-shadow {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #0a0a28; /* သင့် Smart Sky Box ရဲ့ ညဘက် နောက်ခံရောင်နဲ့ တူပါစေ */
+    background: #050505; /* Body background နဲ့ တစ်ရောင်တည်း ဖြစ်ရမယ် */
     border-radius: 50%;
-    transition: left 0.5s ease-in-out;
+    top: 0;
+    left: 100%; /* အစမှာ အပြင်ထုတ်ထားမယ် */
+    transition: left 0.5s ease;
+    z-index: 2;
+}
+
+.moon-craters {
+    position: absolute;
+    inset: 0;
+    opacity: 0.2;
+    background-image: 
+        radial-gradient(circle at 20% 30%, #000 2px, transparent 0),
+        radial-gradient(circle at 60% 20%, #000 3px, transparent 0),
+        radial-gradient(circle at 50% 70%, #000 2.5px, transparent 0);
+    z-index: 1;
 }
         
-
-        /* Moon craters effect */
-        #moon::before {
-            content: '';
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: rgba(100, 100, 100, 0.4);
-            border-radius: 50%;
-            top: 15px;
-            left: 15px;
-            box-shadow: 15px 10px 0 -2px rgba(80, 80, 80, 0.3), 20px 25px 0 -3px rgba(90, 90, 90, 0.25);
-        }
 
         /* Stars */
         .star {
@@ -354,17 +356,19 @@
 
         <!-- Hero Card with Smart Sky -->
         <div class="hero-card glass fade-in">
-            <!-- Smart Sky Box -->
-            <div id="smartSkyBox">
-                <div id="starsContainer" style="position: absolute; inset: 0; pointer-events: none;"></div>
-                <div id="cloudsContainer" style="position: absolute; inset: 0; pointer-events: none;"></div>
-                <div class="celestial-container">
-                    <div id="sun" class="celestial" style="opacity: 0;"></div>
-                    <div id="moon" class="celestial" style="opacity: 0;">
-                      <div id="moon-surface"></div> 
-                      <div id="moon-shadow"></div>
-                </div>
-            </div>
+    <div id="smartSkyBox">
+        <div id="starsContainer" style="position: absolute; inset: 0; pointer-events: none;"></div>
+        <div id="cloudsContainer" style="position: absolute; inset: 0; pointer-events: none;"></div>
+        <div class="celestial-container">
+            <div id="sun" class="celestial" style="opacity: 0;"></div>
+            
+            <div id="moon" class="celestial" style="opacity: 0;">
+                <div id="moon-surface"></div> 
+                <div id="moon-shadow"></div>
+            </div> </div> </div> <div class="relative z-10 pt-32">
+        </div>
+        </div>
+        
 
             <!-- Content -->
             <div class="relative z-10 pt-32">
@@ -858,24 +862,27 @@
         }
 
         function updateMoonPhaseVisual(moon, phase) {
-    const shadowEl = document.getElementById('moon-shadow');
-    if (!shadowEl) return;
+    const shadow = document.getElementById('moon-shadow');
+    if (!shadow) return;
 
-    // phase သည် 0 မှ 1 အထိရှိသည် (0 = လကွယ်၊ 0.5 = လပြည့်၊ 1 = လကွယ်)
-    // သင့် data အရ phase ကို ပြန်တွက်ဖို့ လိုနိုင်ပါတယ်
-    
-    let movePercent;
+    // phase 0 = လကွယ် (New Moon)
+    // phase 0.5 = လပြည့် (Full Moon)
+    // phase 1 = လကွယ် (New Moon)
 
+    let moveValue;
     if (phase <= 0.5) {
-        // လဆန်းပိုင်း (Waxing): အမှောင်ရိပ်က ညာဘက်ကို တဖြည်းဖြည်း ရွှေ့သွားမယ်
-        movePercent = phase * 200; // 0 မှ 100% အထိ
+        // လဆန်းပိုင်း (Waxing) - အရိပ်က ညာဘက်ကို တဖြည်းဖြည်း ထွက်သွားမယ်
+        // 0% (အကုန်ဖုံး) -> 100% (လပြည့် - အကုန်ပွင့်)
+        moveValue = (phase * 200); 
     } else {
-        // လဆုတ်ပိုင်း (Waning): အမှောင်ရိပ်က ဘယ်ဘက်ကနေ ပြန်ဝင်လာမယ်
-        movePercent = (phase - 0.5) * 200 - 100; 
+        // လဆုတ်ပိုင်း (Waning) - အရိပ်က ဘယ်ဘက်ကနေ ပြန်ဝင်လာမယ်
+        // -100% (အကုန်ပွင့်) -> 0% (အကုန်ဖုံး)
+        moveValue = ((phase - 0.5) * 200) - 100;
     }
 
-    shadowEl.style.left = movePercent + "%";
+    shadow.style.left = moveValue + "%";
         }
+        
         
 
         function updateSkyTheme(now) {
