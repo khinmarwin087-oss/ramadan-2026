@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramadan Premium 2026 - Ultimate Fix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Pyidaungsu:wght@400;700&family=Cinzel:wght@400;700&family=Reem+Kufi:wght@400;700&family=Outfit:wght@200;400;600&display=swap');
+        
+        :root {
+            --gold-primary: #d4af37;
+            --gold-secondary: #fcf6ba;
+            --gold-dark: #b38728;
+            --gold-grad: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 45%, var(--gold-dark) 100%);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --premium-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        body {
+            font-family: 'Outfit', 'Pyidaungsu', sans-serif;
+            color: #fff;
+            background-color: #050505;
+            margin: 0;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .arabic { font-family: 'Reem Kufi', sans-serif; }
+        .premium-font { font-family: 'Cinzel', serif; }
+        
+        #bgSlider {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 2s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: brightness(0.3) scale(1.1);
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.95) 100%);
+        }
+
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--premium-shadow);
+        }
+
+        .gold-text {
+            background: var(--gold-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .hero-card {
+            border-radius: 50px;
+            padding: 40px 25px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* Dynamic Sky Elements */
+        .celestial-container {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 120px;
+            pointer-events: none;
+        }
+
+        .arc-path {
+            width: 100%;
+            height: 200%;
+            border-radius: 50%;
+            border-top: 1px dashed rgba(212, 175, 55, 0.2);
+        }
+
+        .celestial {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            filter: drop-shadow(0 0 15px currentColor);
+            z-index: 10;
+            transition: opacity 1s ease-in-out;
+        }
+
+        #starsContainer, #cloudsContainer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--d) infinite ease-in-out;
+            box-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            filter: blur(20px);
+            border-radius: 50%;
+            animation: drift var(--d) linear infinite;
+            transition: opacity 2s ease-in-out;
+        }
+
+        @keyframes drift {
+            0% { transform: translateX(-150%) translateY(0px); }
+            50% { transform: translateX(125%) translateY(-10px); }
+            100% { transform: translateX(400%) translateY(0px); }
+        }
+
+        /* Prayer Box Design */
+        .prayer-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .prayer-box.active {
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            transform: scale(1.02);
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            height: 75px;
+            border-radius: 40px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+            padding: 0 15px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-item.active { color: var(--gold-primary); }
+
+        .fade-in { opacity: 0; transform: translateY(20px); }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(30px);
+            z-index: 200;
+            display: none;
+            flex-direction: column;
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--gold-primary); border-radius: 10px; }
+
+        /* Poster Editing UI */
+        .edit-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            color: #fff;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        /* Poster Loading Spinner */
+        #posterLoading {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 300;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="pb-32">
+
+    <div id="bgSlider"></div>
+    <div class="overlay"></div>
+
+    <div id="posterLoading">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-yellow-500 mb-4"></div>
+        <p class="gold-text">Generating High Quality Poster...</p>
+    </div>
+
+    <div class="max-w-md mx-auto px-6 pt-16">
+        <!-- Header -->
+        <header class="text-center mb-12 fade-in">
+            <h1 class="arabic text-6xl gold-text mb-4">رمضان كريم</h1>
+            <p class="premium-font text-[11px] tracking-[0.4em] text-yellow-500/80 uppercase font-bold">Yangon • 2026</p>
+        </header>
+
+        <!-- Hero Countdown Card -->
+        <div class="hero-card glass fade-in">
+            <div id="starsContainer"></div>
+            <div id="cloudsContainer"></div>
+            <div class="celestial-container">
+                <div class="arc-path"></div>
+                <div id="sun" class="celestial" style="background: radial-gradient(circle, #fff, #ffcc00); color: #ffaa00; opacity: 0;"></div>
+                <div id="moon" class="celestial" style="background: radial-gradient(circle, #fff, #ddd); color: #fff; opacity: 0;"></div>
+            </div>
+
+            <div class="relative z-10 pt-10">
+                <div class="mb-8">
+                    <span class="inline-block px-4 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-[9px] uppercase tracking-[0.2em] text-yellow-500 font-bold mb-3">Next Prayer</span>
+                    <div class="flex items-center justify-center gap-4">
+                        <h2 id="nextName" class="text-3xl font-bold tracking-tight">---</h2>
+                        <span id="nextTime" class="gold-text text-xl">--:-- --</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-center items-end gap-3 mb-6">
+                    <div class="text-center">
+                        <span id="h" class="text-6xl font-extralight tracking-tighter">00</span>
+                        <p class="text-[8px] uppercase opacity-30 mt-1">Hours</p>
+                    </div>
+                    <span class="text-4xl font-thin opacity-20 mb-6">:</span>
+                    <div class="text-center">
+                        <span id="m" class="text-6xl font-extralight tracking-tighter">00</span>
+                        <p class="text-[8px] uppercase opacity-30 mt-1">Mins</p>
+                    </div>
+                    <span class="text-4xl font-thin gold-text mb-6">:</span>
+                    <div class="text-center">
+                        <span id="s" class="text-6xl font-bold tracking-tighter gold-text">00</span>
+                        <p class="text-[8px] uppercase opacity-30 mt-1">Secs</p>
+                    </div>
+                </div>
+                
+                <p id="statusLabel" class="text-[10px] uppercase tracking-[0.5em] text-white/40 mb-8">Checking Time...</p>
+                
+                <div class="pt-8 border-t border-white/5">
+                    <p id="duaLabel" class="text-[10px] text-yellow-500/60 mb-4 tracking-[0.2em] uppercase font-bold">ဝါပိတ်ရန် နီယသ်ပြုခြင်း</p>
+                    <p id="duaArabic" class="arabic text-2xl text-white/90 leading-relaxed mb-3">نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ رَمَضَانَ</p>
+                    <p id="duaMyanmar" class="text-[11px] text-white/40 font-light italic leading-relaxed px-4">"ကျွန်ုပ်သည် ရမ္မဿွာန်လ၏ ဥပုသ်သီလကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prayer Times List -->
+        <div class="space-y-4 mb-12 fade-in">
+            <div id="row-fajar" class="prayer-box">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white/40 border border-white/10"><i class="fa-solid fa-sun-haze text-lg"></i></div>
+                    <span class="text-sm font-semibold text-white/80">ဖဂျရ် (Fajar)</span>
+                </div>
+                <span id="fajarTimeDisplay" class="text-lg tracking-widest font-bold gold-text">05:11 AM</span>
+            </div>
+            <div id="row-zohar" class="prayer-box">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white/40 border border-white/10"><i class="fa-solid fa-sun text-lg"></i></div>
+                    <span id="zoharName" class="text-sm font-semibold text-white/80">ဇိုဟရ် (Zohar)</span>
+                </div>
+                <span id="zoharTimeDisplay" class="text-lg tracking-widest font-bold gold-text">12:30 PM</span>
+            </div>
+            <div id="row-aser" class="prayer-box">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white/40 border border-white/10"><i class="fa-solid fa-cloud-sun text-lg"></i></div>
+                    <span class="text-sm font-semibold text-white/80">အဆရ် (Aser)</span>
+                </div>
+                <span id="aserTimeDisplay" class="text-lg tracking-widest font-bold gold-text">04:45 PM</span>
+            </div>
+            <div id="row-magrib" class="prayer-box">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-yellow-500/10 flex items-center justify-center text-yellow-500 border border-yellow-500/20"><i class="fa-solid fa-moon text-lg"></i></div>
+                    <div>
+                        <span class="text-sm font-bold gold-text">မဂ်ရိဗ် (Magrib)</span>
+                        <p class="text-[8px] opacity-40 uppercase tracking-widest">Iftar Time</p>
+                    </div>
+                </div>
+                <span id="magribTimeDisplay" class="text-lg tracking-widest font-bold gold-text">06:11 PM</span>
+            </div>
+            <div id="row-esha" class="prayer-box">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white/40 border border-white/10"><i class="fa-solid fa-star-and-crescent text-lg"></i></div>
+                    <span class="text-sm font-semibold text-white/80">အီရှာ (Esha)</span>
+                </div>
+                <span id="eshaTimeDisplay" class="text-lg tracking-widest font-bold gold-text">07:25 PM</span>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="glass rounded-[40px] p-8 mb-12 fade-in">
+            <div class="flex justify-between items-center mb-10">
+                <div class="text-left">
+                    <p id="displayDate" class="premium-font text-[10px] tracking-widest opacity-50 mb-1">FEB 19, 2026</p>
+                    <h3 id="dayCount" class="premium-font text-xl gold-text font-bold">DAY 01</h3>
+                </div>
+                <button onclick="openPosterEditor()" class="p-4 rounded-2xl bg-gold-grad text-black shadow-lg shadow-yellow-500/20 active:scale-90 transition-transform">
+                    <i class="fa-solid fa-wand-magic-sparkles text-xl"></i>
+                </button>
+            </div>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="text-center">
+                    <p class="text-[9px] opacity-40 mb-3 uppercase tracking-[0.2em]">Sehri Ends</p>
+                    <h2 id="sehriTime" class="text-2xl font-light">05:14 AM</h2>
+                </div>
+                <div class="text-center border-l border-white/5">
+                    <p class="text-[9px] text-yellow-500/80 mb-3 uppercase tracking-[0.2em] font-bold">Iftar Starts</p>
+                    <h2 id="iftarTime" class="text-2xl gold-text font-bold">06:12 PM</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mosque Info -->
+        <div class="text-center mb-8 fade-in">
+            <h2 class="premium-font text-lg gold-text font-bold mb-2">တောင်ဥက္ကလာပမြို့နယ်လုံးဆိုင်ရာ စွန္နီဂျာမေဗလီကြီး</h2>
+            <div class="h-[1px] w-24 bg-gold-grad mx-auto"></div>
+        </div>
+
+        <!-- Hafiz List -->
+        <div class="glass rounded-[35px] p-8 mb-8 fade-in">
+            <h3 class="premium-font text-xs gold-text mb-6 text-center tracking-[0.3em] uppercase font-bold">သရာဝီဟ် နမာဇ် ဦးဆောင်မည့် ဟာဖီဇ်များ</h3>
+            <div id="hafiz-list-container" class="space-y-3">
+                <!-- Preview 3 Hafiz -->
+                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-2xl border border-white/5">
+                    <span class="w-6 h-6 rounded-full bg-yellow-500/10 text-yellow-500 text-[10px] flex items-center justify-center font-bold">01</span>
+                    <p class="text-[11px] text-white/80">မော်လာဝီ ဟာဖီဇ် မုဟမ္မဒ် ယာစီးန်</p>
+                </div>
+                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-2xl border border-white/5">
+                    <span class="w-6 h-6 rounded-full bg-yellow-500/10 text-yellow-500 text-[10px] flex items-center justify-center font-bold">02</span>
+                    <p class="text-[11px] text-white/80">ဟာဖီဇ် မုဟမ္မဒ် ကေရီယာ</p>
+                </div>
+                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-2xl border border-white/5">
+                    <span class="w-6 h-6 rounded-full bg-yellow-500/10 text-yellow-500 text-[10px] flex items-center justify-center font-bold">03</span>
+                    <p class="text-[11px] text-white/80">ဟာဖီဇ် မုဟမ္မဒ် အီဗိုင်ဒုလ်</p>
+                </div>
+            </div>
+            <button onclick="openHafizModal()" class="w-full text-[10px] text-yellow-500/60 uppercase tracking-widest mt-6 font-bold">View All 11 Hafiz <i class="fa-solid fa-chevron-right ml-1"></i></button>
+        </div>
+
+        <!-- Speakers List -->
+        <div class="glass rounded-[35px] p-8 mb-8 fade-in">
+            <h3 class="premium-font text-xs gold-text mb-6 text-center tracking-[0.3em] uppercase font-bold">တရားဟောကြားမည့် ဆရာကြီးများ</h3>
+            <div class="space-y-4 overflow-y-auto max-h-[350px] pr-2 custom-scrollbar" id="speakers-list">
+                <!-- Speakers will be populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav glass">
+        <div class="nav-item active" onclick="scrollToTop()">
+            <i class="fa-solid fa-house-chimney"></i>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" onclick="toggleCalendar()">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>Calendar</span>
+        </div>
+        <div class="nav-item" onclick="window.open('https://qiblafinder.withgoogle.com', '_blank')">
+            <i class="fa-solid fa-kaaba"></i>
+            <span>Qibla</span>
+        </div>
+        <div class="nav-item" onclick="openPosterEditor()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Poster</span>
+        </div>
+    </nav>
+
+    <!-- Poster Editor Modal -->
+    <div id="posterEditor" class="modal-overlay">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="premium-font text-2xl gold-text">Poster Editor</h2>
+            <button onclick="closePosterEditor()" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-2xl">&times;</button>
+        </div>
+        <div class="space-y-6">
+            <div class="p-6 glass rounded-3xl border border-white/10">
+                <p class="text-[10px] uppercase tracking-widest text-white/40 mb-4">Step 1: Background Image (18 Mosques)</p>
+                <div class="grid grid-cols-3 gap-3 mb-4 h-[300px] overflow-y-auto custom-scrollbar p-2" id="bgGrid"></div>
+                <label class="block w-full py-4 border-2 border-dashed border-yellow-500/30 rounded-2xl text-center cursor-pointer bg-white/5 mt-4">
+                    <i class="fa-solid fa-image text-xl gold-text mb-2"></i><br>
+                    <span class="text-[10px] gold-text font-bold">UPLOAD FROM PHONE</span>
+                    <input type="file" id="u-file" accept="image/*" class="hidden" onchange="handleCustomImage(event)">
+                </label>
+            </div>
+
+            <div class="p-6 glass rounded-3xl border border-white/10">
+                <p class="text-[10px] uppercase tracking-widest text-white/40 mb-4">Step 2: Custom Text</p>
+                <input type="text" id="customPosterText" class="edit-input" placeholder="ထည့်ချင်တဲ့ စာသားရိုက်ပါ (ဥပမာ- ဆိုင်နာမည်)">
+                <button onclick="generateFinalPoster()" class="w-full py-5 bg-gold-grad text-black font-bold rounded-2xl uppercase tracking-widest text-xs shadow-xl shadow-yellow-500/20 active:scale-95 transition-all">
+                    <i class="fa-solid fa-download mr-2"></i> Download Premium Poster
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar & Hafiz Modals -->
+    <div id="calendarDrawer" class="modal-overlay">
+        <div class="flex justify-between items-center mb-8"><h2 class="premium-font text-2xl gold-text">Timetable</h2><button onclick="toggleCalendar()" class="text-2xl">&times;</button></div>
+        <div class="overflow-y-auto custom-scrollbar"><table class="w-full text-left border-separate border-spacing-y-3"><tbody id="calBody"></tbody></table></div>
+    </div>
+
+    <div id="hafizModal" class="modal-overlay">
+        <div class="flex justify-between items-center mb-8"><h2 class="premium-font text-2xl gold-text">Hafiz List</h2><button onclick="closeHafizModal()" class="text-2xl">&times;</button></div>
+        <div class="space-y-3" id="hafizFullList"></div>
+    </div>
+
+    <!-- Poster Canvas (Hidden) -->
+    <div id="posterCanvas" class="premium-font" style="position: absolute; left: -9999px; width: 1080px; height: 1920px; background: #000; overflow: hidden;">
+        <div id="p-bg" style="position: absolute; inset: 0; background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
+        <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.95));"></div>
+        <div style="position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; align-items: center; padding: 150px 80px; text-align: center;">
+            <div class="arabic" style="font-size: 140px; color: #FCF6BA; margin-bottom: 60px;">رمضان كريم</div>
+            <div style="width: 100%; background: rgba(255,255,255,0.03); backdrop-filter: blur(30px); border: 1px solid rgba(212,175,55,0.3); border-radius: 80px; padding: 100px 50px;">
+                <div id="p-day-text" style="font-size: 45px; font-weight: bold; color: #FCF6BA; margin-bottom: 80px;">DAY 01 - FEB 20, 2026</div>
+                <div style="display: flex; flex-direction: column; gap: 60px;">
+                    <div><p style="font-size: 28px; opacity: 0.6; margin-bottom: 15px;">Sehri Ends</p><h1 id="p-sehri" style="font-size: 110px; color: #fff;">05:14 AM</h1></div>
+                    <div><p style="font-size: 28px; color: #D4AF37; margin-bottom: 15px; font-weight: bold;">Iftar Starts</p><h1 id="p-iftar" style="font-size: 130px; font-weight: 800; color: #FCF6BA;">06:12 PM</h1></div>
+                </div>
+            </div>
+            <div id="p-custom-text" style="margin-top: 60px; font-size: 50px; color: #fff; font-weight: bold; text-shadow: 0 5px 15px rgba(0,0,0,0.5);"></div>
+            <div style="margin-top: auto; text-align: center;">
+                <p class="arabic-text" style="font-size: 60px; color: #BF953F; font-family: 'Amiri', serif !important;">တောင်ဥက္ကလာပဗလီကြီး</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ramadanData = [
+            { r: 1, date: "Feb 20", s: "05:11", i: "06:11", z: "12:30", a: "04:45", e: "07:25", fj: "05:16" },
+            { r: 2, date: "Feb 21", s: "05:11", i: "06:11", z: "12:30", a: "04:45", e: "07:25", fj: "05:16" },
+            { r: 3, date: "Feb 22", s: "05:10", i: "06:12", z: "12:30", a: "04:45", e: "07:25", fj: "05:15" },
+            { r: 4, date: "Feb 23", s: "05:10", i: "06:12", z: "12:30", a: "04:45", e: "07:25", fj: "05:15" },
+            { r: 5, date: "Feb 24", s: "05:09", i: "06:13", z: "12:30", a: "04:45", e: "07:25", fj: "05:14" },
+            { r: 6, date: "Feb 25", s: "05:09", i: "06:13", z: "12:30", a: "04:45", e: "07:25", fj: "05:14" },
+            { r: 7, date: "Feb 26", s: "05:08", i: "06:13", z: "12:30", a: "04:45", e: "07:25", fj: "05:13" },
+            { r: 8, date: "Feb 27", s: "05:08", i: "06:13", z: "12:30", a: "04:45", e: "07:25", fj: "05:13" },
+            { r: 9, date: "Feb 28", s: "05:07", i: "06:14", z: "12:30", a: "04:45", e: "07:25", fj: "05:12" },
+            { r: 10, date: "Mar 01", s: "05:07", i: "06:14", z: "12:30", a: "04:45", e: "07:25", fj: "05:12" },
+            { r: 11, date: "Mar 02", s: "05:06", i: "06:14", z: "12:30", a: "04:45", e: "07:25", fj: "05:11" },
+            { r: 12, date: "Mar 03", s: "05:05", i: "06:15", z: "12:30", a: "04:45", e: "07:25", fj: "05:10" },
+            { r: 13, date: "Mar 04", s: "05:05", i: "06:15", z: "12:30", a: "04:45", e: "07:25", fj: "05:10" },
+            { r: 14, date: "Mar 05", s: "05:04", i: "06:15", z: "12:30", a: "04:45", e: "07:25", fj: "05:09" },
+            { r: 15, date: "Mar 06", s: "05:03", i: "06:16", z: "12:30", a: "04:45", e: "07:25", fj: "05:08" },
+            { r: 16, date: "Mar 07", s: "05:03", i: "06:16", z: "12:30", a: "04:45", e: "07:25", fj: "05:08" },
+            { r: 17, date: "Mar 08", s: "05:02", i: "06:16", z: "12:30", a: "04:45", e: "07:25", fj: "05:07" },
+            { r: 18, date: "Mar 09", s: "05:01", i: "06:16", z: "12:30", a: "04:45", e: "07:25", fj: "05:06" },
+            { r: 19, date: "Mar 10", s: "05:01", i: "06:16", z: "12:30", a: "04:45", e: "07:25", fj: "05:06" },
+            { r: 20, date: "Mar 11", s: "05:00", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:05" },
+            { r: 21, date: "Mar 12", s: "04:59", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:04" },
+            { r: 22, date: "Mar 13", s: "04:58", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:03" },
+            { r: 23, date: "Mar 14", s: "04:58", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:03" },
+            { r: 24, date: "Mar 15", s: "04:57", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:02" },
+            { r: 25, date: "Mar 16", s: "04:56", i: "06:17", z: "12:30", a: "04:45", e: "07:25", fj: "05:01" },
+            { r: 26, date: "Mar 17", s: "04:56", i: "06:18", z: "12:30", a: "04:45", e: "07:25", fj: "05:01" },
+            { r: 27, date: "Mar 18", s: "04:55", i: "06:18", z: "12:30", a: "04:45", e: "07:25", fj: "05:00" },
+            { r: 28, date: "Mar 19", s: "04:54", i: "06:18", z: "12:30", a: "04:45", e: "07:25", fj: "04:59" },
+            { r: 29, date: "Mar 20", s: "04:53", i: "06:18", z: "12:30", a: "04:45", e: "07:25", fj: "04:58" },
+            { r: 30, date: "Mar 21", s: "04:52", i: "06:18", z: "12:30", a: "04:45", e: "07:25", fj: "04:57" }
+        ];
+
+        const mosques = [
+            "https://i.ibb.co/JWv1wyPw/unnamed-1.webp",
+            "https://i.ibb.co/TDBf0xtp/unnamed.webp",
+            "https://i.ibb.co/zTG8qt78/Shah-Jahan-Mosque-TQ0159-214.jpg",
+            "https://i.ibb.co/DD5Y2brw/images-1-1771489265632.jpg",
+            "https://i.ibb.co/Q3MG31x7/images-1-1771489259152.jpg",
+            "https://i.ibb.co/S4Frd5FG/images-1-1771489245990.jpg",
+            "https://i.ibb.co/BVTyRS7v/images-1-1771489234110.jpg",
+            "https://i.ibb.co/BK79wxSG/images-1-1771489224863.jpg",
+            "https://i.ibb.co/DP7xfPJ4/images-1-1771489217457.jpg",
+            "https://i.ibb.co/N2NpbRCK/nick-fewings-Zc-BY-mx-VBCE-unsplash.jpg",
+            "https://i.ibb.co/hRKySGPz/rachelle-magpayo-Yt-Vs-AUt5ubs-unsplash.jpg",
+            "https://i.ibb.co/xxRTbdd/ishan-seefromthesky-66-Tu10-Cx-YY0-unsplash.jpg",
+            "https://i.ibb.co/hJSnKLBJ/gabut-production-J8fj-Xa-L1c5-M-unsplash.jpg",
+            "https://i.ibb.co/gb0thnTz/juan-camilo-guarin-p-nj-EXj-Dm-Yn8w-unsplash.jpg",
+            "https://i.ibb.co/JjpZQ0JG/ayse-bek-YLd-YVz-Hopto-unsplash.jpg",
+            "https://i.ibb.co/bg1pM2rN/fahrul-azmi-gy-Km-F0vnf-Bs-unsplash.jpg",
+            "https://i.ibb.co/s9yt8kJH/daniel-olah-2l-MK4dgqw-FM-unsplash.jpg",
+            "https://i.ibb.co/DPrsSMMr/simon-spring-Oqkq-UVpe-REQ-unsplash.jpg"
+        ];
+
+        const hafizList = [
+            "မော်လာဝီ ဟာဖီဇ် မုဟမ္မဒ် ယာစီးန်",
+            "ဟာဖီဇ် မုဟမ္မဒ် ကေရီယာ",
+            "ဟာဖီဇ် မုဟမ္မဒ် အီဗိုင်ဒုလ်",
+            "ဟာဖီဇ် အဗ္ဗဒုလ် ဂျဗ္ဗာရ်",
+            "ဟာဖီဇ် မုဟမ္မဒ် ရိုင်ဟာန်",
+            "ဟာဖီဇ် မုဟမ္မဒ် အလီ",
+            "ဟာဖီဇ် မုဟမ္မဒ် မုအားဇ်",
+            "ဟာဖီဇ် အဗ္ဗဒုရ် ရဟ်မာန်",
+            "ဟာဖီဇ် မုဟမ္မဒ် အီက္ကရမ်",
+            "ဟာဖီဇ် မုဟမ္မဒ် အီရိုင်ရှ်",
+            "ဟာဖီဇ် မော်လာဝီ မုဖ်သီ မုဟမ္မဒ် သွလ်ဟဟ်"
+        ];
+
+        const speakers = [
+            { date: "21-2-2026 (စနေနေ့)", name: "အလ်ဟာဂ်ျ မော်လာနာ မုဟမ္မဒ် အာဒမ် ဆွာဟိဗ် (မဒါဟေရီ)" },
+            { date: "23-2-2026 (တနင်္လာနေ့)", name: "အလ်ဟာဂ်ျ မော်လာနာ မုဖ်သီ ကာရီ မုဟမ္မဒ် အရီဖုလ်လောဟ် ဆွာဟိဗ်" },
+            { date: "28-2-2026 (စနေနေ့)", name: "အလ်ဟာဂ်ျ မော်လာနာ အဗ္ဗဒုရ်ရဟီးမ် ဆွာဟိဗ် (ဒါအ်ဝါနီ)" },
+            { date: "7-3-2026 (စနေနေ့)", name: "အလ်ဟာဂ်ျ မော်လာနာ မုဟမ္မဒ် အရှ်ရဖ်အလီ ဆွာဟိဗ် (မဟ်သုမီ)" },
+            { date: "14-3-2026 (စနေနေ့)", name: "အလ်ဟာဂ်ျ မော်လာနာ မုဖ်သီ အနတ်စ် ဆွာဟိဗ်" }
+        ];
+
+        let selectedPosterBg = mosques[0];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.to(".fade-in", { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: "power4.out" });
+            initSky();
+            initCalendar();
+            initHafiz();
+            initSpeakers();
+            startClock();
+            updateBackground();
+            setInterval(updateBackground, 15000);
+        });
+
+        function initSky() {
+            const stars = document.getElementById('starsContainer');
+            const clouds = document.getElementById('cloudsContainer');
+            for(let i=0; i<60; i++) {
+                let s = document.createElement('div');
+                s.className = 'star';
+                s.style.left = Math.random()*100+'%'; s.style.top = Math.random()*100+'%';
+                s.style.width = s.style.height = Math.random()*2+1+'px';
+                s.style.setProperty('--d', Math.random()*3+2+'s');
+                stars.appendChild(s);
+            }
+            for(let i=0; i<6; i++) {
+                let c = document.createElement('div');
+                c.className = 'cloud';
+                c.style.left = Math.random()*100+'%'; c.style.top = Math.random()*60+'%';
+                c.style.width = Math.random()*150+100+'px'; c.style.height = '50px';
+                c.style.setProperty('--d', Math.random()*25+20+'s');
+                clouds.appendChild(c);
+            }
+        }
+
+        function initHafiz() {
+            const fullList = document.getElementById('hafizFullList');
+            fullList.innerHTML = "";
+            hafizList.forEach((name, i) => {
+                let div = document.createElement('div');
+                div.className = "flex items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/5";
+                div.innerHTML = `<span class="w-8 h-8 rounded-full bg-yellow-500/10 text-yellow-500 text-xs flex items-center justify-center font-bold">${String(i+1).padStart(2,'0')}</span><p class="text-xs text-white/90">${name}</p>`;
+                fullList.appendChild(div);
+            });
+        }
+
+        function initSpeakers() {
+            const list = document.getElementById('speakers-list');
+            list.innerHTML = "";
+            speakers.forEach(s => {
+                let div = document.createElement('div');
+                div.className = "p-4 bg-white/5 rounded-2xl border-l-4 border-yellow-500/40";
+                div.innerHTML = `<p class="text-[9px] text-yellow-500 mb-1 font-bold">${s.date}</p><p class="text-[11px] font-bold leading-relaxed text-white/90">${s.name}</p>`;
+                list.appendChild(div);
+            });
+        }
+
+        function updateBackground() {
+            const slider = document.getElementById('bgSlider');
+            const nextImg = mosques[Math.floor(Math.random() * mosques.length)];
+            slider.style.backgroundImage = `url('${nextImg}')`;
+        }
+
+        function startClock() { setInterval(updateUI, 1000); updateUI(); }
+
+        function updateUI() {
+            const now = new Date();
+            const monNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const todayStr = monNames[now.getMonth()] + " " + String(now.getDate()).padStart(2, '0');
+            let todayIdx = ramadanData.findIndex(d => d.date === todayStr);
+            if (todayIdx === -1) todayIdx = 0;
+            let today = ramadanData[todayIdx];
+            
+            let sTime = new Date(`${today.date}, 2026 ${today.s}:00 AM`);
+            let iTime = new Date(`${today.date}, 2026 ${today.i}:00 PM`);
+            let target, statusText;
+            
+            if (now < sTime) { target = sTime; statusText = "Time until Sehri Ends"; }
+            else if (now < iTime) { target = iTime; statusText = "Time until Iftar Starts"; }
+            else { target = new Date(sTime.getTime() + 86400000); statusText = "Time until next Sehri"; if (ramadanData[todayIdx + 1]) today = ramadanData[todayIdx + 1]; }
+
+            document.getElementById('displayDate').innerText = today.date.toUpperCase() + ", 2026";
+            document.getElementById('dayCount').innerText = "DAY " + String(today.r).padStart(2, '0');
+            document.getElementById('sehriTime').innerText = today.s + " AM";
+            document.getElementById('iftarTime').innerText = today.i + " PM";
+            document.getElementById('statusLabel').innerText = statusText;
+
+            let diff = target - now;
+            document.getElementById('h').innerText = String(Math.floor(diff/3600000)).padStart(2,'0');
+            document.getElementById('m').innerText = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+            document.getElementById('s').innerText = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+
+            updateCelestial(now);
+            updateNextPrayer(now, today);
+        }
+
+        function updateCelestial(now) {
+            const h = now.getHours() + now.getMinutes()/60;
+            const sun = document.getElementById('sun');
+            const moon = document.getElementById('moon');
+            const stars = document.getElementById('starsContainer');
+            const clouds = document.getElementById('cloudsContainer');
+            
+            const rx = 45, ry = 100;
+            
+            if (h >= 5 && h < 19) { // Day Time (5 AM to 7 PM)
+                let p = (h - 5) / 14; let angle = Math.PI - (p * Math.PI);
+                sun.style.left = (50 + Math.cos(angle) * rx) + "%"; 
+                sun.style.top = (100 - Math.sin(angle) * ry) + "px";
+                sun.style.opacity = 1; 
+                moon.style.opacity = 0;
+                stars.style.opacity = 0.05; 
+                clouds.style.opacity = 0.6;
+            } else { // Night Time (7 PM to 5 AM)
+                let mt = (h >= 19) ? (h - 19) : (h + 5); 
+                let p = mt / 14; 
+                let angle = p * Math.PI;
+                moon.style.left = (50 + Math.cos(angle) * rx) + "%"; 
+                moon.style.top = (100 - Math.sin(angle) * ry) + "px";
+                moon.style.opacity = 1; 
+                sun.style.opacity = 0;
+                stars.style.opacity = 1; 
+                clouds.style.opacity = 0.15;
+            }
+            
+            if ((h >= 5 && h < 6) || (h >= 18 && h < 19)) {
+                if (h >= 5 && h < 6) {
+                    sun.style.opacity = Math.max(0, 1 - (6 - h) * 2);
+                    moon.style.opacity = Math.min(1, (6 - h) * 2);
+                } else if (h >= 18 && h < 19) {
+                    sun.style.opacity = Math.min(1, (h - 18) * 2);
+                    moon.style.opacity = Math.max(0, 1 - (h - 18) * 2);
+                }
+            }
+        }
+
+        function updateNextPrayer(now, today) {
+            const currentMin = now.getHours() * 60 + now.getMinutes();
+            const isJumma = now.getDay() === 5;
+            const zoharTime = isJumma ? "12:45 PM" : "12:30 PM";
+            if(isJumma) document.getElementById('zoharName').innerText = "ဂျုမ္မာ (Jumma)";
+            else document.getElementById('zoharName').innerText = "ဇိုဟရ် (Zohar)";
+
+            const prayers = [
+                { id: "row-fajar", name: "Fajar", time: today.fj + " AM" },
+                { id: "row-zohar", name: isJumma ? "Jumma" : "Zohar", time: zoharTime },
+                { id: "row-aser", name: "Aser", time: today.a + " PM" },
+                { id: "row-magrib", name: "Magrib", time: today.i + " PM" },
+                { id: "row-esha", name: "Esha", time: today.e + " PM" }
+            ];
+            
+            let next = prayers[0], activeIdx = -1;
+            for (let i = 0; i < prayers.length; i++) {
+                let [t, m] = prayers[i].time.split(' '); let [ph, pm] = t.split(':').map(Number);
+                if (m === 'PM' && ph !== 12) ph += 12; if (m === 'AM' && ph === 12) ph = 0;
+                if (currentMin < ph * 60 + pm) { next = prayers[i]; activeIdx = i - 1; break; }
+            }
+            if (activeIdx === -1 && currentMin >= 0) activeIdx = prayers.length - 1;
+            
+            document.getElementById('nextName').innerText = next.name;
+            document.getElementById('nextTime').innerText = next.time;
+            
+            prayers.forEach((p, idx) => {
+                const el = document.getElementById(p.id);
+                if (idx === activeIdx) el.classList.add('active'); else el.classList.remove('active');
+            });
+        }
+
+        function openPosterEditor() {
+            const grid = document.getElementById('bgGrid');
+            grid.innerHTML = "";
+            mosques.forEach(img => {
+                let div = document.createElement('div');
+                div.className = "rounded-xl overflow-hidden h-20 cursor-pointer border-2 " + (selectedPosterBg === img ? "border-yellow-500" : "border-transparent");
+                div.innerHTML = `<img src="${img}" class="w-full h-full object-cover" onclick="selectPosterBg('${img}')">`;
+                grid.appendChild(div);
+            });
+            document.getElementById('posterEditor').classList.add('open');
+        }
+
+        function selectPosterBg(url) {
+            selectedPosterBg = url;
+            openPosterEditor();
+        }
+
+        function handleCustomImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => { selectedPosterBg = e.target.result; openPosterEditor(); };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function generateFinalPoster() {
+            const loading = document.getElementById('posterLoading');
+            loading.style.display = 'flex';
+            
+            try {
+                const canvasArea = document.getElementById('posterCanvas');
+                const bgElement = document.getElementById('p-bg');
+                
+                // Set background image and wait for it to load
+                bgElement.style.backgroundImage = `url('${selectedPosterBg}')`;
+                
+                // Update text content
+                document.getElementById('p-custom-text').innerText = document.getElementById('customPosterText').value;
+                const dayNum = parseInt(document.getElementById('dayCount').innerText.replace("DAY ", ""));
+                const today = ramadanData.find(d => d.r === dayNum);
+                document.getElementById('p-day-text').innerText = `DAY ${String(today.r).padStart(2, '0')} - ${today.date.toUpperCase()}, 2026`;
+                document.getElementById('p-sehri').innerText = today.s + " AM";
+                document.getElementById('p-iftar').innerText = today.i + " PM";
+
+                // Small delay to ensure styles are applied
+                await new Promise(r => setTimeout(r, 500));
+
+                const canvas = await html2canvas(canvasArea, { 
+                    useCORS: true, 
+                    scale: 2, // Higher resolution
+                    backgroundColor: '#000',
+                    logging: false,
+                    allowTaint: true
+                });
+
+                const link = document.createElement('a');
+                link.download = `Ramadan_Premium_Day${today.r}.png`;
+                link.href = canvas.toDataURL("image/png");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (err) {
+                console.error("Poster generation failed:", err);
+                alert("Poster generation failed. Please try again.");
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        function closePosterEditor() { document.getElementById('posterEditor').classList.remove('open'); }
+        function toggleCalendar() { document.getElementById('calendarDrawer').classList.toggle('open'); }
+        function openHafizModal() { document.getElementById('hafizModal').classList.add('open'); }
+        function closeHafizModal() { document.getElementById('hafizModal').classList.remove('open'); }
+        function scrollToTop() { window.scrollTo({top: 0, behavior: 'smooth'}); }
+        
+        function initCalendar() {
+            const body = document.getElementById('calBody');
+            body.innerHTML = "";
+            ramadanData.forEach(d => {
+                const tr = document.createElement('tr');
+                tr.className = "glass rounded-2xl overflow-hidden";
+                tr.innerHTML = `<td class="px-4 py-4 text-[10px] font-bold opacity-30">${String(d.r).padStart(2,'0')}</td><td class="px-4 py-4 text-xs font-medium">${d.date}</td><td class="px-4 py-4 text-xs">${d.s} AM</td><td class="px-4 py-4 text-xs gold-text font-bold">${d.i} PM</td>`;
+                body.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>
