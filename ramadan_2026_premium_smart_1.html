@@ -133,13 +133,24 @@
 
         /* Realistic Moon */
         #moon {
-            width: 50px;
-            height: 50px;
-            background: radial-gradient(circle at 30% 30%, #ffffff, #f0f0f0, #d0d0d0);
-            border-radius: 50%;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.6), inset -2px -2px 5px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
+    width: 50px;
+    height: 50px;
+    background: #fdfdfd; /* လရဲ့ အလင်းရောင် */
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden; /* အရေးကြီးတယ် - အမှောင်ရိပ်ကို ဘောင်ခတ်ထားဖို့ */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+#moon-shadow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #0a0a28; /* သင့် Smart Sky Box ရဲ့ ညဘက် နောက်ခံရောင်နဲ့ တူပါစေ */
+    border-radius: 50%;
+    transition: left 0.5s ease-in-out;
+}
+        
 
         /* Moon craters effect */
         #moon::before {
@@ -349,7 +360,9 @@
                 <div id="cloudsContainer" style="position: absolute; inset: 0; pointer-events: none;"></div>
                 <div class="celestial-container">
                     <div id="sun" class="celestial" style="opacity: 0;"></div>
-                    <div id="moon" class="celestial" style="opacity: 0;"></div>
+                    <div id="moon" class="celestial" style="opacity: 0;">
+                      <div id="moon-surface"></div> 
+                      <div id="moon-shadow"></div>
                 </div>
             </div>
 
@@ -845,18 +858,25 @@
         }
 
         function updateMoonPhaseVisual(moon, phase) {
-            // Create realistic moon phase shadow
-            const shadowOffset = (phase - 0.5) * 100;
-            const shadowSize = Math.abs(shadowOffset);
-            
-            if (phase < 0.5) {
-                // Waxing moon (growing)
-                moon.style.boxShadow = `inset ${-shadowSize * 0.5}px 0 0 0 rgba(0,0,0,0.7), 0 0 30px rgba(255, 255, 255, 0.6), inset -2px -2px 5px rgba(0, 0, 0, 0.3)`;
-            } else {
-                // Waning moon (shrinking)
-                moon.style.boxShadow = `inset ${shadowSize * 0.5}px 0 0 0 rgba(0,0,0,0.7), 0 0 30px rgba(255, 255, 255, 0.6), inset -2px -2px 5px rgba(0, 0, 0, 0.3)`;
-            }
+    const shadowEl = document.getElementById('moon-shadow');
+    if (!shadowEl) return;
+
+    // phase သည် 0 မှ 1 အထိရှိသည် (0 = လကွယ်၊ 0.5 = လပြည့်၊ 1 = လကွယ်)
+    // သင့် data အရ phase ကို ပြန်တွက်ဖို့ လိုနိုင်ပါတယ်
+    
+    let movePercent;
+
+    if (phase <= 0.5) {
+        // လဆန်းပိုင်း (Waxing): အမှောင်ရိပ်က ညာဘက်ကို တဖြည်းဖြည်း ရွှေ့သွားမယ်
+        movePercent = phase * 200; // 0 မှ 100% အထိ
+    } else {
+        // လဆုတ်ပိုင်း (Waning): အမှောင်ရိပ်က ဘယ်ဘက်ကနေ ပြန်ဝင်လာမယ်
+        movePercent = (phase - 0.5) * 200 - 100; 
+    }
+
+    shadowEl.style.left = movePercent + "%";
         }
+        
 
         function updateSkyTheme(now) {
             const h = now.getHours();
