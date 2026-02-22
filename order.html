@@ -32,6 +32,19 @@
 .zakat-input { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 12px; border-radius: 12px; width: 100%; margin-top: 5px; outline: none; }
 .zakat-input:focus { border-color: #D4AF37; }
 .nisab-info { font-size: 11px; color: #BF953F; margin-bottom: 15px; border-left: 2px solid #BF953F; padding-left: 10px; }
+/* Sky Background & Transitions */
+#skyCanvas { position: fixed; inset: 0; z-index: -2; transition: background 2s ease; overflow: hidden; }
+.sun { position: absolute; width: 60px; height: 60px; background: #fff; border-radius: 50%; box-shadow: 0 0 50px #ffcc00, 0 0 100px #ffcc00; transition: all 1s linear; }
+.moon { position: absolute; width: 50px; height: 50px; border-radius: 50%; transition: all 1s linear; }
+/* Moon Phase (အရိပ်) */
+.moon::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: rgba(0,0,0,0.8); transition: transform 0.5s; }
+
+/* Clouds & Stars */
+.cloud { position: absolute; background: white; opacity: 0.3; border-radius: 100px; filter: blur(20px); animation: drift linear infinite; }
+.star { position: absolute; background: white; border-radius: 50%; opacity: 0; animation: twinkle var(--d) infinite; }
+
+@keyframes drift { from { transform: translateX(-200px); } to { transform: translateX(100vw); } }
+@keyframes twinkle { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
         
     </style>
     
@@ -48,6 +61,11 @@
             <p class="premium-font text-[11px] tracking-[0.5em] text-yellow-500/80 uppercase font-bold">Yangon, Myanmar • 2026</p>
         </header>
 
+        <div id="skyCanvas">
+    <div id="starsContainer"></div> <div id="cloudsContainer"></div> <div id="sun" class="sun"></div>
+    <div id="moon" class="moon"></div>
+        </div>
+        
         
 
         <div class="glass rounded-[50px] px-4 py-10 text-center mb-8 relative overflow-hidden">
@@ -707,6 +725,69 @@ ramadanData.forEach(d => {
         document.getElementById('zakatResult').innerText = "0 MMK";
     }
         }
+        function updateSky() {
+    const now = new Date();
+    const hours = now.getHours();
+    const mins = now.getMinutes();
+    const timeDec = hours + mins / 60; // ဥပမာ- 6:30 ဆိုရင် 6.5
+
+    const sky = document.getElementById('skyCanvas');
+    const sun = document.getElementById('sun');
+    const moon = document.getElementById('moon');
+    const stars = document.getElementById('starsContainer');
+
+    // ၁။ ကောင်းကင်အရောင်ပြောင်းခြင်း
+    if (timeDec >= 5 && timeDec < 7) { // မိုးသောက်
+        sky.style.background = "linear-gradient(to bottom, #1e528e, #feb584)";
+        stars.style.opacity = "0";
+    } else if (timeDec >= 7 && timeDec < 17) { // နေ့လယ်
+        sky.style.background = "linear-gradient(to bottom, #4fa4ff, #89cff0)";
+        stars.style.opacity = "0";
+    } else if (timeDec >= 17 && timeDec < 19) { // ညနေစောင်း
+        sky.style.background = "linear-gradient(to bottom, #2c3e50, #fd8112)";
+        stars.style.opacity = "0";
+    } else { // ညပိုင်း
+        sky.style.background = "linear-gradient(to bottom, #000428, #004e92)";
+        stars.style.opacity = "1";
+    }
+
+    // ၂။ နေနဲ့လ နေရာချခြင်း (Arc ပုံစံ)
+    // နေအတွက် (မနက် ၆ ကနေ ညနေ ၆ အထိ)
+    if (timeDec >= 6 && timeDec <= 18) {
+        const angle = (timeDec - 6) / 12 * Math.PI;
+        sun.style.left = (50 - 45 * Math.cos(angle)) + "%";
+        sun.style.top = (60 - 50 * Math.sin(angle)) + "%";
+        sun.style.opacity = "1";
+        moon.style.opacity = "0";
+    } else {
+        // လအတွက် (ညနေ ၆ ကနေ မနက် ၆ အထိ)
+        const moonTime = timeDec > 18 ? timeDec - 18 : timeDec + 6;
+        const angle = moonTime / 12 * Math.PI;
+        moon.style.left = (50 - 45 * Math.cos(angle)) + "%";
+        moon.style.top = (60 - 50 * Math.sin(angle)) + "%";
+        moon.style.opacity = "1";
+        sun.style.opacity = "0";
+        updateMoonPhase(); // လအမျိုးအစား တွက်ချက်ခြင်း
+    }
+}
+
+// ကြယ်တွေ တိမ်တွေ ဖန်တီးခြင်း
+function initSkyEffects() {
+    const stars = document.getElementById('starsContainer');
+    for(let i=0; i<100; i++) {
+        let s = document.createElement('div');
+        s.className = 'star';
+        s.style.left = Math.random() * 100 + "%";
+        s.style.top = Math.random() * 60 + "%";
+        s.style.setProperty('--d', (Math.random() * 3 + 2) + "s");
+        stars.appendChild(s);
+    }
+}
+
+// နေ့စဉ် update ဖြစ်စေရန်
+setInterval(updateSky, 60000);
+updateSky();
+initSkyEffects();
         
 
         setInterval(update, 1000); update();
