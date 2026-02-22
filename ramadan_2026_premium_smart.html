@@ -131,31 +131,47 @@
             box-shadow: 0 0 40px rgba(255, 200, 0, 0.8), 0 0 80px rgba(255, 150, 0, 0.4);
         }
 
-        /* Realistic Moon */
-        /* Realistic Crescent (လခြမ်းကွေးကွေးလေး) */
-.moon-crescent-only {
-    width: 60px;
-    height: 60px;
+        /* Realistic Moon Base */
+#moon {
+    width: 50px;
+    height: 50px;
+    background: #fdfdfd; /* လရဲ့ အခြေခံအရောင် */
     border-radius: 50%;
-    background: transparent;
-    /* အဝိုင်းကြီးကို ပျောက်ထားပြီး box-shadow နဲ့ လခြမ်းကို ဖော်တာပါ */
-    box-shadow: 15px 10px 0 0 #fdfdfd; 
-    transform: rotate(-20deg); /* လခြမ်းကို စောင်းချင်ရင် သုံးပါ */
+    position: relative;
+    overflow: hidden; /* အရိပ်တွေ အပြင်မထွက်ဖို့ */
+    transition: all 1s ease-in-out;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+}
+
+/* Moon craters (လပေါ်က အစက်အပြောက်များ) */
+#moon::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 50%;
+    top: 15px;
+    left: 12px;
+    box-shadow: 15px 10px 0 -2px rgba(0, 0, 0, 0.05), 
+                20px 25px 0 -3px rgba(0, 0, 0, 0.05);
+    z-index: 2;
+}
+
+/* 🌙 လရဲ့ အဆင့်ဆင့်ပြောင်းလဲမှုကို ဖော်ပြမယ့် အမှောင်ရိပ် */
+#moon::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #1a1a1a; /* ကောင်းကင်နောက်ခံအရောင်နဲ့ တူရမယ် (ညဘက်အရောင်) */
+    transition: all 1s ease-in-out;
+    z-index: 3;
 }
         
-
-        /* Moon craters effect */
-        #moon::before {
-            content: '';
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: rgba(100, 100, 100, 0.4);
-            border-radius: 50%;
-            top: 15px;
-            left: 15px;
-            box-shadow: 15px 10px 0 -2px rgba(80, 80, 80, 0.3), 20px 25px 0 -3px rgba(90, 90, 90, 0.25);
-        }
 
         /* Stars */
         .star {
@@ -352,7 +368,9 @@
                 <div id="cloudsContainer" style="position: absolute; inset: 0; pointer-events: none;"></div>
                 <div class="celestial-container">
                     <div id="sun" class="celestial" style="opacity: 0;"></div>
-                    <div id="moon" class="celestial" style="opacity: 0;"></div>
+                    <div id="moon" class="celestial" style="opacity: 0;">
+    <div id="moon-shadow" style="position: absolute; width: 100%; height: 100%; background: #0a0a28; border-radius: 50%; left: 100%; transition: left 1s;"></div>
+                    
                 </div>
             </div>
 
@@ -848,18 +866,31 @@
         }
 
         function updateMoonPhaseVisual(moon, phase) {
-            // Create realistic moon phase shadow
-            const shadowOffset = (phase - 0.5) * 100;
-            const shadowSize = Math.abs(shadowOffset);
-            
-            if (phase < 0.5) {
-                // Waxing moon (growing)
-                moon.style.boxShadow = `inset ${-shadowSize * 0.5}px 0 0 0 rgba(0,0,0,0.7), 0 0 30px rgba(255, 255, 255, 0.6), inset -2px -2px 5px rgba(0, 0, 0, 0.3)`;
-            } else {
-                // Waning moon (shrinking)
-                moon.style.boxShadow = `inset ${shadowSize * 0.5}px 0 0 0 rgba(0,0,0,0.7), 0 0 30px rgba(255, 255, 255, 0.6), inset -2px -2px 5px rgba(0, 0, 0, 0.3)`;
-            }
+    const shadow = moon.querySelector('::after'); // သို့မဟုတ် moon ရဲ့ child element
+    
+    // Moon အောက်က Shadow Layer (::after) ကို ခေါ်ယူထိန်းချုပ်ဖို့
+    // ဒါပေမယ့် CSS pseudo-element ကို JS နဲ့ တိုက်ရိုက်ပြင်ရခက်လို့
+    // HTML မှာ <div id="moon"><div id="moon-shadow"></div></div> လို့ ပြောင်းတာ ပိုကောင်းပါတယ်။
+
+    // လောလောဆယ် scale နဲ့ position ကိုပဲ သုံးပြီး CSS Variable နဲ့ ပြင်နည်း သုံးပါ့မယ်
+    let movePercent;
+    
+    if (phase <= 0.5) {
+        // Waxing (လဆန်းပိုင်း)
+        movePercent = 100 - (phase * 200); 
+    } else {
+        // Waning (လဆုတ်ပိုင်း)
+        movePercent = (phase - 0.5) * -200;
+    }
+    
+    // Moon shadow element ရဲ့ အနေအထားကို ပြောင်းလဲခြင်း
+    // မှတ်ချက်- အောက်က HTML အပြောင်းအလဲနဲ့ တွဲသုံးပါ
+    const shadowEl = document.getElementById('moon-shadow');
+    if(shadowEl) {
+        shadowEl.style.left = movePercent + "%";
+    }
         }
+        
 
         function updateSkyTheme(now) {
             const h = now.getHours();
