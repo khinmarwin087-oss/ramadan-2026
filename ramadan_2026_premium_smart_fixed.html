@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramadan Premium 2026 - Smart Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Pyidaungsu:wght@400;700&family=Cinzel:wght@400;700&family=Reem+Kufi:wght@400;700&family=Outfit:wght@200;400;600&display=swap');
+        
+        :root {
+            --gold-primary: #d4af37;
+            --gold-secondary: #fcf6ba;
+            --gold-dark: #b38728;
+            --gold-grad: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 45%, var(--gold-dark) 100%);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --premium-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', 'Pyidaungsu', sans-serif;
+            color: #fff;
+            background-color: #050505;
+            margin: 0;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .arabic { font-family: 'Reem Kufi', sans-serif; }
+        .premium-font { font-family: 'Cinzel', serif; }
+        
+        #bgSlider {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 3s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: brightness(0.3) scale(1.1);
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.95) 100%);
+            transition: background 2s ease-in-out;
+        }
+
+        .overlay.night {
+            background: radial-gradient(circle at center, rgba(10,10,40,0.3) 0%, rgba(0,0,0,0.98) 100%);
+        }
+
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--premium-shadow);
+        }
+
+        .gold-text {
+            background: var(--gold-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .hero-card {
+            border-radius: 50px;
+            padding: 40px 25px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Smart Sky Container */
+        #smartSkyBox {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(to bottom, rgba(135, 206, 235, 0.3), rgba(255, 255, 255, 0.1));
+            border-radius: 50px;
+            overflow: hidden;
+            transition: background 2s ease-in-out;
+            z-index: 5;
+        }
+
+        #smartSkyBox.night {
+            background: linear-gradient(to bottom, rgba(25, 25, 60, 0.5), rgba(0, 0, 20, 0.8));
+        }
+
+        /* Celestial Elements */
+        .celestial-container {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 150px;
+            pointer-events: none;
+        }
+
+        .celestial {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            filter: drop-shadow(0 0 20px currentColor);
+            z-index: 10;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        /* Sun */
+        #sun {
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle at 35% 35%, #ffff99, #ffcc00, #ff9900);
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(255, 200, 0, 0.8), 0 0 80px rgba(255, 150, 0, 0.4);
+        }
+
+        /* Fixed Crescent Moon Design */
+        #moon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            /* Creating a crescent shape using box-shadow */
+            background: transparent;
+            box-shadow: 15px 15px 0 0 #f0f0f0;
+            position: relative;
+            transform: rotate(-45deg); /* Adjust angle for natural crescent look */
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6));
+        }
+
+        /* Stars */
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--d) infinite ease-in-out;
+            box-shadow: 0 0 4px rgba(255, 255, 255, 0.9);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Clouds */
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.15);
+            filter: blur(20px);
+            border-radius: 50%;
+            animation: drift var(--d) linear infinite;
+            transition: opacity 2s ease-in-out;
+        }
+
+        @keyframes drift {
+            0% { transform: translateX(-150%) translateY(0px); }
+            50% { transform: translateX(125%) translateY(-10px); }
+            100% { transform: translateX(400%) translateY(0px); }
+        }
+
+        /* Prayer Box Design */
+        .prayer-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 28px;
+            padding: 22px 25px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .prayer-box.active {
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            transform: scale(1.02);
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            height: 75px;
+            border-radius: 40px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+            padding: 0 15px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .nav-item.active { color: var(--gold-primary); }
+
+        .fade-in { opacity: 0; transform: translateY(20px); }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(30px);
+            z-index: 200;
+            display: none;
+            flex-direction: column;
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--gold-primary); border-radius: 10px; }
+
+        /* Input Styles */
+        .edit-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            color: #fff;
+            margin-bottom: 15px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .edit-input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+
+        .edit-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        #uploadPreview {
+            width: 100%;
+            height: 200px;
+            border-radius: 20px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        #posterLoading {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 300;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zakat-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            color: #fff;
+            margin-bottom: 12px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .zakat-input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div id="bgSlider"></div>
+    <div class="overlay" id="mainOverlay"></div>
+
+    <div class="min-h-screen pb-32 pt-8 px-5 max-w-lg mx-auto">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8 fade-in" style="animation: fadeInUp 0.8s forwards;">
+            <div>
+                <h1 class="premium-font gold-text text-2xl">RAMADAN 2026</h1>
+                <p class="text-xs text-white/50 tracking-[0.2em]">PREMIUM SMART EDITION</p>
+            </div>
+            <div class="glass p-3 rounded-2xl flex items-center gap-3">
+                <div class="text-right">
+                    <p id="hijriDate" class="arabic text-sm text-white/90">၁၄၄၇ ရမ်ဇာန်</p>
+                    <p id="currentCity" class="text-[10px] text-white/50 uppercase tracking-widest">Yangon</p>
+                </div>
+                <i class="fa-solid fa-mosque text-gold-primary"></i>
+            </div>
+        </div>
+
+        <!-- Hero Card with Smart Sky -->
+        <div class="hero-card glass fade-in" style="animation: fadeInUp 0.8s 0.2s forwards;">
+            <div id="smartSkyBox">
+                <div class="celestial-container">
+                    <div id="sun" class="celestial"></div>
+                    <div id="moon" class="celestial"></div>
+                    <div id="starsContainer"></div>
+                </div>
+                <div id="cloudsContainer"></div>
+            </div>
+
+            <div class="relative z-10 mt-32">
+                <p id="nextPrayerLabel" class="text-white/50 text-xs uppercase tracking-[0.3em] mb-2">Next Prayer</p>
+                <h2 id="nextPrayerName" class="premium-font text-4xl mb-1">FAJR</h2>
+                <div id="countdown" class="text-5xl font-light tracking-tighter gold-text mb-4">04:12:05</div>
+                
+                <div class="flex justify-center gap-4">
+                    <div class="glass px-4 py-2 rounded-full flex items-center gap-2">
+                        <i class="fa-solid fa-location-dot text-[10px] text-gold-primary"></i>
+                        <span id="displayLocation" class="text-[10px] font-semibold tracking-widest uppercase">Yangon, MM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prayer Times List -->
+        <div class="space-y-3 mb-8 fade-in" style="animation: fadeInUp 0.8s 0.4s forwards;">
+            <div class="prayer-box glass" id="prayer-fajr">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center">
+                        <i class="fa-solid fa-sun-haze text-white/40"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-white/40 uppercase tracking-widest">Fajr</p>
+                        <p class="premium-font text-lg">အရုဏ်ဦး</p>
+                    </div>
+                </div>
+                <p class="text-xl font-medium tracking-tight" id="time-fajr">04:52</p>
+            </div>
+
+            <div class="prayer-box glass" id="prayer-sunrise">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center">
+                        <i class="fa-solid fa-sunrise text-white/40"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-white/40 uppercase tracking-widest">Sunrise</p>
+                        <p class="premium-font text-lg">နေထွက်</p>
+                    </div>
+                </div>
+                <p class="text-xl font-medium tracking-tight" id="time-sunrise">06:12</p>
+            </div>
+
+            <div class="prayer-box glass" id="prayer-dhuhr">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center">
+                        <i class="fa-solid fa-sun text-white/40"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-white/40 uppercase tracking-widest">Dhuhr</p>
+                        <p class="premium-font text-lg">မွန်းတည့်</p>
+                    </div>
+                </div>
+                <p class="text-xl font-medium tracking-tight" id="time-dhuhr">12:15</p>
+            </div>
+
+            <div class="prayer-box glass" id="prayer-asr">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center">
+                        <i class="fa-solid fa-sun-cloud text-white/40"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-white/40 uppercase tracking-widest">Asr</p>
+                        <p class="premium-font text-lg">ဝါးဆရ်</p>
+                    </div>
+                </div>
+                <p class="text-xl font-medium tracking-tight" id="time-asr">15:35</p>
+            </div>
+
+            <div class="prayer-box glass active" id="prayer-maghrib">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-2xl bg-gold-primary/20 flex items-center justify-center">
+                        <i class="fa-solid fa-sunset text-gold-primary"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gold-primary/60 uppercase tracking-widest">Maghrib</p>
+                        <p class="premium-font text-lg">မဂ်ရိဗ်</p>
+                    </div>
+                </div>
+                <p class="text-xl font-bold tracking-tight gold-text" id="time-maghrib">18:18</p>
+            </div>
+
+            <div class="prayer-box glass" id="prayer-isha">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center">
+                        <i class="fa-solid fa-moon-stars text-white/40"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-white/40 uppercase tracking-widest">Isha</p>
+                        <p class="premium-font text-lg">အေရှာ</p>
+                    </div>
+                </div>
+                <p class="text-xl font-medium tracking-tight" id="time-isha">19:32</p>
+            </div>
+        </div>
+
+        <!-- Additional Info -->
+        <div class="grid grid-cols-2 gap-4 mb-8 fade-in" style="animation: fadeInUp 0.8s 0.6s forwards;">
+            <div class="glass p-5 rounded-[30px] text-center">
+                <p class="text-[10px] text-white/40 uppercase tracking-widest mb-2">Imsak</p>
+                <p class="text-2xl premium-font" id="time-imsak">04:42</p>
+            </div>
+            <div class="glass p-5 rounded-[30px] text-center">
+                <p class="text-[10px] text-white/40 uppercase tracking-widest mb-2">Midnight</p>
+                <p class="text-2xl premium-font" id="time-midnight">23:45</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav glass">
+        <div class="nav-item active" onclick="showTab('home')">
+            <i class="fa-solid fa-house-chimney text-xl"></i>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" onclick="toggleModal('qiblaModal')">
+            <i class="fa-solid fa-compass text-xl"></i>
+            <span>Qibla</span>
+        </div>
+        <div class="nav-item" onclick="toggleModal('zakatModal')">
+            <i class="fa-solid fa-calculator text-xl"></i>
+            <span>Zakat</span>
+        </div>
+        <div class="nav-item" onclick="toggleModal('settingsModal')">
+            <i class="fa-solid fa-gear text-xl"></i>
+            <span>Settings</span>
+        </div>
+    </nav>
+
+    <!-- Zakat Modal -->
+    <div id="zakatModal" class="modal-overlay custom-scrollbar">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="premium-font text-2xl gold-text">Zakat Calculator</h2>
+            <button onclick="toggleModal('zakatModal')" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="space-y-4">
+            <div>
+                <label class="text-[10px] text-white/40 uppercase tracking-widest ml-2 mb-2 block">Cash & Savings</label>
+                <input type="number" id="zakatCash" class="zakat-input" placeholder="0.00">
+            </div>
+            <div>
+                <label class="text-[10px] text-white/40 uppercase tracking-widest ml-2 mb-2 block">Gold Value</label>
+                <input type="number" id="zakatGold" class="zakat-input" placeholder="0.00">
+            </div>
+            <button onclick="calculateZakat()" class="w-full py-4 rounded-2xl bg-gold-grad text-black font-bold uppercase tracking-widest mt-4">Calculate</button>
+            <div id="zakatResult" class="hidden mt-6 p-6 glass rounded-3xl text-center border-gold-primary/30 border">
+                <p class="text-xs text-white/50 uppercase tracking-widest mb-1">Your Zakat Amount</p>
+                <p class="text-4xl gold-text font-bold" id="zakatAmount">0.00</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal-overlay custom-scrollbar">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="premium-font text-2xl gold-text">Settings</h2>
+            <button onclick="toggleModal('settingsModal')" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        
+        <div class="space-y-6">
+            <div class="glass p-6 rounded-3xl">
+                <h3 class="text-xs text-white/40 uppercase tracking-widest mb-4">Background Personalization</h3>
+                <input type="file" id="bgUpload" accept="image/*" class="hidden" onchange="handleBgUpload(event)">
+                <div id="uploadPreviewContainer" class="hidden">
+                    <img id="uploadPreview" src="" alt="Preview">
+                </div>
+                <button onclick="document.getElementById('bgUpload').click()" class="w-full py-4 border border-dashed border-white/20 rounded-2xl text-sm text-white/60 hover:bg-white/5 transition-all">
+                    <i class="fa-solid fa-image mr-2"></i> Upload Custom Background
+                </button>
+            </div>
+
+            <div class="glass p-6 rounded-3xl">
+                <h3 class="text-xs text-white/40 uppercase tracking-widest mb-4">User Information</h3>
+                <input type="text" id="userNameInput" class="edit-input" placeholder="Your Name">
+                <input type="text" id="userCityInput" class="edit-input" placeholder="Your City">
+                <button onclick="saveSettings()" class="w-full py-4 bg-gold-grad text-black font-bold rounded-2xl uppercase tracking-widest">Save Changes</button>
+            </div>
+
+            <button onclick="generatePoster()" class="w-full py-4 bg-white text-black font-bold rounded-2xl uppercase tracking-widest">
+                <i class="fa-solid fa-share-nodes mr-2"></i> Generate Shareable Poster
+            </button>
+        </div>
+    </div>
+
+    <div id="posterLoading">
+        <div class="w-12 h-12 border-4 border-gold-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+        <p class="text-xs uppercase tracking-[0.3em] text-gold-primary">Generating Poster...</p>
+    </div>
+
+    <script>
+        // Background Slider Images
+        const bgImages = [
+            'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070',
+            'https://images.unsplash.com/photo-1564121211835-e88c852648a2?q=80&w=2070',
+            'https://images.unsplash.com/photo-1509210303219-066e1430dd0f?q=80&w=2070'
+        ];
+
+        let currentBgIndex = 0;
+        const bgSlider = document.getElementById('bgSlider');
+
+        function updateBackground() {
+            bgSlider.style.backgroundImage = `url('${bgImages[currentBgIndex]}')`;
+            currentBgIndex = (currentBgIndex + 1) % bgImages.length;
+        }
+
+        setInterval(updateBackground, 8000);
+        updateBackground();
+
+        // Smart Sky Logic
+        function updateSmartSky() {
+            const now = new Date();
+            const hour = now.getHours();
+            const skyBox = document.getElementById('smartSkyBox');
+            const mainOverlay = document.getElementById('mainOverlay');
+            const sun = document.getElementById('sun');
+            const moon = document.getElementById('moon');
+            const starsContainer = document.getElementById('starsContainer');
+            
+            // 0 is left, 100 is right. Height is also mapped.
+            // Map 6am-6pm to sun movement, 6pm-6am to moon movement
+            let isNight = hour < 6 || hour >= 18;
+            
+            if (isNight) {
+                skyBox.classList.add('night');
+                mainOverlay.classList.add('night');
+                sun.style.opacity = '0';
+                moon.style.opacity = '1';
+                
+                // Moon position based on time
+                let moonHour = hour >= 18 ? hour - 18 : hour + 6;
+                let moonProgress = (moonHour / 12) * 100;
+                moon.style.left = moonProgress + '%';
+                moon.style.top = (Math.sin((moonProgress / 100) * Math.PI) * -50 + 70) + 'px';
+                
+                if (starsContainer.innerHTML === '') createStars();
+            } else {
+                skyBox.classList.remove('night');
+                mainOverlay.classList.remove('night');
+                sun.style.opacity = '1';
+                moon.style.opacity = '0';
+                
+                let sunHour = hour - 6;
+                let sunProgress = (sunHour / 12) * 100;
+                sun.style.left = sunProgress + '%';
+                sun.style.top = (Math.sin((sunProgress / 100) * Math.PI) * -50 + 70) + 'px';
+                
+                starsContainer.innerHTML = '';
+            }
+        }
+
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 2 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.setProperty('--d', (Math.random() * 3 + 2) + 's');
+                star.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(star);
+            }
+        }
+
+        function createClouds() {
+            const container = document.getElementById('cloudsContainer');
+            for (let i = 0; i < 5; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = 'cloud';
+                const size = Math.random() * 100 + 50;
+                cloud.style.width = size + 'px';
+                cloud.style.height = (size * 0.6) + 'px';
+                cloud.style.left = '-150%';
+                cloud.style.top = Math.random() * 80 + 'px';
+                cloud.style.setProperty('--d', (Math.random() * 30 + 40) + 's');
+                cloud.style.animationDelay = (i * 10) + 's';
+                container.appendChild(cloud);
+            }
+        }
+
+        // Modal Controls
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.toggle('open');
+        }
+
+        // Zakat Calculator
+        function calculateZakat() {
+            const cash = parseFloat(document.getElementById('zakatCash').value) || 0;
+            const gold = parseFloat(document.getElementById('zakatGold').value) || 0;
+            const total = cash + gold;
+            const zakat = total * 0.025;
+            
+            const resultDiv = document.getElementById('zakatResult');
+            const amountText = document.getElementById('zakatAmount');
+            
+            resultDiv.classList.remove('hidden');
+            amountText.innerText = zakat.toLocaleString(undefined, {minimumFractionDigits: 2});
+        }
+
+        // Settings & Background
+        function handleBgUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('uploadPreview').src = e.target.result;
+                    document.getElementById('uploadPreviewContainer').classList.remove('hidden');
+                    document.getElementById('bgSlider').style.backgroundImage = `url('${e.target.result}')`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveSettings() {
+            const name = document.getElementById('userNameInput').value;
+            const city = document.getElementById('userCityInput').value;
+            if (city) {
+                document.getElementById('currentCity').innerText = city;
+                document.getElementById('displayLocation').innerText = city + ', MM';
+            }
+            toggleModal('settingsModal');
+        }
+
+        // Poster Generation
+        async function generatePoster() {
+            const loading = document.getElementById('posterLoading');
+            loading.style.display = 'flex';
+            
+            try {
+                const canvas = await html2canvas(document.body, {
+                    useCORS: true,
+                    scale: 2,
+                    backgroundColor: '#050505'
+                });
+                
+                const link = document.createElement('a');
+                link.download = 'ramadan-premium-2026.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } catch (err) {
+                console.error('Poster generation failed', err);
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        // Init
+        window.onload = () => {
+            updateSmartSky();
+            createClouds();
+            setInterval(updateSmartSky, 60000);
+            
+            // Animation triggers
+            document.querySelectorAll('.fade-in').forEach((el, i) => {
+                el.style.animationDelay = (i * 0.2) + 's';
+            });
+        };
+
+        // Keyframe for fade-in
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fadeInUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
