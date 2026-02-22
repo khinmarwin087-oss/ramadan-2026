@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6N321JW2GM"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-6N321JW2GM');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🍗 မြင်သာကြက်ကင် POS Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --pearl: #ffffff;
+            --bg: #f1f5f9;
+            --accent: #f59e0b;
+            --accent-dark: #d97706;
+            --text: #1e293b;
+            --sub: #64748b;
+            --danger: #ef4444;
+            --success: #10b981;
+            --premium-gold: #fbbf24;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Pyidaungsu', sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e0e7ff 100%);
+            margin: 0;
+            padding-bottom: 100px;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        /* Premium Top Nav */
+        .top-nav {
+            background: linear-gradient(135deg, var(--pearl) 0%, #fef3c7 100%);
+            padding: 15px 12px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-radius: 0 0 25px 25px;
+            box-shadow: var(--shadow);
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .top-nav h2 {
+            font-size: 20px;
+            margin: 0 0 10px;
+            text-align: center;
+            background: linear-gradient(135deg, #d97706, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 8px 0;
+            scrollbar-width: none;
+        }
+
+        .nav-tab {
+            padding: 8px 16px;
+            border-radius: 12px;
+            background: #f3f4f6;
+            border: 2px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .nav-tab.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent-dark);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .search-box {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            border: 2px solid #e2e8f0;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            padding: 6px;
+            width: 100%;
+            outline: none;
+            font-size: 13px;
+            font-family: 'Pyidaungsu', sans-serif;
+        }
+
+        .cat-row {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            padding: 10px 0;
+            scrollbar-width: none;
+        }
+
+        .cat-btn {
+            background: var(--pearl);
+            border: 2px solid #e2e8f0;
+            padding: 8px 16px;
+            border-radius: 12px;
+            white-space: nowrap;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cat-btn:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .cat-btn.active {
+            background: linear-gradient(135deg, var(--accent), #fbbf24);
+            color: white;
+            border-color: var(--accent-dark);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Container */
+        .container {
+            padding: 12px;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            border-radius: 15px;
+            padding: 12px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--sub);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.15);
+            border-color: var(--accent);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+        }
+
+        .card-info {
+            padding: 12px;
+            text-align: center;
+        }
+
+        .item-name {
+            font-weight: 700;
+            font-size: 13px;
+            display: block;
+            height: 32px;
+            margin-bottom: 6px;
+            overflow: hidden;
+            line-height: 1.3;
+        }
+
+        .item-price {
+            color: var(--accent);
+            font-weight: 900;
+            font-size: 15px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .btn-add {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: linear-gradient(135deg, var(--accent), #fbbf24);
+            color: white;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+
+        .btn-add:active {
+            transform: scale(0.95);
+        }
+
+        /* Floating Cart Bar */
+        .cart-bar {
+            position: fixed;
+            bottom: 15px;
+            left: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: white;
+            padding: 14px 18px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 480px;
+            margin: auto;
+            z-index: 90;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            border: 2px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .cart-bar-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .cart-bar-label {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        .cart-bar-total {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--premium-gold);
+        }
+
+        .cart-bar-btn {
+            background: linear-gradient(135deg, var(--accent), #fbbf24);
+            border: none;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .cart-bar-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Modal */
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-sheet {
+            background: var(--glass-bg);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border-radius: 28px 28px 0 0;
+            max-height: 90vh;
+            overflow: hidden;
+            max-width: 500px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+            border: 2px solid #e2e8f0;
+        }
+
+        .modal-header {
+            padding: 16px;
+            background: linear-gradient(135deg, #fef3c7, #fef9e7);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #e2e8f0;
+            z-index: 210;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        .back-btn {
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .back-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            scroll-behavior: smooth;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+
+        .cart-item-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #e5e7eb;
+            border: 2px solid #e2e8f0;
+        }
+
+        .cart-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .cart-item-info b {
+            font-size: 13px;
+            line-height: 1.3;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cart-item-info span {
+            font-size: 14px;
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        .qty-group {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            height: 30px;
+            overflow: hidden;
+        }
+
+        .btn-q {
+            width: 28px;
+            height: 30px;
+            border: none;
+            background: white;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-q:hover {
+            background: #f1f5f9;
+        }
+
+        .val-q {
+            width: 32px;
+            height: 30px;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-weight: 800;
+            font-size: 13px;
+            outline: none;
+            line-height: 30px;
+            padding: 0;
+            margin: 0;
+        }
+
+        .btn-del {
+            color: var(--danger);
+            background: #fee2e2;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-del:hover {
+            background: #fecaca;
+        }
+
+        .cart-total-row {
+            text-align: right;
+            padding: 16px 12px;
+            font-weight: 900;
+            font-size: 16px;
+            border-top: 2px solid #e2e8f0;
+            margin-top: 8px;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+
+        .cart-total-row span {
+            color: var(--accent);
+            font-size: 20px;
+        }
+
+        /* Form */
+        #form-box {
+            border-top: 2px dashed #e2e8f0;
+            margin-top: 16px;
+            padding-top: 16px;
+        }
+
+        .form-card {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 18px;
+            padding: 16px;
+            border: 2px solid #e2e8f0;
+        }
+
+        label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--sub);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            font-size: 14px;
+            font-family: 'Pyidaungsu', sans-serif;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+            outline: none;
+        }
+
+        .date-choices {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .date-chip {
+            background: white;
+            border: 2px solid #cbd5e1;
+            padding: 11px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .date-chip:hover {
+            border-color: var(--accent);
+        }
+
+        .date-chip.active {
+            background: linear-gradient(135deg, #fef3c7, #fef9e7);
+            border-color: var(--accent);
+            color: var(--accent-dark);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+
+        .discount-section {
+            background: #f0fdf4;
+            border: 2px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .discount-label {
+            font-size: 11px;
+            color: #059669;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .discount-input {
+            display: flex;
+            gap: 8px;
+        }
+
+        .discount-input input {
+            margin: 0;
+            flex: 1;
+        }
+
+        .discount-input button {
+            padding: 11px 16px;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .discount-input button:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        .btn-main {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent), #fbbf24);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+
+        .btn-main:active {
+            transform: scale(0.98);
+        }
+
+        .btn-s {
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+        }
+
+        .btn-s:active {
+            transform: scale(0.95);
+        }
+
+        /* Alert */
+        .alert-pop {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            width: 85%;
+            max-width: 320px;
+            padding: 28px 24px;
+            border-radius: 22px;
+            z-index: 1000;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            border: 2px solid #e2e8f0;
+        }
+
+        #alert-pop p {
+            font-weight: 700;
+            margin: 0 0 16px;
+            font-size: 15px;
+        }
+
+        /* Dashboard Tab */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .dashboard-card {
+            background: linear-gradient(135deg, #fef3c7, #fef9e7);
+            border-radius: 15px;
+            padding: 16px;
+            text-align: center;
+            border: 2px solid #fbbf24;
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.15);
+        }
+
+        .dashboard-label {
+            font-size: 12px;
+            color: #92400e;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-value {
+            font-size: 22px;
+            font-weight: 900;
+            color: #d97706;
+        }
+
+        /* Order History */
+        .order-item {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .order-name {
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .order-time {
+            font-size: 11px;
+            color: var(--sub);
+        }
+
+        .order-amount {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Scrollbar */
+        .modal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-dark);
+        }
+
+        .nav-tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .nav-tabs::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+
+        .cat-row::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .cat-row::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-nav">
+    <h2>🍗 မြင်သာကြက်ကင် POS Premium</h2>
+    
+    <div class="nav-tabs">
+        <div class="nav-tab active" onclick="switchTab('menu', this)"><i class="fas fa-utensils"></i> Menu</div>
+        <div class="nav-tab" onclick="switchTab('dashboard', this)"><i class="fas fa-chart-bar"></i> Dashboard</div>
+        <div class="nav-tab" onclick="switchTab('history', this)"><i class="fas fa-history"></i> History</div>
+    </div>
+
+    <div id="menu-tab-content" class="tab-content active">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass" style="color:#94a3b8; font-size: 13px;"></i>
+            <input type="text" id="searchInput" placeholder="ရှာဖွေရန်..." onkeyup="renderMenu()">
+        </div>
+        <div class="cat-row">
+            <div class="cat-btn active" onclick="filterCat('All', this)">အားလုံး</div>
+            <div class="cat-btn" onclick="filterCat('အသား', this)">အသား</div>
+            <div class="cat-btn" onclick="filterCat('အရိုး', this)">အရိုး</div>
+            <div class="cat-btn" onclick="filterCat('ကလီစာ', this)">ကလီစာ</div>
+            <div class="cat-btn" onclick="filterCat('အသီးအရွက်', this)">အသီးအရွက်</div>
+            <div class="cat-btn" onclick="filterCat('အရေခွံ', this)">အရေခွံ</div>
+            <div class="cat-btn" onclick="filterCat('ဥ', this)">ဥ</div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Menu Tab -->
+    <div id="menu-tab-content" class="tab-content active">
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-label">စုစုပေါင်း</div>
+                <div class="stat-value" id="stat-total">0 Ks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">ပစ္စည်းများ</div>
+                <div class="stat-value" id="stat-items">0</div>
+            </div>
+        </div>
+        <div id="grid-box" class="menu-grid"></div>
+    </div>
+
+    <!-- Dashboard Tab -->
+    <div id="dashboard-tab-content" class="tab-content">
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="dashboard-label">ယနေ့ အော်ဒါ</div>
+                <div class="dashboard-value" id="today-orders">0</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="dashboard-label">ယနေ့ ရောင်းအား</div>
+                <div class="dashboard-value" id="today-sales">0 Ks</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="dashboard-label">စုစုပေါင်း အော်ဒါ</div>
+                <div class="dashboard-value" id="total-orders">0</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="dashboard-label">စုစုပေါင်း ရောင်းအား</div>
+                <div class="dashboard-value" id="total-sales">0 Ks</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Tab -->
+    <div id="history-tab-content" class="tab-content">
+        <div id="order-history"></div>
+    </div>
+</div>
+
+<div class="cart-bar" id="cart-bar" style="display: none;">
+    <div class="cart-bar-info">
+        <div class="cart-bar-label">စုစုပေါင်း</div>
+        <div class="cart-bar-total" id="bar-total">0 Ks</div>
+    </div>
+    <button class="cart-bar-btn" onclick="openCart()">ခြင်းတောင်း ➔</button>
+</div>
+
+<!-- Cart Modal -->
+<div id="cart-sheet" class="overlay">
+    <div class="modal-sheet">
+        <div class="modal-header">
+            <div style="display:flex; align-items:center;">
+                <button class="back-btn" id="modal-back"><i class="fa-solid fa-arrow-left"></i></button>
+                <h3 id="modal-title" style="margin:0 0 0 12px;">ခြင်းတောင်းစာရင်း</h3>
+            </div>
+            <span id="item-count-badge" style="background:#fef3c7; padding:6px 14px; border-radius:12px; font-weight:700; font-size:13px; color:#d97706;">0 မျိုး</span>
+        </div>
+        
+        <div class="modal-body" id="modal-scroll-area">
+            <div id="cart-list"></div>
+            <div id="form-box" style="display: none;">
+                <div class="form-card">
+                    <label>👤 ဝယ်သူအမည်</label>
+                    <input type="text" id="in-name" placeholder="အမည်ဖြည့်ပါ">
+                    <label>📞 ဖုန်းနံပါတ်</label>
+                    <input type="tel" id="in-phone" placeholder="၀၉...">
+                    <label>📅 ရက်စွဲ</label>
+                    <div class="date-choices">
+                        <div class="date-chip active" id="chip-today" onclick="selectDate('today')">ဒီနေ့</div>
+                        <div class="date-chip" id="chip-other" onclick="selectDate('other')">တခြားရက်</div>
+                    </div>
+                    <div id="custom-date-row" style="display:none;">
+                        <label>🗓️ ရက်စွဲ</label>
+                        <input type="date" id="in-date">
+                    </div>
+                    <label>🕒 အချိန်</label>
+                    <input type="time" id="in-time">
+                    
+                    <div class="discount-section">
+                        <div class="discount-label">🎉 ছাড်ပေးမည် (%):</div>
+                        <div class="discount-input">
+                            <input type="number" id="discount-input" placeholder="0" min="0" max="100" onchange="updateTotal()">
+                            <button onclick="applyDiscount()">ကျ</button>
+                        </div>
+                        <div style="margin-top: 8px; font-size: 12px; color: #059669; font-weight: 700;">
+                            ခွင့်ပြုချက်: <span id="discount-amount">0</span> Ks
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 12px; border: 2px solid #dbeafe; border-radius: 12px; background: #f0f9ff; margin-bottom: 12px;">
+                        <p style="font-size: 12px; color: #0369a1; margin: 0; line-height: 1.6; font-weight: 600;">
+                            📜 အော်ဒါတင်ပြီး <strong>(၅) မိနစ်အတွင်း</strong> ဆိုင်မှ အကြောင်းမပြန်ပါက ဖုန်းဆက်ပေးပါရန် မေတ္တာရပ်ခံအပ်ပါသည်။
+                        </p>
+                    </div>
+                    <div style="display:flex; gap:10px;">        
+                        <button class="btn-s" style="background:#7360f2;" onclick="sendOrder('viber')"><i class="fa-brands fa-viber"></i> Viber</button>
+                        <button class="btn-s" style="background:#0088cc;" onclick="sendOrder('tele')"><i class="fa-brands fa-telegram"></i> Telegram</button>
+                    </div>
+                </div>
+            </div>
+            <button id="next-btn" class="btn-main" style="margin-top:20px;" onclick="step2()">အော်ဒါတင်မည် ➔</button>
+        </div>
+    </div>
+</div>
+
+<div id="alert-bg" class="overlay" style="z-index: 999;"></div>
+<div id="alert-pop" class="alert-pop">
+    <p id="alert-msg" style="font-weight:bold;"></p>
+    <button class="btn-main" onclick="closeAlert()">နားလည်ပါပြီ</button>
+</div>
+
+<script>
+    const MY_PHONE = "959767287345";
+    const WEB_LINK = window.location.href;
+    const BOT_TOKEN = "8215695761:AAF1qDjAJn7gjiHyzf8t7W6c8e51cim98sU";
+    const CHAT_ID = "8116152317";
+
+    const menuData = [
+        { id: 2, name: 'ကြက်ရင်အုံ', price: 4000, category: 'အသား', image: 'https://i.ibb.co/FLb4YzNT/1771770596329.png' },
+        { id: 20, name: 'ကြက်ပေါင်', price: 4000, category: 'အသား', image: 'https://i.ibb.co/twQQYmYN/1771771044356.png' },
+        { id: 1, name: 'ကြက်ပေါင်', price: 3000, category: 'အသား', image: 'https://i.ibb.co/JWsqDFX9/1768228481848.png' },
+        { id: 3, name: 'ဆိတ်သားကင်', price: 1500, category: 'အသား', image: 'https://i.ibb.co/twQjTScV/IMG-20251231-003231.png' },
+        { id: 14, name: 'လက်မောင်းလုံး', price: 1000, category: 'အသား', image: '' },
+        { id: 7, name: 'အတောင်ပျံ (CP)', price: 1000, category: 'အရိုး', image: 'https://i.ibb.co/rKJY26TM/1767147666947.png' },
+        { id: 18, name: 'အပ်မှို', price: 1000, category: 'အသီးအရွက်', image: 'https://i.ibb.co/PsGSSTK4/1768228089572.png' },
+        { id: 19, name: 'ငုံးဥ', price: 1000, category: 'ဥ', image: 'https://i.ibb.co/xtyy8V0N/1768211447515.png' },
+        { id: 4, name: 'အသား ချောင်း(ကြက်)', price: 800, category: 'အသား', image: 'https://i.ibb.co/rRd5P91j/1767118697374.png' },
+        { id: 15, name: 'အဆီပူး', price: 800, category: 'အရေခွံ', image: 'https://i.ibb.co/PGcW9j6r/1767118749960.png' },
+        { id: 13, name: 'ခြေထောက်(CP)', price: 700, category: 'အရိုး', image: 'https://i.ibb.co/7dPMPdR9/1771774751760.png' },
+        { id: 5, name: 'အရေခွံ', price: 500, category: 'အရေခွံ', image: 'https://i.ibb.co/MkJqnDyG/1767147480724.png' },
+        { id: 6, name: 'အတောင်ပျံ', price: 500, category: 'အရိုး', image: 'https://i.ibb.co/7dpqp2BJ/1771771310595.png' },
+        { id: 8, name: 'အူ', price: 500, category: 'ကလီစာ', image: 'https://i.ibb.co/0VZfW6jW/1771771269724.png' },
+        { id: 11, name: 'အသည်းမြစ်', price: 500, category: 'ကလီစာ', image: 'https://i.ibb.co/twRsK5S7/1767147537379.png' },
+        { id: 16, name: 'အသားတု', price: 400, category: 'အသီးအရွက်', image: 'https://i.ibb.co/hpPRPDr/1768208099763.png' },
+        { id: 21, name: 'အာလူး', price: 500, category: 'အသီးအရွက်', image: '' },
+        { id: 9, name: 'ခေါင်း', price: 300, category: 'အရိုး', image: 'https://i.ibb.co/Y4dYQ0Q2/1771774457826.png' },
+        { id: 10, name: 'လည် ချောင်း', price: 300, category: 'အရိုး', image: 'https://i.ibb.co/bjL850PP/1768208169381.png' },
+        { id: 12, name: 'ခြေထောက်', price: 300, category: 'အရိုး', image: '' },
+        { id: 17, name: 'ရုံးပတေသီး', price: 300, category: 'အသီးအရွက်', image: 'https://i.ibb.co/cSCzCKN5/1768228376693.png' }
+    ];
+
+    let cart = {};
+    let activeCat = 'All';
+    let chosenDay = 'today';
+    let discountPercent = 0;
+    let orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+
+    function renderMenu() {
+        const q = document.getElementById('searchInput').value.toLowerCase();
+        const grid = document.getElementById('grid-box');
+        const items = menuData.filter(i => (activeCat === 'All' || i.category === activeCat) && i.name.toLowerCase().includes(q));
+        grid.innerHTML = items.map(i => `
+            <div class="card">
+                <img src="${i.image || 'https://via.placeholder.com/150'}" class="card-img">
+                <div class="card-info">
+                    <span class="item-name">${i.name}</span>
+                    <span class="item-price">${i.price.toLocaleString()} Ks</span>
+                    <button class="btn-add" onclick="addToCart(${i.id})">+ ထည့်မည်</button>
+                </div>
+            </div>`).join('');
+        updateStats();
+    }
+
+    function filterCat(c, el) {
+        activeCat = c;
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+        renderMenu();
+    }
+
+    function switchTab(tab, el) {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        
+        if (tab === 'menu') document.getElementById('menu-tab-content').classList.add('active');
+        else if (tab === 'dashboard') {
+            document.getElementById('dashboard-tab-content').classList.add('active');
+            updateDashboard();
+        }
+        else if (tab === 'history') {
+            document.getElementById('history-tab-content').classList.add('active');
+            updateHistory();
+        }
+    }
+
+    function addToCart(id) {
+        cart[id] = (cart[id] || 0) + 1;
+        updateFloatingBar();
+        updateStats();
+    }
+
+    function updateStats() {
+        let total = 0, count = 0;
+        for (let id in cart) {
+            const item = menuData.find(m => m.id == id);
+            total += item.price * cart[id];
+            count += cart[id];
+        }
+        document.getElementById('stat-total').innerText = total.toLocaleString() + ' Ks';
+        document.getElementById('stat-items').innerText = count;
+    }
+
+    function updateFloatingBar() {
+        let t = 0;
+        for (let id in cart) t += cart[id] * menuData.find(m => m.id == id).price;
+        document.getElementById('cart-bar').style.display = t > 0 ? 'flex' : 'none';
+        document.getElementById('bar-total').innerText = t.toLocaleString() + ' Ks';
+    }
+
+    function openCart() {
+        const list = document.getElementById('cart-list');
+        let html = '', total = 0, count = 0;
+        for (let id in cart) {
+            const item = menuData.find(m => m.id == id);
+            total += item.price * cart[id];
+            count++;
+            html += `
+            <div class="cart-item">
+                <img src="${item.image || 'https://via.placeholder.com/50'}" class="cart-item-img">
+                <div class="cart-item-info">
+                    <b>${item.name}</b>
+                    <span>${item.price.toLocaleString()} Ks</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <div class="qty-group">
+                        <button class="btn-q" onclick="changeQty(${id}, -1)">-</button>
+                        <input type="number" class="val-q" value="${cart[id]}" onchange="manualQty(${id}, this.value)">
+                        <button class="btn-q" onclick="changeQty(${id}, 1)">+</button>
+                    </div>
+                    <button class="btn-del" onclick="removeItem(${id})"><i class="fa-regular fa-trash-can"></i></button>
+                </div>
+            </div>`;
+        }
+        document.getElementById('item-count-badge').innerText = count + " မျိုး";
+        list.innerHTML = html + '<div class="cart-total-row">စုစုပေါင်း: <span style="color:var(--accent); font-size: 18px; margin-left: 5px;">' + total.toLocaleString() + '</span> Ks</div>';
+             
+        document.getElementById('cart-sheet').style.display = 'block';
+        document.getElementById('form-box').style.display = 'none';
+        document.getElementById('cart-list').style.display = 'block';
+        document.getElementById('next-btn').style.display = 'block';
+        document.getElementById('modal-title').innerText = "ခြင်းတောင်းစာရင်း";
+        document.getElementById('modal-back').onclick = () => { document.getElementById('cart-sheet').style.display = 'none'; };
+    }
+
+    function removeItem(id) { delete cart[id]; if (Object.keys(cart).length === 0) document.getElementById('cart-sheet').style.display = 'none'; else openCart(); updateFloatingBar(); updateStats(); }
+    function changeQty(id, d) { cart[id] += d; if (cart[id] <= 0) delete cart[id]; if (Object.keys(cart).length === 0) document.getElementById('cart-sheet').style.display = 'none'; else openCart(); updateFloatingBar(); updateStats(); }
+    function manualQty(id, v) { let n = parseInt(v); if (n <= 0 || isNaN(n)) delete cart[id]; else cart[id] = n; if (Object.keys(cart).length === 0) document.getElementById('cart-sheet').style.display = 'none'; else openCart(); updateFloatingBar(); updateStats(); }
+    
+    function selectDate(day) { chosenDay = day; document.getElementById('chip-today').classList.toggle('active', day === 'today'); document.getElementById('chip-other').classList.toggle('active', day === 'other'); document.getElementById('custom-date-row').style.display = day === 'other' ? 'block' : 'none'; }
+    function myPop(m) { document.getElementById('alert-msg').innerText = m; document.getElementById('alert-bg').style.display = 'block'; document.getElementById('alert-pop').style.display = 'block'; }
+    function closeAlert() { document.getElementById('alert-bg').style.display = 'none'; document.getElementById('alert-pop').style.display = 'none'; }
+
+    function applyDiscount() {
+        const discountVal = parseFloat(document.getElementById('discount-input').value) || 0;
+        if (discountVal < 0 || discountVal > 100) {
+            myPop("ခွင့်ပြုချက်သည် ၀ မှ ၁၀၀ ကြားတွင် ရှိရမည်ပါ။");
+            return;
+        }
+        discountPercent = discountVal;
+        updateTotal();
+    }
+
+    function updateTotal() {
+        let total = 0;
+        for (let id in cart) total += cart[id] * menuData.find(m => m.id == id).price;
+        const discountAmount = Math.round(total * discountPercent / 100);
+        document.getElementById('discount-amount').innerText = discountAmount.toLocaleString();
+    }
+
+    function step2() { 
+        document.getElementById('form-box').style.display = 'block'; 
+        document.getElementById('next-btn').style.display = 'none'; 
+        document.getElementById('modal-title').innerText = "အချက်အလက်ဖြည့်ပါ"; 
+        
+        document.getElementById('modal-back').onclick = () => {
+            document.getElementById('form-box').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'block';
+            document.getElementById('modal-title').innerText = "ခြင်းတောင်းစာရင်း";
+            document.getElementById('modal-back').onclick = () => { document.getElementById('cart-sheet').style.display = 'none'; };
+        };
+
+        setTimeout(() => {
+            document.getElementById('form-box').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    }
+    
+    async function sendOrder(via) {
+        const name = document.getElementById('in-name').value;
+        const phone = document.getElementById('in-phone').value;
+        const time = document.getElementById('in-time').value;
+        const otherDate = document.getElementById('in-date').value;
+        if(!name || !phone || !time) return myPop("အချက်အလက်တွေ ပြည့်စုံအောင် ဖြည့်ပေးပါ ✨");
+
+        let dayStr = chosenDay === 'today' ? "ဒီနေ့ (Today)" : otherDate;
+        let items = [];
+        let total = 0;
+        for(let id in cart) {
+            const i = menuData.find(m => m.id == id);
+            total += i.price * cart[id];
+            items.push(`▪️ ${i.name} (${cart[id]} ခု)`);
+        }
+        const discountAmount = Math.round(total * discountPercent / 100);
+        const finalTotal = total - discountAmount;
+        const msg = `🍗 *မြင်သာကြက်ကင် - အော်ဒါ*\n👤 *အမည်:* ${name}\n📞 *ဖုန်း:* ${phone}\n📅 *နေ့ရက်:* ${dayStr}\n🕒 *အချိန်:* ${time}\n━━━━━━━━━━━━━━\n${items.join('\n')}\n━━━━━━━━━━━━━━\n💰 *စုစုပေါင်း:* ${total.toLocaleString()} MMK\n🎉 *ခွင့်ပြုချက်:* ${discountPercent}% (-${discountAmount.toLocaleString()} MMK)\n✅ *နောက်ဆုံး:* *${finalTotal.toLocaleString()} MMK*\n\n🛒 *ပြန်လည်မှာယူရန်နှိပ်ပါ* 👇\n${WEB_LINK}`;
+        try {
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: CHAT_ID, text: msg, parse_mode: 'Markdown' })
+            });
+
+            const orderData = {
+                name, phone, time, dayStr,
+                items: Object.keys(cart).map(id => ({ name: menuData.find(m => m.id == id).name, qty: cart[id], price: menuData.find(m => m.id == id).price })),
+                total, discountPercent, discountAmount, finalTotal,
+                timestamp: new Date().toLocaleString('my-MM')
+            };
+            orderHistory.unshift(orderData);
+            localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+
+           if(via === 'viber') {
+                navigator.clipboard.writeText(msg).then(() => {
+                    myPop("Copy ကူးပြီးပါပြီ။ Viber မှာ Paste လုပ်ပြီး ပို့ပေးပါ!");
+                    setTimeout(() => { window.location.href = `viber://chat?number=%2B${MY_PHONE}`; }, 1200);
+                });
+            } else {
+                window.location.href = `https://t.me/+${MY_PHONE}?text=${encodeURIComponent(msg)}`;
+            }
+            cart = {}; discountPercent = 0; updateFloatingBar(); updateStats(); document.getElementById('cart-sheet').style.display = 'none';
+        } catch (e) { myPop("Error! Bot ဆီသို့ အော်ဒါပို့မရပါ။"); }
+    }
+
+    function updateDashboard() {
+        const today = new Date().toDateString();
+        const todayOrders = orderHistory.filter(o => new Date(o.timestamp).toDateString() === today);
+        const todayTotal = todayOrders.reduce((sum, o) => sum + o.finalTotal, 0);
+        const totalSales = orderHistory.reduce((sum, o) => sum + o.finalTotal, 0);
+
+        document.getElementById('today-orders').innerText = todayOrders.length;
+        document.getElementById('today-sales').innerText = todayTotal.toLocaleString() + ' Ks';
+        document.getElementById('total-orders').innerText = orderHistory.length;
+        document.getElementById('total-sales').innerText = totalSales.toLocaleString() + ' Ks';
+    }
+
+    function updateHistory() {
+        const historyDiv = document.getElementById('order-history');
+        if (orderHistory.length === 0) {
+            historyDiv.innerHTML = '<p style="text-align: center; color: #94a3b8; padding: 20px;">အော်ဒါမှတ်တမ်းမရှိသေးပါ</p>';
+            return;
+        }
+        historyDiv.innerHTML = orderHistory.map((o, i) => `
+            <div class="order-item">
+                <div class="order-header">
+                    <div>
+                        <div class="order-name">${o.name}</div>
+                        <div class="order-time">${o.timestamp}</div>
+                    </div>
+                    <div class="order-amount">${o.finalTotal.toLocaleString()} Ks</div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    window.onload = () => {
+        renderMenu();
+        updateDashboard();
+    };
+</script>
+</body>
+</html>
