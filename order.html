@@ -7,14 +7,23 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <style>
+        <style>
     @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Pyidaungsu:wght@400;700&family=Cinzel:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap');
     body { font-family: 'Pyidaungsu', sans-serif; background: #050505; color: #fff; min-height: 100vh; overflow-x: hidden; }
     .arabic { font-family: 'Reem Kufi', sans-serif; }
     .premium-font { font-family: 'Cinzel', serif; }
     #bgSlider { position: fixed; inset: 0; z-index: -2; background-size: cover; background-position: center; transition: background-image 2s; }
     .overlay { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 100%); }
-    .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px); border: 1px solid rgba(212, 175, 55, 0.2); }
+    
+    /* Countdown Box (Glass) - နေ/လ ထည့်ရန် relative ပေးထားသည် */
+    .glass { 
+        background: rgba(255, 255, 255, 0.03); 
+        backdrop-filter: blur(25px); 
+        border: 1px solid rgba(212, 175, 55, 0.2); 
+        position: relative; /* အထဲက Arc အတွက် */
+        overflow: hidden; 
+    }
+    
     .gold-text { background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     #calendarDrawer { transform: translateY(100%); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
     #calendarDrawer.open { transform: translateY(0); }
@@ -29,33 +38,36 @@
     .arabic-text { font-family: 'Amiri', serif !important; font-variant-ligatures: common-ligatures !important; -webkit-font-feature-settings: "liga" 1, "kern" 1 !important; font-feature-settings: "liga" 1, "kern" 1 !important; direction: rtl; text-transform: none !important; white-space: nowrap; }
     .mm-text { font-family: 'Pyidaungsu', sans-serif; font-feature-settings: "kern" 1, "liga" 1; }
     .zakat-box { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 25px; padding: 20px; margin: 15px; }
-.zakat-input { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 12px; border-radius: 12px; width: 100%; margin-top: 5px; outline: none; }
-.zakat-input:focus { border-color: #D4AF37; }
-.nisab-info { font-size: 11px; color: #BF953F; margin-bottom: 15px; border-left: 2px solid #BF953F; padding-left: 10px; }
-/* Sky & Celestial Bodies */
-#skyCanvas { position: fixed; inset: 0; z-index: -2; transition: background 2s ease; overflow: hidden; }
-.sky-path { 
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 90%; height: 600px; border: 1px dashed rgba(212, 175, 55, 0.2); 
-    border-radius: 50% 50% 0 0 / 100% 100% 0 0; pointer-events: none; 
-}
-.celestial { 
-    position: absolute; width: 50px; height: 50px; border-radius: 50%; 
-    transform: translate(-50%, -50%); transition: all 1s linear; 
-}
-.sun-live { background: radial-gradient(circle, #fff, #ffcc00, #ff8800); box-shadow: 0 0 50px #ffaa00; }
-.moon-live { background: #f0f0f0; box-shadow: 0 0 30px rgba(255,255,255,0.4); overflow: hidden; }
-.moon-shadow { position: absolute; inset: 0; background: rgba(0,0,0,0.85); border-radius: 50%; transition: 0.5s; }
+    .zakat-input { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 12px; border-radius: 12px; width: 100%; margin-top: 5px; outline: none; }
+    .zakat-input:focus { border-color: #D4AF37; }
+    .nisab-info { font-size: 11px; color: #BF953F; margin-bottom: 15px; border-left: 2px solid #BF953F; padding-left: 10px; }
 
-/* Stars & Clouds Animations */
-.star { position: absolute; background: white; border-radius: 50%; animation: twinkle var(--d) infinite; }
-.cloud { position: absolute; background: white; opacity: 0.2; border-radius: 50%; filter: blur(30px); animation: drift var(--d) linear infinite; }
+    /* --- Box ထဲက Arc & Celestial ပုံစံအသစ် --- */
+    .arc-container {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100px;
+        pointer-events: none; z-index: 0;
+    }
+    .sky-path-mini { 
+        position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
+        width: 85%; height: 120px; 
+        border: 1px dashed rgba(212, 175, 55, 0.25); 
+        border-radius: 50%;
+    }
+    .celestial-mini { 
+        position: absolute; width: 30px; height: 30px; border-radius: 50%; 
+        transform: translate(-50%, -50%); transition: all 1s linear; 
+    }
+    .sun-mini { background: radial-gradient(circle, #fff, #ffcc00, #ff8800); box-shadow: 0 0 20px #ffaa00; }
+    .moon-mini { background: #f0f0f0; box-shadow: 0 0 15px rgba(255,255,255,0.4); overflow: hidden; }
+    .moon-shadow-mini { position: absolute; inset: 0; background: rgba(0,0,0,0.8); border-radius: 50%; transition: 0.5s; }
 
-@keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
-@keyframes drift { from { left: -200px; } to { left: 100vw; } }
-        
-        
-    </style>
+    /* Stars & Clouds (Background မှာပဲ ထားမယ်) */
+    #starsContainer { position: fixed; inset: 0; z-index: -1; }
+    .star { position: absolute; background: white; border-radius: 50%; animation: twinkle var(--d) infinite; }
+    @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+        </style>
+    
     
 </head>
     
