@@ -8,6 +8,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
         <style>
+    @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Pyidaungsu:wght@400;700&family=Cinzel:wght@400;700&family=Reem+Kufi:wght@400;700&family=Outfit:wght@200;400;600&display=swap');
+            
     @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Pyidaungsu:wght@400;700&family=Cinzel:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap');
     body { font-family: 'Pyidaungsu', sans-serif; background: #050505; color: #fff; min-height: 100vh; overflow-x: hidden; }
     .arabic { font-family: 'Reem Kufi', sans-serif; }
@@ -16,22 +18,63 @@
     .overlay { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 100%); }
     
     /* Countdown Box (Glass) - နေ/လ ထည့်ရန် relative ပေးထားသည် */
-    .glass { 
-        background: rgba(255, 255, 255, 0.03); 
-        backdrop-filter: blur(25px); 
-        border: 1px solid rgba(212, 175, 55, 0.2); 
-        position: relative; /* အထဲက Arc အတွက် */
-        overflow: hidden; 
-    }
-    
-    .gold-text { background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    :root {
+    --gold-grad: linear-gradient(135deg, #d4af37 0%, #fcf6ba 45%, #b38728 100%);
+}
+
+.sky-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 45px;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(30px);
+}
+
+.premium-gold {
+    background: var(--gold-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+            
     #calendarDrawer { transform: translateY(100%); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
     #calendarDrawer.open { transform: translateY(0); }
     #posterCanvas { position: fixed; left: -9999px; background: #000; line-height: 1.6; }
     input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.3); }
     .today-highlight { background: rgba(212, 175, 55, 0.15); border-left: 4px solid #D4AF37; }
-    .prayer-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.3s ease; }
-    .prayer-card.active { background: rgba(212, 175, 55, 0.1); border-color: rgba(212, 175, 55, 0.5); box-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
+    .prayer-card {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 30px;
+    padding: 22px 28px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.5s;
+}
+
+.prayer-card.active {
+    background: rgba(212, 175, 55, 0.07);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
+}
+
+.next-badge {
+    background: var(--gold-grad);
+    color: #000;
+    font-size: 8px;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+            
     .custom-scrollbar::-webkit-scrollbar { width: 3px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #BF953F; border-radius: 10px; }
@@ -69,16 +112,23 @@
 }
 
 /* နေ/လ ပုံစံ */
-.celestial-mini {
+.arc-path {
     position: absolute;
-    width: 28px;
-    height: 28px;
+    top: 45px; left: 10%; width: 80%; height: 200px;
+    border-radius: 50%;
+    border-top: 1px dashed rgba(212, 175, 55, 0.15);
+    pointer-events: none;
+}
+
+.celestial {
+    position: absolute;
+    width: 32px; height: 32px;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10;
-    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
-    transition: opacity 1s ease;
+    filter: drop-shadow(0 0 15px currentColor);
+    transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
+            
 
 .sun-mini { 
     background: radial-gradient(circle, #fff, #ffcc00, #ff8800); 
@@ -135,73 +185,75 @@
         </div>
     </div>
 
-    <div id="statusLabel" class="text-[10px] font-bold text-yellow-500/60 mb-8 tracking-[0.3em] uppercase mt-4 relative z-10">
-        Checking Time...
+    <div class="sky-card text-center mb-8 mx-2">
+    <div class="arc-path"></div>
+    <div id="sun" class="celestial text-yellow-400" style="background: radial-gradient(circle, #fff, #ffcc00);"></div>
+    <div id="moon" class="celestial text-white" style="background: radial-gradient(circle, #fff, #ddd);"></div>
+
+    <div class="relative z-10 pt-4">
+        <div class="flex flex-col items-center mb-6">
+            <span class="next-badge">Next Prayer</span>
+            <div class="flex items-center gap-3">
+                <h1 id="nextName" class="text-3xl font-semibold tracking-tight">---</h1>
+                <span id="nextTime" class="premium-gold text-lg">--:-- --</span>
+            </div>
+        </div>
+
+        <div class="flex justify-center items-center gap-2 mb-4">
+            <div class="text-center">
+                <span id="h" class="text-6xl font-thin tracking-tighter">00</span>
+            </div>
+            <span class="text-3xl opacity-20 mb-2">:</span>
+            <div class="text-center">
+                <span id="m" class="text-6xl font-thin tracking-tighter">00</span>
+            </div>
+            <span class="text-3xl premium-gold mb-2">:</span>
+            <div class="text-center">
+                <span id="s" class="text-6xl font-bold tracking-tighter">00</span>
+            </div>
+        </div>
+        <p id="statusLabel" class="text-[10px] uppercase tracking-[0.6em] opacity-30">Checking Time...</p>
+        
+        <div class="mt-8 px-4 border-t border-white/5 pt-6">
+            <p id="duaLabel" class="text-[9px] text-yellow-500/50 mb-4 tracking-[0.2em] uppercase font-bold">ဝါပိတ်ရန် နီယသ်ပြုခြင်း</p>
+            <p id="duaArabic" class="arabic text-2xl text-white/95 leading-relaxed mb-2">نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ رَمَضَانَ</p>
+            <p id="duaMyanmar" class="text-[11px] text-white/40 font-light italic leading-relaxed">"ကျွန်ုပ်သည် ရမ္မဿွာန်လ၏ ဥပုသ်သီလကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"</p>
+        </div>
+    </div>
     </div>
     
-    <div class="flex justify-center items-center gap-4 mb-8 relative z-10">
-        <div class="text-center">
-            <span id="h" class="text-6xl font-extralight tracking-tighter">00</span>
-            <p class="text-[8px] opacity-40 mt-2 tracking-widest">HOURS</p>
-        </div>
-        <span class="text-4xl gold-text opacity-30 mb-6">:</span>
-        <div class="text-center">
-            <span id="m" class="text-6xl font-extralight tracking-tighter">00</span>
-            <p class="text-[8px] opacity-40 mt-2 tracking-widest">MINS</p>
-        </div>
-        <span class="text-4xl gold-text opacity-30 mb-6">:</span>
-        <div class="text-center">
-            <span id="s" class="text-6xl font-bold text-yellow-500 tracking-tighter">00</span>
-            <p class="text-[8px] opacity-40 mt-2 tracking-widest text-yellow-500/50">SECS</p>
-        </div>
-    </div>
-
-    <div class="w-24 h-[1px] bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent mx-auto mb-6 relative z-10"></div>
-
-    <div class="px-2 relative z-10">
-        <p id="duaLabel" class="text-[9px] text-yellow-500/50 mb-4 tracking-[0.2em] uppercase font-bold">ဝါပိတ်ရန် နီယသ်ပြုခြင်း</p>
-        <p id="duaArabic" class="arabic text-2xl text-white/95 leading-relaxed mb-3">
-            نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ ရَمَضَانَ
-        </p>
-        <p id="duaMyanmar" class="text-[11px] text-white/60 font-light italic leading-relaxed">
-            "ကျွန်ုပ်သည် ရမ္မဿွာန်လ၏ ဥပုသ်သီလကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"
-        </p>
-    </div>
-</div>
         
-        
-        
-        <div class="glass rounded-[40px] p-6 mb-8 mx-2 border border-white/10">
-    <div class="bg-yellow-500/10 rounded-3xl p-5 mb-6 border border-yellow-500/30 text-center">
-        <span class="text-[10px] text-yellow-500/80 uppercase tracking-[0.2em]">Next Prayer</span>
-        <div id="nextPrayerName" class="text-2xl font-bold text-white mt-1">---</div>
-        <div id="nextPrayerTime" class="text-sm text-yellow-500 font-medium">--:-- --</div>
+        <div id="prayer-list" class="px-2">
+    <div id="row-fajar" class="prayer-card">
+        <span class="text-[14px] opacity-50 font-medium">ဖဂျရ် (Fajar)</span>
+        <span id="fajarTimeDisplay" class="text-[16px] tracking-widest font-light">05:16 AM</span>
     </div>
-
-    <div class="space-y-3">
-        <div id="card-fajar" class="flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/5">
-            <span class="text-xs font-semibold opacity-70">ဖဂျရ် (Fajar)</span>
-            <span id="fajarTimeDisplay" class="text-sm font-bold">05:16 AM</span>
+    
+    <div id="row-zohar" class="prayer-card">
+        <span id="zoharJummaLabel" class="text-[14px] opacity-50 font-medium">ဇုဟ်ရ် (Zohar)</span>
+        <span id="zoharJummaTime" class="text-[16px] tracking-widest font-light">12:30 PM</span>
+    </div>
+    
+    <div id="row-aser" class="prayer-card">
+        <span class="text-[14px] opacity-50 font-medium">အဆွရ် (Aser)</span>
+        <span id="aserTimeDisplay" class="text-[16px] tracking-widest font-light">04:45 PM</span>
+    </div>
+    
+    <div id="row-magrib" class="prayer-card">
+        <div class="flex flex-col text-left">
+            <span class="text-[14px] font-bold premium-gold">မဂ်ရိဗ် (Magrib)</span>
+            <span class="text-[9px] opacity-40 uppercase tracking-widest">Iftar Time</span>
         </div>
-        <div id="card-zohar" class="flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/5">
-            <span id="zoharJummaLabel" class="text-xs font-semibold opacity-70">ဇုဟ်ရ် (Zohar)</span>
-            <span id="zoharJummaTime" class="text-sm font-bold">12:30 PM</span>
-        </div>
-        <div id="card-aser" class="flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/5">
-            <span class="text-xs font-semibold opacity-70">အဆွရ် (Aser)</span>
-            <span id="aserTimeDisplay" class="text-sm font-bold">04:45 PM</span>
-        </div>
-        <div id="card-magrib" class="flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/5">
-            <span class="text-xs font-semibold gold-text">မဂ်ရိဗ် (Magrib)</span>
-            <span id="magribTimeDisplay" class="text-sm font-bold gold-text">06:11 PM</span>
-        </div>
-        <div id="card-esha" class="flex justify-between items-center p-4 rounded-2xl bg-white/5 border border-white/5">
-            <span class="text-xs font-semibold opacity-70">အီရှာ (Esha)</span>
-            <span id="eshaTimeDisplay" class="text-sm font-bold">07:25 PM</span>
-        </div>
+        <span id="magribTimeDisplay" class="text-[16px] tracking-widest font-bold premium-gold">06:11 PM</span>
+    </div>
+    
+    <div id="row-esha" class="prayer-card">
+        <span class="text-[14px] opacity-50 font-medium">အီရှာ (Esha)</span>
+        <span id="eshaTimeDisplay" class="text-[16px] tracking-widest font-light">07:25 PM</span>
     </div>
         </div>
-
+    
+        
 
         
 
@@ -598,16 +650,15 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
     updateNextPrayer(now, today);
 } // ဒါက update function ရဲ့ အပိတ် bracket ပါ
         
-        
         function updateNextPrayer(now, today) {
     const isJumma = now.getDay() === 5; 
     const zoharTime = isJumma ? "12:45 PM" : "12:30 PM";
     const zoharName = isJumma ? "ဂျုမ္အဟ် (Jumma)" : "ဇုဟ်ရ် (Zohar)";
 
-    // UI display update
+    // ၁။ အချိန်စာသားများကို UI တွင် Update လုပ်ခြင်း
+    document.getElementById('fajarTimeDisplay').innerText = today.fj + " AM";
     document.getElementById('zoharJummaLabel').innerText = zoharName;
     document.getElementById('zoharJummaTime').innerText = zoharTime;
-    document.getElementById('fajarTimeDisplay').innerText = today.fj + " AM";
     document.getElementById('aserTimeDisplay').innerText = today.a + " PM";
     document.getElementById('magribTimeDisplay').innerText = today.i + " PM";
     document.getElementById('eshaTimeDisplay').innerText = today.e + " PM";
@@ -621,40 +672,73 @@ const azanSound = new Audio('https://www.islamcan.com/audio/adhan/azan1.mp3'); /
     };
 
     const currentMin = now.getHours() * 60 + now.getMinutes();
-    
+    const timeDec = now.getHours() + now.getMinutes()/60 + now.getSeconds()/3600;
+
     const prayers = [
-        { id: "fajar", name: "Fajar", time: today.fj + " AM" },
-        { id: "zohar", name: isJumma ? "Jumma" : "Zohar", time: zoharTime },
-        { id: "aser", name: "Aser", time: "04:45 PM" },
-        { id: "magrib", name: "Magrib", time: today.i + " PM" },
-        { id: "esha", name: "Esha", time: "07:25 PM" }
+        { id: "row-fajar", name: "Fajar", time: today.fj + " AM" },
+        { id: "row-zohar", name: isJumma ? "Jumma" : "Zohar", time: zoharTime },
+        { id: "row-aser", name: "Aser", time: today.a + " PM" },
+        { id: "row-magrib", name: "Magrib", time: today.i + " PM" },
+        { id: "row-esha", name: "Esha", time: today.e + " PM" }
     ];
 
-    // Next Prayer ရှာတဲ့ Logic ကို ပိုသေချာအောင်ပြင်ဆင်ခြင်း
+    // ၂။ Next Prayer ရှာဖွေခြင်း
     let next = null;
+    let activeIdx = -1;
 
-    // လက်ရှိအချိန်ထက် ကြီးတဲ့ ပထမဆုံးအချိန်ကို ရှာမယ်
-    for (let p of prayers) {
-        if (currentMin < timeToMin(p.time)) {
-            next = p;
+    for (let i = 0; i < prayers.length; i++) {
+        if (currentMin < timeToMin(prayers[i].time)) {
+            next = prayers[i];
+            activeIdx = i - 1; // လက်ရှိဖြတ်ကျော်ခဲ့တဲ့အချိန်ကို Active ပေးရန်
             break;
         }
     }
 
-    // အကယ်၍ Esha ပြီးသွားရင် (ညဘက်ရောက်သွားရင်) နောက်နေ့ Fajar ကိုပြမယ်
-    if (!next) {
-        next = prayers[0];
+    if (!next) { 
+        next = prayers[0]; 
+        activeIdx = prayers.length - 1; 
     }
 
-    // UI Update
-    document.getElementById('nextPrayerName').innerText = next.name;
-    document.getElementById('nextPrayerTime').innerText = next.time;
+    // ၃။ UI Update (Next Badge & Highlight)
+    document.getElementById('nextName').innerText = next.name;
+    document.getElementById('nextTime').innerText = next.time;
 
-    // Highlight Card
-    document.querySelectorAll('[id^="card-"]').forEach(el => {
-        el.style.borderColor = 'rgba(255,255,255,0.05)';
-        el.style.backgroundColor = 'rgba(255,255,255,0.05)';
+    // အရင်ရှိတဲ့ Highlight တွေကို ဖျက်ပြီး Design သစ် Active Class ထည့်မယ်
+    prayers.forEach(p => {
+        const el = document.getElementById(p.id);
+        if(el) el.classList.remove('active');
     });
+    
+    if (activeIdx >= 0) {
+        const activeEl = document.getElementById(prayers[activeIdx].id);
+        if(activeEl) activeEl.classList.add('active');
+    }
+
+    // ၄။ Celestial Motion Logic (နေ/လ ကူးခတ်မှု)
+    const sun = document.getElementById('sun');
+    const moon = document.getElementById('moon');
+    const rx = 40; // အနံအကျယ် radius
+    const ry = 100; // အမြင့် radius (မျဉ်းကွေးအနိမ့်အမြင့်)
+
+    if (timeDec >= 6 && timeDec < 18) { // နေ့ဘက် (နေထွက်)
+        let p = (timeDec - 6) / 12;
+        let angle = Math.PI - (p * Math.PI);
+        sun.style.left = (50 + Math.cos(angle) * rx) + "%";
+        sun.style.top = (100 - Math.sin(angle) * ry) + "px";
+        sun.style.opacity = 1; 
+        moon.style.opacity = 0;
+    } else { // ညဘက် (လထွက်)
+        let mt = (timeDec >= 18) ? (timeDec - 18) : (timeDec + 6);
+        let p = mt / 12;
+        let angle = p * Math.PI; // ညာကနေ ဘယ်ကိုသွားမယ်
+        moon.style.left = (50 + Math.cos(angle) * rx) + "%";
+        moon.style.top = (100 - Math.sin(angle) * ry) + "px";
+        moon.style.opacity = 1; 
+        sun.style.opacity = 0;
+    }
+        }
+        
+        
     
     const activeId = `card-${next.id}`;
     const activeEl = document.getElementById(activeId);
