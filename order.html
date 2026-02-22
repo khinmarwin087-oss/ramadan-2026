@@ -43,25 +43,55 @@
     .nisab-info { font-size: 11px; color: #BF953F; margin-bottom: 15px; border-left: 2px solid #BF953F; padding-left: 10px; }
 
     /* --- Box ထဲက Arc & Celestial ပုံစံအသစ် --- */
-    .arc-container {
-        position: absolute;
-        top: 0; left: 0; width: 100%; height: 100px;
-        pointer-events: none; z-index: 0;
-    }
-    .sky-path-mini { 
-        position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
-        width: 85%; height: 120px; 
-        border: 1px dashed rgba(212, 175, 55, 0.25); 
-        border-radius: 50%;
-    }
-    .celestial-mini { 
-        position: absolute; width: 30px; height: 30px; border-radius: 50%; 
-        transform: translate(-50%, -50%); transition: all 1s linear; 
-    }
-    .sun-mini { background: radial-gradient(circle, #fff, #ffcc00, #ff8800); box-shadow: 0 0 20px #ffaa00; }
-    .moon-mini { background: #f0f0f0; box-shadow: 0 0 15px rgba(255,255,255,0.4); overflow: hidden; }
-    .moon-shadow-mini { position: absolute; inset: 0; background: rgba(0,0,0,0.8); border-radius: 50%; transition: 0.5s; }
+    
+/* Arc Container ကို Box ထိပ်မှာ နေရာချခြင်း */
+.arc-container {
+    position: absolute;
+    top: 20px; /* အပေါ်က မလွတ်တာကို ဖြေရှင်းရန် အောက်နည်းနည်းချထားသည် */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    height: 120px; /* မျဉ်းကွေး အမြင့် */
+    overflow: visible;
+    z-index: 5;
+}
 
+/* မျဉ်းကွေးတစ်ဝက်ပုံစံ (Semi-circle) */
+.sky-path-mini {
+    position: absolute;
+    width: 100%;
+    height: 200%; /* ဝိုင်းဝိုင်းလေး ဖြစ်စေရန် */
+    border: 0.5px dashed rgba(212, 175, 55, 0.3); /* ပါးပါးကြည်ကြည်လေး */
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    /* မျဉ်းကွေးရဲ့ အပေါ်တစ်ဝက်ကိုပဲ ပြရန် masking သုံးလို့ရသလို ရိုးရိုးပဲ ထားရင်လည်း ရသည် */
+}
+
+/* နေ/လ ပုံစံ */
+.celestial-mini {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+    transition: opacity 1s ease;
+}
+
+.sun-mini { 
+    background: radial-gradient(circle, #fff, #ffcc00, #ff8800); 
+    box-shadow: 0 0 20px #ffaa00; 
+}
+
+.moon-mini { 
+    background: #f0f0f0; 
+    box-shadow: 0 0 15px rgba(255,255,255,0.4); 
+    overflow: hidden; 
+}
+
+    
     /* Stars & Clouds (Background မှာပဲ ထားမယ်) */
     #starsContainer { position: fixed; inset: 0; z-index: -1; }
     .star { position: absolute; background: white; border-radius: 50%; animation: twinkle var(--d) infinite; }
@@ -775,40 +805,47 @@ function updateMiniSky() {
     const m = now.getMinutes();
     const s = now.getSeconds();
     const timeDec = h + m / 60 + s / 3600;
-    
+
     const sun = document.getElementById('sunMini');
     const moon = document.getElementById('moonMini');
     const mShadow = document.getElementById('mShadowMini');
-    const bgSlider = document.getElementById('bgSlider');
 
-    if (!sun || !moon) return; // Error ကာကွယ်ရန်
+    if (!sun || !moon) return;
 
-    // --- နေ/လ နေရာချခြင်း (Angle တွက်ချက်မှု) ---
-    if (timeDec >= 6 && timeDec <= 18) { // နေ့ဘက် (6 AM - 6 PM)
-        let progress = (timeDec - 6) / 12;
-        let angle = Math.PI + (progress * Math.PI); 
+    // Radius values for the arc
+    const rx = 50; // Width in %
+    const ry = 100; // Height to match the path
+
+    if (timeDec >= 6 && timeDec < 18) { // နေ: မနက် ၆ မှ ညနေ ၆ (ဘယ် -> ညာ)
+        let progress = (timeDec - 6) / 12; // 0 to 1
+        // Angle: Math.PI (Left) to 0 (Right)
+        let angle = Math.PI - (progress * Math.PI);
         
-        sun.style.left = (50 + Math.cos(angle) * 48) + "%"; 
-        sun.style.top = (85 + Math.sin(angle) * 80) + "px"; // Arc Curve အတိုင်း
-        sun.style.opacity = "1"; 
+        sun.style.left = (50 + Math.cos(angle) * rx) + "%";
+        sun.style.top = (100 - Math.sin(angle) * ry) + "%";
+        
+        sun.style.opacity = "1";
         moon.style.opacity = "0";
     } 
-    else { // ညဘက် (6 PM - 6 AM)
+    else { // လ: ညနေ ၆ မှ မနက် ၆ (ညာ -> ဘယ်)
         let mTime = (timeDec >= 18) ? (timeDec - 18) : (timeDec + 6);
-        let progress = mTime / 12;
-        let angle = Math.PI + (progress * Math.PI);
-
-        moon.style.left = (50 + Math.cos(angle) * 48) + "%";
-        moon.style.top = (85 + Math.sin(angle) * 80) + "px";
-        moon.style.opacity = "1"; 
+        let progress = mTime / 12; // 0 to 1
+        // Angle: 0 (Right) to Math.PI (Left)
+        let angle = progress * Math.PI;
+        
+        moon.style.left = (50 + Math.cos(angle) * rx) + "%";
+        moon.style.top = (100 - Math.sin(angle) * ry) + "%";
+        
+        moon.style.opacity = "1";
         sun.style.opacity = "0";
 
-        // လအဆင့် (Moon Phase)
+        // လအဆင့် တွက်ချက်ခြင်း
         let dayNum = now.getDate();
         let phasePos = ((dayNum % 30) / 30) * 200 - 100;
         if (mShadow) mShadow.style.transform = `translateX(${phasePos}%)`;
     }
 }
+        
 
 // ၃။ ဇကားသ် တွက်ချက်ခြင်း
 function calculateZakat() {
