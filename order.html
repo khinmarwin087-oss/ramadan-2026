@@ -95,11 +95,21 @@
         
         
         
-
-        <div class="glass rounded-[50px] px-4 py-10 text-center mb-8 relative overflow-hidden">
-    <div id="statusLabel" class="text-[10px] font-bold text-yellow-500/60 mb-8 tracking-[0.3em] uppercase">Checking Time...</div>
+<div class="glass rounded-[50px] px-4 py-10 text-center mb-8 relative overflow-hidden">
     
-    <div class="flex justify-center items-center gap-4 mb-8">
+    <div class="arc-container">
+        <div class="sky-path-mini"></div>
+        <div id="sunMini" class="celestial-mini sun-mini"></div>
+        <div id="moonMini" class="celestial-mini moon-mini">
+            <div id="mShadowMini" class="moon-shadow-mini"></div>
+        </div>
+    </div>
+
+    <div id="statusLabel" class="text-[10px] font-bold text-yellow-500/60 mb-8 tracking-[0.3em] uppercase mt-4 relative z-10">
+        Checking Time...
+    </div>
+    
+    <div class="flex justify-center items-center gap-4 mb-8 relative z-10">
         <div class="text-center">
             <span id="h" class="text-6xl font-extralight tracking-tighter">00</span>
             <p class="text-[8px] opacity-40 mt-2 tracking-widest">HOURS</p>
@@ -116,18 +126,19 @@
         </div>
     </div>
 
-    <div class="w-24 h-[1px] bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent mx-auto mb-6"></div>
+    <div class="w-24 h-[1px] bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent mx-auto mb-6 relative z-10"></div>
 
-    <div class="px-2">
+    <div class="px-2 relative z-10">
         <p id="duaLabel" class="text-[9px] text-yellow-500/50 mb-4 tracking-[0.2em] uppercase font-bold">ဝါပိတ်ရန် နီယသ်ပြုခြင်း</p>
         <p id="duaArabic" class="arabic text-2xl text-white/95 leading-relaxed mb-3">
-            نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ رَمَضَانَ
+            نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ ရَمَضَانَ
         </p>
         <p id="duaMyanmar" class="text-[11px] text-white/60 font-light italic leading-relaxed">
-            "ကျွန်ုပ်သည်  ရမ္မဿွာန်လ၏ ဥပုသ်သီလကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"
+            "ကျွန်ုပ်သည် ရမ္မဿွာန်လ၏ ဥပုသ်သီလကို ဆောက်တည်ရန် နီယသ်ပြုပါ၏"
         </p>
     </div>
-        </div>
+</div>
+        
         
         
         <div class="glass rounded-[40px] p-6 mb-8 mx-2 border border-white/10">
@@ -737,94 +748,86 @@ ramadanData.forEach(d => {
     `;
     calBody.appendChild(tr);
 });
-        function calculateZakat() {
-    const wealth = parseFloat(document.getElementById('totalWealth').value) || 0;
-    const debt = parseFloat(document.getElementById('totalDebt').value) || 0;
-    
-    // အသားတင် ပိုင်ဆိုင်မှု (Net Asset = Wealth - Debt)
-    const netAsset = wealth - debt;
-    document.getElementById('netWealth').innerText = netAsset > 0 ? netAsset.toLocaleString() + " MMK" : "0 MMK";
-
-    // ဇကားသ် တွက်ချက်ခြင်း (၂.၅%)
-    if (netAsset > 0) {
-        const zakat = netAsset * 0.025;
-        document.getElementById('zakatResult').innerText = zakat.toLocaleString() + " MMK";
-    } else {
-        document.getElementById('zakatResult').innerText = "0 MMK";
-    }
-   }      
-function updateSky() {
-    const now = new Date();
-    const timeDec = now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
-    
-    const sky = document.getElementById('skyCanvas');
-    const sun = document.getElementById('sun');
-    const moon = document.getElementById('moon');
-    const mShadow = document.getElementById('mShadow');
-    const stars = document.getElementById('starsContainer');
-
-    // ၁။ ကောင်းကင်အရောင် (အစ်ကို့ရဲ့ 2026 Ramadan mood အတိုင်း)
-    if (timeDec >= 5 && timeDec < 7) sky.style.background = "linear-gradient(to bottom, #1e528e, #feb584)";
-    else if (timeDec >= 7 && timeDec < 17) sky.style.background = "linear-gradient(to bottom, #4fa4ff, #89cff0)";
-    else if (timeDec >= 17 && timeDec < 19) sky.style.background = "linear-gradient(to bottom, #2c3e50, #fd8112)";
-    else sky.style.background = "linear-gradient(to bottom, #000428, #002b5b)";
-
-    // ၂။ Arc ပေါ်က နေ/လ နေရာချခြင်း
-    const rx = window.innerWidth * 0.45; // အလျား Radius
-    const ry = 300; // အမြင့် Radius
-    
-    if (timeDec >= 6 && timeDec <= 18) { // နေ့ဘက် (နေ)
-        const angle = Math.PI + ((timeDec - 6) / 12) * Math.PI;
-        sun.style.left = (50 + Math.cos(angle) * 45) + "%";
-        sun.style.top = (50 + Math.sin(angle) * 45) + "%"; // Arc ပေါ်သို့
-        sun.style.opacity = "1"; moon.style.opacity = "0";
-        stars.classList.add('opacity-0');
-    } else { // ညဘက် (လ)
-        let mTime = timeDec > 18 ? timeDec - 18 : timeDec + 6;
-        const angle = Math.PI + (mTime / 12) * Math.PI;
-        moon.style.left = (50 + Math.cos(angle) * 45) + "%";
-        moon.style.top = (50 + Math.sin(angle) * 45) + "%";
-        moon.style.opacity = "1"; sun.style.opacity = "0";
-        stars.classList.remove('opacity-0');
-
-        // လရဲ့ ပုံသဏ္ဌာန် (Nisab ရက်အလိုက် တွက်ချက်မှု)
-        const day = now.getDate(); 
-        const phase = ((day % 30) / 30) * 200 - 100; // -100% to 100%
-        mShadow.style.transform = `translateX(${phase}%)`;
-    }
-}
-
+   
+       // ၁။ အစပိုင်း Effects များ (ကြယ်နှင့် တိမ်)
 function initEffects() {
     const sCont = document.getElementById('starsContainer');
     const cCont = document.getElementById('cloudsContainer');
     
-    // ကြယ်များဖန်တီးခြင်း
-    for(let i=0; i<80; i++) {
-        let s = document.createElement('div');
-        s.className = 'star';
-        s.style.width = s.style.height = Math.random() * 3 + "px";
-        s.style.left = Math.random() * 100 + "%";
-        s.style.top = Math.random() * 60 + "%";
-        s.style.setProperty('--d', (Math.random() * 3 + 2) + "s");
-        sCont.appendChild(s);
-    }
-
-    // တိမ်များဖန်တီးခြင်း
-    for(let i=0; i<5; i++) {
-        let c = document.createElement('div');
-        c.className = 'cloud';
-        c.style.width = (Math.random() * 200 + 150) + "px";
-        c.style.height = "100px";
-        c.style.top = (Math.random() * 40 + 10) + "%";
-        c.style.setProperty('--d', (Math.random() * 30 + 40) + "s");
-        cCont.appendChild(c);
+    if (sCont) {
+        sCont.innerHTML = '';
+        for(let i=0; i<80; i++) {
+            let s = document.createElement('div');
+            s.className = 'star';
+            s.style.width = s.style.height = Math.random() * 2 + 1 + "px";
+            s.style.left = Math.random() * 100 + "%";
+            s.style.top = Math.random() * 60 + "%";
+            s.style.setProperty('--d', (Math.random() * 3 + 2) + "s");
+            sCont.appendChild(s);
+        }
     }
 }
 
-// သက်တမ်းသွင်းခြင်း
+// ၂။ Countdown Box ထဲက နေ/လ ကို ထိန်းချုပ်မည့် Function
+function updateMiniSky() {
+    const now = new Date();
+    const h = now.getHours();
+    const m = now.getMinutes();
+    const s = now.getSeconds();
+    const timeDec = h + m / 60 + s / 3600;
+    
+    const sun = document.getElementById('sunMini');
+    const moon = document.getElementById('moonMini');
+    const mShadow = document.getElementById('mShadowMini');
+    const bgSlider = document.getElementById('bgSlider');
+
+    if (!sun || !moon) return; // Error ကာကွယ်ရန်
+
+    // --- နေ/လ နေရာချခြင်း (Angle တွက်ချက်မှု) ---
+    if (timeDec >= 6 && timeDec <= 18) { // နေ့ဘက် (6 AM - 6 PM)
+        let progress = (timeDec - 6) / 12;
+        let angle = Math.PI + (progress * Math.PI); 
+        
+        sun.style.left = (50 + Math.cos(angle) * 48) + "%"; 
+        sun.style.top = (85 + Math.sin(angle) * 80) + "px"; // Arc Curve အတိုင်း
+        sun.style.opacity = "1"; 
+        moon.style.opacity = "0";
+    } 
+    else { // ညဘက် (6 PM - 6 AM)
+        let mTime = (timeDec >= 18) ? (timeDec - 18) : (timeDec + 6);
+        let progress = mTime / 12;
+        let angle = Math.PI + (progress * Math.PI);
+
+        moon.style.left = (50 + Math.cos(angle) * 48) + "%";
+        moon.style.top = (85 + Math.sin(angle) * 80) + "px";
+        moon.style.opacity = "1"; 
+        sun.style.opacity = "0";
+
+        // လအဆင့် (Moon Phase)
+        let dayNum = now.getDate();
+        let phasePos = ((dayNum % 30) / 30) * 200 - 100;
+        if (mShadow) mShadow.style.transform = `translateX(${phasePos}%)`;
+    }
+}
+
+// ၃။ ဇကားသ် တွက်ချက်ခြင်း
+function calculateZakat() {
+    const wealth = parseFloat(document.getElementById('totalWealth').value) || 0;
+    const debt = parseFloat(document.getElementById('totalDebt').value) || 0;
+    const netAsset = wealth - debt;
+    
+    document.getElementById('netWealth').innerText = netAsset > 0 ? netAsset.toLocaleString() + " MMK" : "0 MMK";
+    document.getElementById('zakatResult').innerText = netAsset > 0 ? (netAsset * 0.025).toLocaleString() + " MMK" : "0 MMK";
+}
+
+// အားလုံးကို စတင် Run ရန်
 initEffects();
-setInterval(updateSky, 1000); 
-updateSky();
+setInterval(() => {
+    updateMiniSky();
+    if (typeof update === "function") update(); // အစ်ကို့ရဲ့ Countdown Timer function ကို ခေါ်ခြင်း
+}, 1000);
+
+updateMiniSky();
             
 
 
