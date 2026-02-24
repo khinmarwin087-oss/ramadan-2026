@@ -356,46 +356,44 @@
 
         <!-- Hero Card with Smart Sky -->
         <div class="hero-card glass fade-in">
+    
     <div id="smartSkyBox">
         <div id="starsContainer" style="position: absolute; inset: 0; pointer-events: none;"></div>
         <div id="cloudsContainer" style="position: absolute; inset: 0; pointer-events: none;"></div>
+        
         <div class="celestial-container">
             <div id="sun" class="celestial" style="opacity: 0;"></div>
             
             <div id="moon" class="celestial" style="opacity: 0;">
                 <div id="moon-surface"></div> 
                 <div id="moon-shadow"></div>
-             <div class="relative z-10 pt-32">
+            </div> 
+        </div> 
+    </div> <div class="relative z-10 pt-32">
+        <div class="mb-8">
+            <span class="inline-block px-4 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-[9px] uppercase tracking-[0.2em] text-yellow-500 font-bold mb-3">Next Prayer</span>
+            <div class="flex items-center justify-center gap-4">
+                <h2 id="nextName" class="text-3xl font-bold tracking-tight">---</h2>
+                <span id="nextTime" class="gold-text text-xl">--:-- --</span>
+            </div>
         </div>
+
+        <div class="flex justify-center items-end gap-3 mb-6">
+            <div class="text-center">
+                <span id="h" class="text-6xl font-extralight tracking-tighter">00</span>
+                <p class="text-[8px] uppercase opacity-30 mt-1">Hours</p>
+            </div>
+            <span class="text-4xl font-thin opacity-20 mb-6">:</span>
+            <div class="text-center">
+                <span id="m" class="text-6xl font-extralight tracking-tighter">00</span>
+                <p class="text-[8px] uppercase opacity-30 mt-1">Mins</p>
+            </div>
+            <span class="text-4xl font-thin gold-text mb-6">:</span>
+            <div class="text-center">
+                <span id="s" class="text-6xl font-bold tracking-tighter gold-text">00</span>
+                <p class="text-[8px] uppercase opacity-30 mt-1">Secs</p>
+            </div>
         </div>
-        
-
-            <!-- Content -->
-            <div class="relative z-10 pt-32">
-                <div class="mb-8">
-                    <span class="inline-block px-4 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-[9px] uppercase tracking-[0.2em] text-yellow-500 font-bold mb-3">Next Prayer</span>
-                    <div class="flex items-center justify-center gap-4">
-                        <h2 id="nextName" class="text-3xl font-bold tracking-tight">---</h2>
-                        <span id="nextTime" class="gold-text text-xl">--:-- --</span>
-                    </div>
-                </div>
-
-                <div class="flex justify-center items-end gap-3 mb-6">
-                    <div class="text-center">
-                        <span id="h" class="text-6xl font-extralight tracking-tighter">00</span>
-                        <p class="text-[8px] uppercase opacity-30 mt-1">Hours</p>
-                    </div>
-                    <span class="text-4xl font-thin opacity-20 mb-6">:</span>
-                    <div class="text-center">
-                        <span id="m" class="text-6xl font-extralight tracking-tighter">00</span>
-                        <p class="text-[8px] uppercase opacity-30 mt-1">Mins</p>
-                    </div>
-                    <span class="text-4xl font-thin gold-text mb-6">:</span>
-                    <div class="text-center">
-                        <span id="s" class="text-6xl font-bold tracking-tighter gold-text">00</span>
-                        <p class="text-[8px] uppercase opacity-30 mt-1">Secs</p>
-                    </div>
-                </div>
                 
                 <p id="statusLabel" class="text-[10px] uppercase tracking-[0.5em] text-white/40 mb-8">Checking Time...</p>
             </div>
